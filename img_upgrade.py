@@ -7,6 +7,9 @@ import argparse
 import imutils
 from skimage.filters import threshold_local
 import datetime
+import re
+import pytesseract
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\Tesseract.exe'
 
 # #Argument parser for command line use -- to be added later
 # ap = argparse.ArgumentParser()
@@ -14,20 +17,20 @@ import datetime
 # args = vars(ap.parse_args())
 
 #Image upload
-img = cv2.imread("receipt5.jpg")
-ratio = img.shape[0] / 500.0
+img = cv2.imread("receipt6.jpg")
 original = img.copy()
-img = imutils.resize(img, height = 500)
+img = imutils.resize(img, width = 500)
+ratio = original.shape[1] / float(img.shape[1])
 
 
-norm = np.zeros((img.shape[0], img.shape[1]))
-norm_img = cv2.normalize(img, norm, 0, 255, cv2.NORM_MINMAX)
+# norm = np.zeros((img.shape[0], img.shape[1]))
+# norm_img = cv2.normalize(img, norm, 0, 255, cv2.NORM_MINMAX)
 
 ##Extra processing- may cause bad results but increases contrast
 thresh = 127
-gray = cv2.cvtColor(norm_img, cv2.COLOR_BGR2GRAY)
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 median = cv2.GaussianBlur(gray, (5, 5), 0)
-img_bw = cv2.threshold(median, thresh, 255, cv2.THRESH_BINARY)[1]
+#img_bw = cv2.threshold(median, thresh, 255, cv2.THRESH_BINARY)[1]
 img_edged = cv2.Canny(gray, 75, 200)
 
 ##Other image processing methods, not used!
@@ -61,16 +64,27 @@ img_edged = cv2.Canny(gray, 75, 200)
 # - using assumption that receipt will be main focus of image and have 4 points
 contours = cv2.findContours(img_edged.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 contours = imutils.grab_contours(contours)
-contours = sorted(contours, key = cv2.contourArea, reverse = True)[:5]
+contours = sorted(contours, key = cv2.contourArea, reverse = True)
+
+outline_contour = None
 
 for index, contour in enumerate(contours):
     perimeter = cv2.arcLength(contour, True)
     approximate = cv2.approxPolyDP(contour, 0.02*perimeter, True)
     
     if len(approximate) == 4:
-        screenF = approximate
+        outline_contour = approximate
         break
-  
+
+if outline_contour is None:
+    raise Exception(("Unable to identify receipt outline." 
+                     "Examine edge detection and contouring"))
+    
+output = img.copy()
+cv2.drawContours(output, [outline_contour], -1, (0, 255, 0), 2)
+cv2.imshow("Receipt Outline", output)
+cv2.waitKey(0)
+ 
 ##Functions to organize points for cv.getPerspectiveTransform  
 def order_corners(points):
     #Order = top left, top right, bottom left, bottom right#
@@ -113,28 +127,56 @@ def transform(image, points):
     
     return fixed_image
 
-fixed_image = transform(original, screenF.reshape(4, 2) * ratio)
 
+# edges = cv2.Canny(norm_img,75,200)
+# edges_rgb = cv2.cvtColor(img_edged, cv2.COLOR_GRAY2RGB)
+
+# dst = cv2.addWeighted(norm_img,1.0,edges_rgb,0.5,0)
+
+# #cv2.imshow('DST Window', dst)
+
+# # print("STEP 1: Edge Detection")
+# cv2.imshow("Image", original)
+# cv2.imshow("Edged", dst)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
+
+
+fixed_image = transform(original, outline_contour.reshape(4, 2) * ratio)
+
+
+#Much faster solution
 start1 = datetime.datetime.now()
 thresh = 127
 gray = cv2.cvtColor(fixed_image, cv2.COLOR_BGR2GRAY)
-median = cv2.GaussianBlur(gray, (5, 5), 0)
-img_bw = cv2.threshold(median, thresh, 255, cv2.THRESH_BINARY)[1]
+#median = cv2.GaussianBlur(gray, (5, 5), 0)
+#img_bw = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY)[1]
+img_bw = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 251, 11)
 end1 = datetime.datetime.now()
 
-start2 = datetime.datetime.now()
-fixed_image = cv2.cvtColor(fixed_image, cv2.COLOR_BGR2GRAY)
-T = threshold_local(fixed_image, 11, offset = 10, method = "gaussian")
-fixed_image = (fixed_image > T).astype("uint8") * 255
-end2 = datetime.datetime.now()
+# #Slower but possibly higher quality
+# start2 = datetime.datetime.now()
+# fixed_image = cv2.cvtColor(fixed_image, cv2.COLOR_BGR2GRAY)
+# T = threshold_local(fixed_image, 11, offset = 10, method = "gaussian")
+# fixed_image = (fixed_image > T).astype("uint8") * 255
+# end2 = datetime.datetime.now()
 
 rt1 = end1 - start1
-rt2 = end2 - start2
+# rt2 = end2 - start2
 print(rt1)
-print(rt2)
+# print(rt2)
 # show the original and scanned images
 print("STEP 3: Apply perspective transform")
 cv2.imshow("Original", imutils.resize(original, height = 650))
 cv2.imshow("Scanned1", imutils.resize(img_bw, height = 650))
 cv2.imshow("Scanned2", imutils.resize(fixed_image, height = 650))
 cv2.waitKey(0)
+
+tesseract_option = "--psm 4"
+all_text = pytesseract.image_to_string(cv2.cvtColor(img_bw, cv2.COLOR_BGR2RGB), config=tesseract_option)
+print("img_bw", all_text)
+
+for row in all_text.split("\n"):
+    
+    if re.search(r'([0-9]+\.[0-9]+)', row) is not None:
+        print(row)
