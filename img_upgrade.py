@@ -5,6 +5,7 @@ import cv2
 from matplotlib import pyplot as plt
 import argparse
 import imutils
+from PIL import Image
 from skimage.filters import threshold_local
 import datetime
 import re
@@ -17,7 +18,7 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\Tessera
 # args = vars(ap.parse_args())
 
 #Image upload
-img = cv2.imread("receipt6.jpg")
+img = cv2.imread("receipt9.jpg")
 original = img.copy()
 img = imutils.resize(img, width = 500)
 ratio = original.shape[1] / float(img.shape[1])
@@ -144,14 +145,17 @@ def transform(image, points):
 
 fixed_image = transform(original, outline_contour.reshape(4, 2) * ratio)
 
-
+kernel = np.ones((1, 1), np.uint8)
+fixed_image = cv2.dilate(fixed_image, kernel, iterations=1)
+fixed_image = cv2.erode(fixed_image, kernel, iterations=1)
 #Much faster solution
 start1 = datetime.datetime.now()
 thresh = 127
 gray = cv2.cvtColor(fixed_image, cv2.COLOR_BGR2GRAY)
 #median = cv2.GaussianBlur(gray, (5, 5), 0)
 #img_bw = cv2.threshold(gray, thresh, 255, cv2.THRESH_BINARY)[1]
-img_bw = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 251, 11)
+#img_bw = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 251, 11)
+img_bw = cv2.adaptiveThreshold(cv2.medianBlur(gray, 3), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 2)
 end1 = datetime.datetime.now()
 
 # #Slower but possibly higher quality
@@ -173,7 +177,7 @@ cv2.imshow("Scanned2", imutils.resize(fixed_image, height = 650))
 cv2.waitKey(0)
 
 tesseract_option = "--psm 4"
-all_text = pytesseract.image_to_string(cv2.cvtColor(img_bw, cv2.COLOR_BGR2RGB), config=tesseract_option)
+all_text = pytesseract.image_to_string(cv2.cvtColor(fixed_image, cv2.COLOR_BGR2RGB), config=tesseract_option)
 print("img_bw", all_text)
 
 for row in all_text.split("\n"):
