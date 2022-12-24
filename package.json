@@ -1,0 +1,22 @@
+{
+  "name": "receiptapp",
+  "version": "1.0.0",
+  "description": "Receipt Processer, Database, UI ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NicMilli/ReceiptApp.git"
+  },
+  "author": "NM & JK",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NicMilli/ReceiptApp/issues"
+  },
+  "homepage": "https://github.com/NicMilli/ReceiptApp#readme",
+  "dependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
