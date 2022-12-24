@@ -15,6 +15,7 @@ class Expense():
         '''
         self.image = image
         self.tesseract_option = tesseract_option
+        self.total = self.extract_total()
 
     def extract_total(self, show_textbox=False):
         text = pytesseract.image_to_string(self.image, config=self.tesseract_option)
@@ -32,6 +33,5 @@ class Expense():
         amounts = re.findall(r'\d+\.\d{2}\b', text)
         floats = [float(amount) for amount in amounts]
         unique = list(dict.fromkeys(floats))
-        
         
         return max(unique)
