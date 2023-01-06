@@ -12,7 +12,7 @@ class Image():
         filepath (str) : filepath to the original image
         original (np.array) : np array of image RGB values, unmutated
         straighten_image (bool) : Whether or not to effect straightening and cropping functions
-        upgraded (np.array)
+        upgraded (np.array) : The upgraded image, which has been processed to achieve better text recognition
         '''
         self.filepath = filepath
         self.original = cv2.imread(filepath)
