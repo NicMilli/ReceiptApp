@@ -9,7 +9,7 @@ class Image():
     '''
     def __init__(self, filepath, straighten_image=True):
         '''
-        filepath (str) : filepath to the original image
+        filepath (str) : filepath to the original image, such as url or location on host
         original (np.array) : np array of image RGB values, unmutated
         straighten_image (bool) : Whether or not to effect straightening and cropping functions
         upgraded (np.array) : The upgraded image, which has been processed to achieve better text recognition
