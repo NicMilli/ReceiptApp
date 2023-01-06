@@ -1,10 +1,6 @@
 import numpy as np
 import cv2
-from matplotlib import pyplot as plt
 import imutils
-from PIL import Image
-from skimage.filters import threshold_local
-
 
 
 class Image():
@@ -111,7 +107,6 @@ class Image():
 
         return straightened_image
 
-
     def image_upgrade(self, show_image=True):
         if self.straighten_image == True:
             straightened_image = self.straighten(show_image)
@@ -128,12 +123,6 @@ class Image():
             cv2.waitKey(0)
 
         return final_upgraded_image
-
-
-my_image = Image('receipt5.jpg')
-print(my_image.upgraded)
-my_image.image_upgrade()
-
 
 
 
