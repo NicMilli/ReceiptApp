@@ -7,6 +7,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Navbar from "./components/Navbar";
 // import PrivateRoute from "./components/PrivateRoute";
+import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 // import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 // import UploadImage from "./pages/UploadImage";
