@@ -1,4 +1,4 @@
-from ..Classes.expenseClass import Expense
+from ..Classes.expense import Expense
 
 def extract(upgraded_image):
     expense_object = Expense(upgraded_image)

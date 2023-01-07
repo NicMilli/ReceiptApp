@@ -1,10 +1,6 @@
 import numpy as np
 import cv2
-from matplotlib import pyplot as plt
 import imutils
-from PIL import Image
-from skimage.filters import threshold_local
-
 
 
 class Image():
@@ -13,10 +9,10 @@ class Image():
     '''
     def __init__(self, filepath, straighten_image=True):
         '''
-        filepath (str) : filepath to the original image
+        filepath (str) : filepath to the original image, such as url or location on host
         original (np.array) : np array of image RGB values, unmutated
         straighten_image (bool) : Whether or not to effect straightening and cropping functions
-        upgraded (np.array)
+        upgraded (np.array) : The upgraded image, which has been processed to achieve better text recognition
         '''
         self.filepath = filepath
         self.original = cv2.imread(filepath)
@@ -111,7 +107,6 @@ class Image():
 
         return straightened_image
 
-
     def image_upgrade(self, show_image=True):
         if self.straighten_image == True:
             straightened_image = self.straighten(show_image)
@@ -128,12 +123,6 @@ class Image():
             cv2.waitKey(0)
 
         return final_upgraded_image
-
-
-my_image = Image('receipt5.jpg')
-print(my_image.upgraded)
-my_image.image_upgrade()
-
 
 
 

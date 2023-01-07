@@ -12,6 +12,7 @@ class Expense():
         '''
         image (np.array) : processed np array of image
         tesseract_option (str) : command sent to pytesseract for configuring model
+        total (float) : total amount extracted from the image of receipt
         '''
         self.image = image
         self.tesseract_option = tesseract_option
