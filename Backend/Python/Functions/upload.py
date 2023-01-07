@@ -1,20 +1,22 @@
 import sys
 import os
-import requests
+import json
 
 def main():
-    print('hi from python')
+
     pdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     import_path = os.path.join(pdir, 'Classes/')
     sys.path.append(import_path)
     os.chdir(import_path)
 
+    data = json.loads(sys.argv[1])
+
     try:
         from image import Image
-        if isinstance(sys.argv[1], str):
-            i = Image(sys.argv[1].strip('"'))
-            request = requests.post()
-        elif isinstance(sys.argv[1], list):
+        if isinstance(data, str):
+            i = Image(data.strip('"'))
+            print(i.upgraded)
+        elif isinstance(data, list):
             pass
 
     except Exception as error:
