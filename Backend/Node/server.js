@@ -1,28 +1,12 @@
-const {spawn} = require('child_process')
-
-const data = '../SampleData/receipt5.jpg'
-
-const stringifiedData = JSON.stringify(data)
-
-const py = spawn('python', ['../Python/Functions/upload.py', stringifiedData]);
-
-py.stdout.on('data', (data) => {
-    console.log(`stdout: data received from node ${data}`)
-})
-
-
-py.stdout.on('close', (code) => {
-    console.log(`exited with code ${code}`)
-})
-
-
-py.stdout.on('error', (err) => {
-    console.log(err)
-})
-
 const app = express()
+const PORT = process.env.PORT || 2000;
 
+app.use(express.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-app.listen(5000)
+
+app.use('/images/py', require('./routes/imagePyRoutes'))
+
+app.listen(PORT, (err) => console.log(err), 
+    () => console.log("Server listening on PORT", PORT))
 
