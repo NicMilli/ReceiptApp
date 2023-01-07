@@ -9,13 +9,13 @@ def main():
     sys.path.append(import_path)
     os.chdir(import_path)
 
-    data = json.loads(sys.argv[1])
-
+    req = json.loads(sys.argv[1])
+    data = req['data']
     try:
         from image import Image
         if isinstance(data, str):
             i = Image(data.strip('"'))
-            print(i.upgraded)
+            print(i.upgraded.shape)
         elif isinstance(data, list):
             pass
 

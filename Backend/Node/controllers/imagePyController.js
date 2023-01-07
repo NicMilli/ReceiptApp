@@ -15,16 +15,12 @@ const uploadImage = asyncHandler(async(req, res) => {
     const py = spawn('python', [path.join(__dirname,'../../','Python','Functions','upload.py'), stringifiedData]);
 
     py.stdout.on('data', (data) => {
+        const upgradedImage = []
         console.log(`stdout: data received from node ${data}`)
-        const dataChunk = JSON.parse(data.toString())
-        if(!dataChunk) {
-            res.status(400)
-            throw new Error('Could not retrieve data')
-        }
-        else {
-            updgradedImage.push(dataChunk)
-            console.log(updgradedImage)
-        }
+        
+        updgradedImage.push(data)
+        console.log(upgradedImage)
+        res.send(data)
     })
 
     py.stderr.on('data', (data) =>{
