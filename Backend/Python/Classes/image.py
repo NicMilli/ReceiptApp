@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import imutils
+import skimage.io as sk
 
 
 class Image():
@@ -15,7 +16,8 @@ class Image():
         upgraded (np.array) : The upgraded image, which has been processed to achieve better text recognition
         '''
         self.filepath = filepath
-        self.original = cv2.imread(filepath)
+        # self.original = cv2.imread(filepath)
+        self.original = sk.imread(filepath)
         self.straighten_image = straighten_image
         self.upgraded = self.image_upgrade(show_image=False)
 
