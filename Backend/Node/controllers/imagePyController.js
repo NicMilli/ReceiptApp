@@ -1,14 +1,15 @@
 const asyncHandler = require('express-async-handler')
 const path = require('path')
 
-const uploadImage = asyncHandler(async(req, res, next) => {
+const uploadTotal = asyncHandler(async(req, res, next) => {
     const spawn = require('child_process').spawn
-    const updgradedImage = []
 
     const data = req.body
     const stringifiedData = JSON.stringify(data)
 
-    // const py = spawn('python', ['..../Python/Functions/upload.py', stringifiedData]);
+    // Child process to run the python functions to upgrade image for improved text recognition
+    // and then extract the total from the upgraded receipt image
+    // and then upload to firebase
     const py = spawn('python', [path.join(__dirname,'../../','Python','Functions','upload.py'), stringifiedData]);
     var result = []
     py.stdout.on('data', (data) => {
@@ -17,6 +18,7 @@ const uploadImage = asyncHandler(async(req, res, next) => {
     })
 
     py.stderr.on('data', (data) =>{
+        /// data should be the total output as identified from OCR function
         console.error(`stderr: ${data}`)
     })
 
@@ -29,5 +31,5 @@ const uploadImage = asyncHandler(async(req, res, next) => {
 })
 
 module.exports = {
-    uploadImage
+    uploadTotal
 }

@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const {
-    uploadImage
+    uploadTotal
 } = require('../controllers/imagePyController')
 
-router.post('/', uploadImage)
+router.post('/', uploadTotal)
 
 module.exports = router

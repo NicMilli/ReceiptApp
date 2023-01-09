@@ -35,7 +35,8 @@ def main():
             print(total)
 
         # Ultimately we will need to be able to batch upload receipts
-        elif isinstance(data, list):
+        elif isinstance(image_url, list):
+            # [main(image) for image in image_url]
             pass
 
     except Exception as error:
