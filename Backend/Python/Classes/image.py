@@ -117,7 +117,7 @@ class Image():
         gray = cv2.cvtColor(straightened_image, cv2.COLOR_BGR2GRAY)
 
         # Uses adaptive threshold to reduce noise and convert gray image to black and white
-        final_upgraded_image = cv2.adaptiveThreshold(cv2.medianBlur(gray, 3), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 31, 10)
+        final_upgraded_image = cv2.adaptiveThreshold(cv2.medianBlur(gray, 3), 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 10)
 
         if show_image == True:
             cv2.imshow("Original", imutils.resize(self.original, height = 650))

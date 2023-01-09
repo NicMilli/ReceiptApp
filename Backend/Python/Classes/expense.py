@@ -10,7 +10,7 @@ class Expense():
     '''
     def __init__(self, image, tesseract_option="--psm 11"):
         '''
-        image (np.array) : processed np array of image
+        image (np.array) : processed for image upgrade in np array
         tesseract_option (str) : command sent to pytesseract for configuring model
         total (float) : total amount extracted from the image of receipt
         '''
