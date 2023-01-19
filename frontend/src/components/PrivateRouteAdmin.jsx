@@ -10,7 +10,7 @@ const PrivateRouteAdmin = () => {
     }
 
   return (
-    Admin ? <Outlet /> : <Navigate to='/sign-in' />
+    Admin ? <Outlet /> : <Navigate to='/' />
   )
 }
 

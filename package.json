@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon Backend/Node/server.js"
+    "start": "node backend/server.js",
+    "server": "nodemon Backend/Node/server.js",
+    "client": "npm start --prefix Frontend",
+    "dev": "concurrently \"npm run server\" \" npm run client\""
   },
   "repository": {
     "type": "git",

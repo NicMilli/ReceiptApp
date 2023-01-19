@@ -20,9 +20,13 @@ a {
   color: #000000;
 }
 
-button {
+.button {
   outline: none;
   border: none;
+}
+
+.button:hover {
+  background-color: #00cc66;
 }
 
 .input,
@@ -228,6 +232,7 @@ button {
   position: inherit;
 }
 
+.button,
 .signInButton,
 .signUpButton,
 .signInText,
@@ -258,6 +263,7 @@ button {
   border-radius: 50%;
 }
 @media (min-width: 1024px) {
+  .button,
   .signInButton,
   .signUpButton {
     margin-left: 3rem;
@@ -721,6 +727,7 @@ button {
   display: flex;
 }
 
+.button,
 .formButton,
 .formInput,
 .formInputAddress,
@@ -738,6 +745,7 @@ button {
   justify-content: center;
   align-items: center;
 }
+
 .formButtonActive {
   background-color: #00cc66;
   color: #ffffff;
