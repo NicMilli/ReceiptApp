@@ -47,7 +47,7 @@ function UploadImage() {
 
         if(images.length > 1) {
             setLoading(false)
-            toast.error('Sorry, you can only upload a maximum of 6 images')
+            toast.error('Sorry, you can only upload 1 image at a time')
             return
         }
 

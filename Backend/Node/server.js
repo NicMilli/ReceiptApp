@@ -6,7 +6,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
 
-app.use('/images', require('./routes/imagePyRoutes'))
+app.use('/api/images', require('./routes/imagePyRoutes'))
+app.use('/api/user', require('./routes/userRoutes'))
 
 app.listen(PORT, (err) => console.log(err), 
     () => console.log("Server listening on PORT", PORT))

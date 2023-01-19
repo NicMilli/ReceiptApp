@@ -1,21 +1,28 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import { Link, useNavigate } from "react-router-dom"
-import {getAuth, signInWithEmailAndPassword} from 'firebase/auth'
+// import {getAuth, signInWithEmailAndPassword} from 'firebase/auth'
 import {ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 import OAuth from "../components/OAuth"
+import { useDispatch, useSelector } from "react-redux"
+import { login, reset } from '../features/auth/authSlice'
 
 
 function SignIn() {
     const [showPassword, setShowPassword] = useState(false)
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     })
     const {email, password} = formData 
 
+    const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const {user, isLoading, isError, isSuccess, message} = 
+        useSelector((state) => state.auth)
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -23,28 +30,50 @@ function SignIn() {
             [e.target.id]: e.target.value
         }))
     }
+    useEffect(() => {
+        if(isError) {
+            toast.error(message)
+        }
 
-    const onSubmit = async (e) =>{
+        if(isSuccess && user) {
+            navigate('/employee-dashboard')
+        }
+
+        dispatch(reset())
+    }, [isError, isSuccess, user, message, navigate, dispatch])
+
+    const onSubmit = (e) => {
         e.preventDefault()
 
-        try {
-
-        const auth = getAuth()
-
-        const userCredential = await signInWithEmailAndPassword
-        (auth, email, password)
-
-        if(userCredential.user) {
-            navigate('/')
+        const userData = {
+            email,
+            password
         }
 
-        const name = await auth.currentUser.displayName
-        toast.success(`Welcome back ${name}`)
-        } catch (error) {
-            console.log(error)
-            toast.error('Incorrect user credentials')
-        }
+        dispatch(login(userData))
     }
+    // const onSubmit = async (e) =>{
+    //     e.preventDefault()
+
+    //     try {
+
+    //     const auth = getAuth()
+
+    //     const userCredential = await signInWithEmailAndPassword
+    //     (auth, email, password)
+
+    //     if(userCredential.user) {
+    //         navigate('/employee-dashboard')
+    //     }
+        
+    //     const name = auth.currentUser.displayName
+    //     // const name = await userCredential.user.name
+    //     toast.success(`Welcome back ${name}`)
+    //     } catch (error) {
+    //         console.log(error)
+    //         toast.error('Incorrect user credentials')
+    //     }
+    // }
 
   return (
     <>
@@ -57,7 +86,7 @@ function SignIn() {
 
         <main>
             <form onSubmit={onSubmit}>
-                
+
                 <input type="email" 
                 className="emailInput" 
                 placeholder='Email'

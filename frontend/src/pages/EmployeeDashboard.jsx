@@ -27,14 +27,14 @@ function EmployeeDashboard() {
                 <p>
                     What would you like to do today?
                 </p>
-                <div className="dashButton" style={{"background-color": "#FFB81C"}}>
+                <div className="dashButton" style={{"backgroundColor": "#FFB81C"}}>
                     Create New Invoice <FaFileUpload />
                 </div> 
-                <div className="dashButton" style={{"background-color": "#E03C31"}}>
-                    View Invoices <FaFileInvoice />
+                <div className="dashButton" style={{"backgroundColor": "#E03C31"}}>
+                    View My Invoices <FaFileInvoice />
                 </div>
-                <div className="dashButton" style={{"background-color": "#007749"}}>
-                    Edit Invoices <FaEdit />
+                <div className="dashButton" style={{"backgroundColor": "#007749"}}>
+                    Edit My Invoices <FaEdit />
                 </div>
             </main>
         </div>
