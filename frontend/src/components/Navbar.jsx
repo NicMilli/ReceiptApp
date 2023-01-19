@@ -1,8 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom"
-import { ReactComponent as OfferIcon } from '../assets/svg/localOfferIcon.svg'
-import { ReactComponent as ExploreIcon } from '../assets/svg/exploreIcon.svg'
-import { ReactComponent as PersonOutlineIcon } from '../assets/svg/personOutlineIcon.svg'
-import {FaArrowAltCircleUp, FaEdit, FaBookmark, FaUserCircle} from 'react-icons/fa'
+import {FaSignOutAlt, FaBookmark, FaUserCircle} from 'react-icons/fa'
 
 function Navbar() {
     const navigate = useNavigate()
@@ -49,6 +46,14 @@ function Navbar() {
                     ? 'navbarListItemNameActive' 
                     : 'navbarListItemName'}>
                         Profile
+                    </p>
+                </li>
+                <li className="navbarListItem" onClick={() => navigate('/sign-out')}>
+                    <FaSignOutAlt color={pathMatchRoute('/sign-out') ? '#2c2c2c' : '#8f8f8f'} size='36px' />
+                    <p className={pathMatchRoute('/sign-out') 
+                    ? 'navbarListItemNameActive' 
+                    : 'navbarListItemName'}>
+                        Sign Out
                     </p>
                 </li>
             </ul>

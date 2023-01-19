@@ -57,6 +57,7 @@ function SignIn() {
 
         <main>
             <form onSubmit={onSubmit}>
+                
                 <input type="email" 
                 className="emailInput" 
                 placeholder='Email'
