@@ -36,6 +36,7 @@ function SignIn() {
         }
 
         if(isSuccess && user) {
+            toast.success(`Welcome Back ${user.name}`)
             navigate('/employee-dashboard')
         }
 
@@ -52,28 +53,7 @@ function SignIn() {
 
         dispatch(login(userData))
     }
-    // const onSubmit = async (e) =>{
-    //     e.preventDefault()
 
-    //     try {
-
-    //     const auth = getAuth()
-
-    //     const userCredential = await signInWithEmailAndPassword
-    //     (auth, email, password)
-
-    //     if(userCredential.user) {
-    //         navigate('/employee-dashboard')
-    //     }
-        
-    //     const name = auth.currentUser.displayName
-    //     // const name = await userCredential.user.name
-    //     toast.success(`Welcome back ${name}`)
-    //     } catch (error) {
-    //         console.log(error)
-    //         toast.error('Incorrect user credentials')
-    //     }
-    // }
 
   return (
     <>

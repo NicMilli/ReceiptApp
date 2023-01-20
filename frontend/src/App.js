@@ -23,10 +23,10 @@ function App() {
         <Routes>
         <Route path='/' element={<Landing/>} />
           <Route element={<WithoutNav/>} >
-            
-            <Route path='/sign-up' element={<PrivateRouteAdmin />}>
+          <Route path='/sign-up' element={<SignUp/>} />
+            {/* <Route path='/sign-up' element={<PrivateRouteAdmin />}>
               <Route path='/sign-up' element={<SignUp/>} />
-            </Route>
+            </Route> */}
             
             <Route path='/sign-in' element={<SignIn/>} />
           </Route >

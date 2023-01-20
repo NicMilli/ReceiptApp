@@ -11,7 +11,8 @@ const loginUser = asyncHandler(async(req, res) => {
     if(userCredential.user) {
         res.status(200).json({
             _id: auth.currentUser.uid,
-            name: auth.currentUser.name,
+            user: auth.currentUser,
+            name: auth.currentUser.displayName,
             email: auth.currentUser.email,
             position: auth.currentUser.position
         })
