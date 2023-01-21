@@ -1,5 +1,6 @@
 import { FaReceipt, FaSmile } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function SignOut() {
     const navigate = useNavigate()

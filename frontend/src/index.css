@@ -817,17 +817,6 @@ option,
   max-width: 326px;
 }
 
-.formInputAddress {
-  padding: 0.9rem 1rem;
-  width: 90%;
-  max-width: 326px;
-}
-
-.formPriceDiv {
-  display: flex;
-  align-items: center;
-}
-
 .formPriceText {
   margin-left: -1.5rem;
   font-weight: 600;

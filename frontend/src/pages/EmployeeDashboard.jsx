@@ -6,7 +6,7 @@ function EmployeeDashboard() {
     var [date, setDate] = useState(new Date())
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    const nav = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         var timer = setInterval(() => setDate(new Date(), 10000))
@@ -27,18 +27,18 @@ function EmployeeDashboard() {
                 <p>
                     What would you like to do today?
                 </p>
-                <button className="dashButton" style={{"backgroundColor": "#FFB81C"}}>
+                <button className="dashButton" onClick={() => navigate('/create-invoice')}style={{"backgroundColor": "#FFB81C"}}>
                     Create New Invoice  
                     <FaFileUpload />
                 </button> 
-                <div className="dashButton" style={{"backgroundColor": "#E03C31"}}>
+                <button className="dashButton" onClick={() => navigate('/view-invoices')} style={{"backgroundColor": "#E03C31"}}>
                     View My Invoices  
                     <FaFileInvoice />
-                </div>
-                <div className="dashButton" style={{"backgroundColor": "#007749"}}>
+                </button>
+                <button className="dashButton" onClick={() => navigate('/edit-invoices')} style={{"backgroundColor": "#007749"}}>
                     Edit My Invoices  
                     <FaEdit />
-                </div>
+                </button>
             </main>
         </div>
     )

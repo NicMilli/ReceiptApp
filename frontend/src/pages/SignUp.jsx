@@ -46,7 +46,6 @@ function SignUp() {
         if(isSuccess && user) {
             navigate('/employee-dashboard')
             toast.success(`Welcome to your InvoiceMe, ${name}`)
-            console.log('user is', user)
         }
         dispatch(reset())
     },[dispatch, navigate, isError, isSuccess, user, message])

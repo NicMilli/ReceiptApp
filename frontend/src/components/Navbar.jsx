@@ -1,14 +1,26 @@
 import { useNavigate, useLocation } from "react-router-dom"
-import {FaSignOutAlt, FaBookmark, FaUserCircle} from 'react-icons/fa'
+import { FaSignOutAlt, FaBookmark, FaUserCircle} from 'react-icons/fa'
+import { useDispatch } from "react-redux"
+import { logout, reset } from "../features/auth/authSlice"
+
+import { toast } from "react-toastify"
 
 function Navbar() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const location = useLocation()
 
     const pathMatchRoute = (route) => {
         if(route === location.pathname) {
             return true
         }
+    }
+
+    const clickLogout = () => {
+        dispatch(logout())
+        dispatch(reset())
+        toast.success('Signout Successful')
+        navigate('/sign-out')
     }
 
   return (
@@ -31,7 +43,7 @@ function Navbar() {
                         Profile
                     </p>
                 </li>
-                <li className="navbarListItem" onClick={() => navigate('/sign-out')}>
+                <li className="navbarListItem" onClick={clickLogout}>
                     <FaSignOutAlt color={pathMatchRoute('/sign-out') ? '#2c2c2c' : '#8f8f8f'} size='36px' />
                     <p className={pathMatchRoute('/sign-out') 
                     ? 'navbarListItemNameActive' 
