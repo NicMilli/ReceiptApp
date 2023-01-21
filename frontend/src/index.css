@@ -20,24 +20,11 @@ a {
   color: #000000;
 }
 
-/* .button {
-  outline: none;
-  border: none;
-  background-color:#FFB81C;
-  padding: 0.9rem 3rem;
-  font-weight: 600;
-  border-radius: 1rem;
-  font-size: 1rem;
-  margin: 0.5rem 0.5rem 0 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
 
 .dashButton:hover,
 .signInButton:hover,
 .signUpButton:hover,
-.button:hover {
+button:hover {
   transform: scale(0.8) perspective(1rem);
 }
 
@@ -73,6 +60,20 @@ a {
   border-radius: 1rem;
 }
 
+.signOutButton {
+  cursor: pointer;
+  background: #FFB81C;
+  border-radius: 1rem;
+  padding: 0.85rem 2rem;
+  color: #000000;
+  font-weight: 600;
+  width: fit-content;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
 .primaryButton {
   cursor: pointer;
   background: #FFB81C;
@@ -245,7 +246,7 @@ a {
   position: inherit;
 }
 
-.button,
+button,
 .dashButton,
 .signInButton,
 .signUpButton,
@@ -267,9 +268,17 @@ a {
 }
 
 .dashButton {
+  background-color: #ffffff;
+  font-weight: 600;
+  border-radius: 1rem;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: None;
+  height: 4rem;
   display: flex;
   padding: 1rem;
-  border-radius: 3rem;
   width: fit-content;
   margin: 2rem;
   
@@ -285,14 +294,18 @@ a {
   border-radius: 50%;
 }
 @media (min-width: 1024px) {
-  .button,
-  .dashButton,
+  button,
   .signInButton,
   .signUpButton {
     margin-left: 3rem;
   }
 }
 
+@media (min-width: 1024px) {
+  .dashButton {
+    margin-left: 0rem;
+  }
+}
 .socialLogin {
   margin-top: 4rem;
   display: flex;
@@ -750,9 +763,10 @@ a {
   display: flex;
 }
 
+
 select,
 option,
-.button,
+.landingButton,
 .formButton,
 .formInput,
 .formInputAddress,

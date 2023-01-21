@@ -8,6 +8,7 @@ import Landing from './pages/Landing';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import SignOut from './pages/SignOut'
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 import ForgotPassword from "./pages/ForgotPassword";
 // import UploadImage from "./pages/UploadImage";
@@ -34,6 +35,7 @@ function App() {
           <Route element={<WithNav />} >
             <Route path='/employee-dashboard' element={<EmployeeDashboard />} />
             <Route path='/forgot-password' element={<ForgotPassword/>} />
+            <Route path='/sign-out' element={<SignOut />} />
           {/* <Route path='/upload-image' element={<UploadImage/>} />
           <Route path='/edit-image/:imageId' element={<EditImage/>} /> */}
           </Route >

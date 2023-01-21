@@ -15,23 +15,6 @@ function Navbar() {
     <footer className='navbar'>
         <nav className='navbarNav'>
             <ul className="navbarListItems">
-                {/* <li className="navbarListItem" onClick={() => navigate('/upload-image')}>
-                    <FaArrowAltCircleUp color={pathMatchRoute('/upload-image') ? '#2c2c2c' : '#8f8f8f'} 
-                    size='36px' />
-                    <p className={pathMatchRoute('/') 
-                    ? 'navbarListItemNameActive' 
-                    : 'navbarListItemName'}>
-                        Upload Image
-                    </p>
-                </li> */}
-                {/* <li className="navbarListItem" onClick={() => navigate('/edit-image')}>
-                    <FaEdit color={pathMatchRoute('/edit-image') ? '#2c2c2c' : '#8f8f8f'} size='36px' />
-                    <p className={pathMatchRoute('/edit-image') 
-                    ? 'navbarListItemNameActive' 
-                    : 'navbarListItemName'}>
-                        View/Edit Images
-                    </p>
-                </li> */}
                 <li className="navbarListItem" onClick={() => navigate('/employee-dashboard')}>
                     <FaBookmark color={pathMatchRoute('/employee-dashboard') ? '#2c2c2c' : '#8f8f8f'} size='36px' />
                     <p className={pathMatchRoute('/employee-dashboard') 
