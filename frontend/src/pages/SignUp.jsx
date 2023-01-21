@@ -1,23 +1,29 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import {getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth'
-import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
-import { db } from '../firebase.config'
 import {ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 import OAuth from "../components/OAuth"
+import { useDispatch, useSelector } from "react-redux"
+import { register, reset } from '../features/auth/authSlice'
+
+
 
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
+        position: '',
         email: '',
         password: '',
     })
-    const {email, password, name} = formData
+    const {name, position, email, password} = formData
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const { user, isError, isSuccess, message } = useSelector((state) =>
+    state.auth)
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -28,34 +34,22 @@ function SignUp() {
 
     const onSubmit = async (e) => {
         e.preventDefault()
-
-        try{
-            const auth = getAuth()
-
-            const userCredential = await createUserWithEmailAndPassword
-            (auth, email, password)
-
-            const user = userCredential.user
-
-            updateProfile(auth.currentUser, {
-                displayName: name,
-            })
-
-            const formDataCopy = {...formData}
-            delete formDataCopy.password
-            formDataCopy.timestamp = serverTimestamp()
-
-            await setDoc(doc(db, 'users', user.uid), formDataCopy)
-
-            navigate('/')
-
-            toast.success(`Welcome ${name}`)
-
-        } catch (error) {
-            console.log(error)
-            toast.error('Registration error: please use a valid email and more than 8 characters in the password!')
-        }
+        dispatch(register(formData))
     }
+
+    useEffect(() => {
+
+        if(isError) {
+            toast.error(message)
+        } 
+
+        if(isSuccess && user) {
+            navigate('/employee-dashboard')
+            toast.success(`Welcome to your InvoiceMe, ${name}`)
+            console.log('user is', user)
+        }
+        dispatch(reset())
+    },[dispatch, navigate, isError, isSuccess, user, message])
 
   return (
     <>
@@ -96,6 +90,17 @@ function SignUp() {
                 <img src={visibilityIcon} alt="show password" 
                 className="showPassword" onClick={() => setShowPassword((prevState) => !prevState)} />
                 </div>
+
+            <select 
+                id="position" 
+                placeholder="position"
+                value={position}
+                onChange={onChange}
+                >
+                <option value="select position">Select Position</option>
+                <option value="employee">Employee</option>
+                <option value="admin">Admin</option>
+            </select>
 
                 <Link to='/forgot-password' className='forgotPasswordLink' >
                     Forgot Password

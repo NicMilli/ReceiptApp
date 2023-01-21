@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { current } from '@reduxjs/toolkit'
+
 
 const API_URL = '/api/user/'
 
@@ -8,7 +8,6 @@ const login = async(userData) => {
 
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
-        console.log(response.data)
     }
 
     return response.data
@@ -16,9 +15,20 @@ const login = async(userData) => {
 
 const logout = () => localStorage.removeItem('user')
 
+const register = async(formData) => {
+    const response = await axios.post(API_URL + 'register', formData)
+
+    if (response.status === 200) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+    }
+
+    return response.data
+}
+
 const authService = {
     login, 
-    logout
+    logout,
+    register
 }
 
 export default authService
