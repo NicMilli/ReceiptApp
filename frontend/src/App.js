@@ -14,6 +14,7 @@ import ViewInvoices from "./pages/ViewInvoices";
 import EditInvoices from "./pages/EditInvoices";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 import ForgotPassword from "./pages/ForgotPassword";
+import NotFound from './pages/NotFound'
 // import UploadImage from "./pages/UploadImage";
 // import EditImage from "./pages/EditImage";
 // import Profile from "./pages/Profile";
@@ -25,14 +26,12 @@ function App() {
     <>
       <Router>
         <Routes>
-        <Route path='/' element={<Landing/>} />
+        {/* <Route path='/' element={<Landing/>} /> */}
           <Route element={<WithoutNav/>} >
           <Route path='/sign-up' element={<SignUp/>} />
-            {/* <Route path='/sign-up' element={<PrivateRouteAdmin />}>
-              <Route path='/sign-up' element={<SignUp/>} />
-            </Route> */}
-            
             <Route path='/sign-in' element={<SignIn/>} />
+            <Route path='/' element={<Landing/>} />
+            <Route path='*' element={<NotFound />}/>
           </Route >
 
           <Route element={<WithNav />} >

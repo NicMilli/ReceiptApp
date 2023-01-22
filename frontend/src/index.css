@@ -248,6 +248,7 @@ button:hover {
 
 button,
 .dashButton,
+.calendarInput,
 .signInButton,
 .signUpButton,
 .signInText,
@@ -768,6 +769,7 @@ select,
 option,
 .landingButton,
 .formButton,
+.calendarInput,
 .formInput,
 .formInputAddress,
 .formInputName,
@@ -794,7 +796,7 @@ option,
 .flex {
   display: flex;
 }
-
+.calendarInput,
 .formInput,
 .formInputAddress,
 .formInputName,
@@ -844,16 +846,3 @@ option,
   margin-top: 5rem;
 }
 
-/* .offers {
-  margin-bottom: 10rem;
-}
-
-.offerBadge {
-  padding: 0.25rem 0.5rem;
-  background-color: #000000;
-  color: #ffffff;
-  border-radius: 1rem;
-  margin-left: 1rem;
-  font-size: 0.8rem;
-  opacity: 0.75;
-} */

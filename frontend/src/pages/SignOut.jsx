@@ -16,7 +16,11 @@ function SignOut() {
                 <h1 style={{"padding":'0 4rem'}}>Have a great day! <FaSmile /></h1>
                 <div style={{"padding":'8rem', "textAlign":"center"}}>
                     <p>Psssst... Didn't mean to log out?</p>
-                    <button className="signOutButton" onClick={() => navigate('/sign-in')}> Log back in here </button>
+                    <button 
+                        className="signOutButton" 
+                        onClick={() => navigate('/sign-in')}> 
+                        Log back in here 
+                    </button>
                 </div>
             </main>
         </div>
