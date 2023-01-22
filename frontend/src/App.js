@@ -14,7 +14,7 @@ import ViewInvoices from "./pages/ViewInvoices";
 import EditInvoices from "./pages/EditInvoices";
 import PrivateRouteAdmin from "./components/PrivateRouteAdmin";
 import ForgotPassword from "./pages/ForgotPassword";
-import NotFound from './pages/NotFound'
+import NotFound from './pages/NotFound';
 // import UploadImage from "./pages/UploadImage";
 // import EditImage from "./pages/EditImage";
 // import Profile from "./pages/Profile";
@@ -36,7 +36,7 @@ function App() {
 
           <Route element={<WithNav />} >
             <Route path='/create-invoice' element={<CreateInvoice />} />
-            <Route path='edit-invoices' element={<EditInvoices />} /> 
+            <Route path='edit-invoices' element={<EditInvoices />} />
             <Route path='/view-invoices' element={<ViewInvoices />} />
             <Route path='/employee-dashboard' element={<EmployeeDashboard />} />
             <Route path='/forgot-password' element={<ForgotPassword/>} />

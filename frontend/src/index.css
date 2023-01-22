@@ -6,11 +6,12 @@
 html::-webkit-scrollbar {
   display: none;
 }
+/* Tags */
 
 body {
   font-family: 'Montserrat', sans-serif;
   background-color: #f2f4f8;
-  margin: 0;
+  margin: 0 0 90px;
   box-sizing: border-box;
 }
 
@@ -20,6 +21,7 @@ a {
   color: #000000;
 }
 
+/* Reused properties */
 
 .dashButton:hover,
 .signInButton:hover,
@@ -282,7 +284,7 @@ button,
   padding: 1rem;
   width: fit-content;
   margin: 2rem;
-  
+
 }
 .signInButton,
 .signUpButton {

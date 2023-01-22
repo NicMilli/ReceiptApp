@@ -29,6 +29,7 @@
     "express-async-handler": "^1.2.0",
     "firebase": "^9.16.0",
     "mongoose": "^6.8.3",
+    "nodemon": "^2.0.20",
     "react-redux": "^8.0.5",
     "react-select": "^5.7.0",
     "react-select-country-list": "^2.2.3"
