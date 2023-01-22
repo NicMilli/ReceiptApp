@@ -11,14 +11,14 @@ const loginUser = asyncHandler(async(req, res) => {
     
         const docRef = doc(db, "users", auth.currentUser.uid)
         const docSnap = await getDoc(docRef)
+        const userData = docSnap.data()
     
         if(userCredential.user) {
             res.status(200).json({
-                _id: auth.currentUser.uid,
-                user: auth.currentUser,
                 name: auth.currentUser.displayName,
                 email: auth.currentUser.email,
-                position: auth.currentUser.position
+                position: userData.position,
+                token: auth.currentUser.getIdToken()
             })
         }
     } catch (error) {
@@ -26,6 +26,7 @@ const loginUser = asyncHandler(async(req, res) => {
         throw new Error('Could not validate user')
     }
 })
+
 
 const registerUser = asyncHandler(async(req, res) => {
     const {name, position, email, password} = req.body
