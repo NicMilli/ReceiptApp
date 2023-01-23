@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, isRejectedWithValue } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // import { json } from 'react-router-dom'
 import authService from './authService'
 
@@ -37,6 +37,21 @@ export const register = createAsyncThunk('auth/register', async(formData, thunkA
     }
 })
 
+
+export const checkStatus = createAsyncThunk('auth/checkStatus', async(thunkAPI,{ getState}) =>{
+    const state = getState()
+    const token = state.auth.user.token
+    try {
+        const response =  await authService.checkStatus(token)
+        console.log(response)
+        return response
+    } catch (error) {
+        const message = error.response.data
+        return thunkAPI.rejectWithValue(message.toString())
+    }
+})
+
+
 export const authSlice = createSlice({
     name:'auth',
     initialState,
@@ -46,6 +61,7 @@ export const authSlice = createSlice({
             state.isError = false
             state.isSuccess = false
             state.message = ''
+            
         }
     },
     extraReducers: (builder) =>{
@@ -80,6 +96,22 @@ export const authSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.user = action.payload
+            })
+            .addCase(checkStatus.pending, (state) =>{
+                state.isLoading = true
+        
+            })
+            .addCase(checkStatus.rejected, (state, action) => {
+                // reset()
+                state.isLoading = false
+                // logs user out due to token mismatch
+                state.user = null
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(checkStatus.fulfilled, (state) => {
+                state.isLoading = false
+                state.isSuccess = true
             })
     }
 })

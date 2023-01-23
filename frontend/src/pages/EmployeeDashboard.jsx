@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 function EmployeeDashboard() {
     var [date, setDate] = useState(new Date())
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
+    
     const navigate = useNavigate()
 
     useEffect(() => {

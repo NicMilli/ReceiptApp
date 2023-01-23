@@ -74,10 +74,8 @@ const generateToken = (id) => {
 
 
 const checkStatus = asyncHandler(async(req, res) => {
-
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
-
             const token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
             
@@ -92,7 +90,6 @@ const checkStatus = asyncHandler(async(req, res) => {
                 res.status(401).send('Invalid authorization. Please sign in again.')
                 throw new Error('Not Authorized - token does not match document token')
             }
-        
         } catch (error) {
             // Faulty token - can't decode
             res.status(401)

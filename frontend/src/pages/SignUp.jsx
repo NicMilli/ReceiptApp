@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { register, reset } from '../features/auth/authSlice'
 
 
-
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false)
     const [formData, setFormData] = useState({
@@ -21,6 +20,7 @@ function SignUp() {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
 
     const { user, isError, isSuccess, message } = useSelector((state) =>
     state.auth)
@@ -42,12 +42,12 @@ function SignUp() {
         if(isError) {
             toast.error(message)
         } 
-
         if(isSuccess && user) {
             navigate('/employee-dashboard')
             toast.success(`Welcome to your InvoiceMe, ${name}`)
         }
         dispatch(reset())
+        
     },[dispatch, navigate, isError, isSuccess, user, message])
 
   return (

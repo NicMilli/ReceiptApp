@@ -20,7 +20,7 @@ function SignIn() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const {user, isLoading, isError, isSuccess, message} = 
+    const {user, isLoading, isError, isSuccess, message, checkVerification} = 
         useSelector((state) => state.auth)
 
     const onChange = (e) => {
@@ -30,16 +30,19 @@ function SignIn() {
         }))
     }
     useEffect(() => {
-        if(isError) {
-            toast.error(message)
-        }
+        // if(checkVerification === false) {
+            if(isError) {
+                toast.error(message)
+            }
 
-        if(isSuccess && user) {
-            toast.success(`Welcome Back ${user.name}`)
-            navigate('/employee-dashboard')
-        }
+            if(isSuccess && user) {
+                console.log('sign in is rendering')
+                toast.success(`Welcome Back ${user.name}`)
+                navigate('/employee-dashboard')
+            }
 
         dispatch(reset())
+        // }
     }, [isError, isSuccess, user, message, navigate, dispatch])
 
     const onSubmit = (e) => {
@@ -54,7 +57,7 @@ function SignIn() {
     }
 
 
-  return (
+    return (
     <>
     <div className="pageContainer">
         <header>
@@ -80,6 +83,7 @@ function SignIn() {
                     className='passwordInput'
                     placeholder='Password'
                     id='password'
+                    autoComplete="off"
                     value={password}
                     onChange={onChange} />
 
@@ -112,5 +116,6 @@ function SignIn() {
     </>
   )
 }
+
 
 export default SignIn

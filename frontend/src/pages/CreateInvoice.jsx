@@ -22,7 +22,7 @@ function CreateInvoice() {
     const {date, vendor, location, currency, amount, category, otherCategory, comment} = formData
 
     const {user} = useSelector((state) => state.auth)
-
+   
     const onChange = (e) => {
         e.preventDefault()
         
@@ -30,14 +30,12 @@ function CreateInvoice() {
            [ e.target.id] : e.target.value}))
     }
 
-
-    
     const onSubmit = () => {
 
     }
-
+    
     useEffect(() => {
-
+        
     }, [])
 
     return(
@@ -49,6 +47,17 @@ function CreateInvoice() {
             </header>
             <main>
                 <form onSubmit={onSubmit}>
+                <p>Image Upload</p>
+                    <input
+                        className='formInputFile'
+                        type='file'
+                        id='images'
+                        onChange={onChange}
+                        max='6'
+                        accept='.jpg,.png,.jpeg'
+                        multiple
+                        required
+                    />
 
                     <p>Date of purchase</p>
                     <input type="date" 
@@ -121,6 +130,23 @@ function CreateInvoice() {
                         />
                     ): <div></div> }
 
+                    <p>Name</p>
+                    <input type="text" 
+                        className="formInput"
+                        placeholder='name'
+                        id='name'
+                        readOnly={true}
+                        value={user.name}
+                    />
+
+                    <p>Email</p>
+                    <input type="text" 
+                        className="formInput"
+                        placeholder='email'
+                        id='email'
+                        readOnly={true}
+                        value={user.email}
+                    />
                     <p>Comments</p>
                     <input type="text" 
                         className="formInput"
