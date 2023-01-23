@@ -80,12 +80,12 @@ const checkStatus = asyncHandler(async(req, res) => {
 
             const token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
+            
+            // Collects the document with the user ID from the decoded token. If the token is no longer active, it will not identify
             const userDoc = doc(db, "users", decoded.id)
             const docSnap = await getDoc(userDoc)
         
             if(docSnap.exists()) {
-                console.log('THE DOC SNAP EXISTS! api/user/ returns true')
                 res.status(200).json(docSnap.exists())
             } else {
                 // Decoded token doesn't match to an valid document id
