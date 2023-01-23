@@ -1,24 +1,29 @@
 const {db, auth} = require('../../Config/firebase.config')
 const asyncHandler = require('express-async-handler')
 const { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } = require('firebase/auth')
-const { doc, getDoc, setDoc, serverTimestamp } = require ('firebase/firestore')
+const { doc, getDoc, setDoc, updateDoc, serverTimestamp } = require ('firebase/firestore')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 const loginUser = asyncHandler(async(req, res) => {
     const {email, password} = req.body
     try {
         const userCredential = await signInWithEmailAndPassword
         (auth, email, password)
-    
+        
         const docRef = doc(db, "users", auth.currentUser.uid)
+        const token = generateToken(auth.currentUser.uid)
+        await updateDoc(docRef, {token: token})
+
         const docSnap = await getDoc(docRef)
         const userData = docSnap.data()
-    
+        
         if(userCredential.user) {
             res.status(200).json({
                 name: auth.currentUser.displayName,
                 email: auth.currentUser.email,
                 position: userData.position,
-                token: auth.currentUser.getIdToken()
+                token: token
             })
         }
     } catch (error) {
@@ -27,7 +32,6 @@ const loginUser = asyncHandler(async(req, res) => {
     }
 })
 
-
 const registerUser = asyncHandler(async(req, res) => {
     const {name, position, email, password} = req.body
 
@@ -35,7 +39,6 @@ const registerUser = asyncHandler(async(req, res) => {
         res.status(400).send('Please be sure you select position and enter all fields.')
         throw new Error('Enter all fields')
     }
-
     try {    
      
         const userCredential = await createUserWithEmailAndPassword
@@ -46,9 +49,8 @@ const registerUser = asyncHandler(async(req, res) => {
         updateProfile(auth.currentUser, {
             displayName: name,
         })
-
+        
         const formDataCopy = {name, position, email}
-
         formDataCopy.timestamp = serverTimestamp()
 
         await setDoc(doc(db, "users", user.uid), formDataCopy)
@@ -61,7 +63,48 @@ const registerUser = asyncHandler(async(req, res) => {
     }
 })
 
+
+const generateToken = (id) => {
+    const strId = String(id)
+    
+    return jwt.sign({"id": strId }, process.env.JWT_SECRET, {
+        expiresIn: '2h',
+    })
+}
+
+
+const checkStatus = asyncHandler(async(req, res) => {
+
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        try {
+
+            const token = req.headers.authorization.split(' ')[1]
+            const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+            const userDoc = doc(db, "users", decoded.id)
+            const docSnap = await getDoc(userDoc)
+        
+            if(docSnap.exists()) {
+                console.log('THE DOC SNAP EXISTS! api/user/ returns true')
+                res.status(200).json(docSnap.exists())
+            } else {
+                // Decoded token doesn't match to an valid document id
+                res.status(401).send('Invalid authorization. Please sign in again.')
+                throw new Error('Not Authorized - token does not match document token')
+            }
+        
+        } catch (error) {
+            // Faulty token - can't decode
+            res.status(401)
+            console.log(error)
+            throw new Error('Not Authorized')
+        }
+    }
+})
+
+
 module.exports = {
     loginUser,
-    registerUser
+    registerUser,
+    checkStatus
 }
