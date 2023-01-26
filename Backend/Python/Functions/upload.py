@@ -12,7 +12,7 @@ def main():
 
     req = json.loads(sys.argv[1])
     image_url = req['data']
-    document_id = req['id']
+    # document_id = req['id']
     try:
         from image import Image
         from expense import Expense
@@ -22,15 +22,15 @@ def main():
             total = Expense(i.upgraded).total
             # connect to firebase
 
-            from db import connect_py_DB
+            # from db import connect_py_DB
 
-            # connecting to the database client
-            db = connect_py_DB()
+            # # connecting to the database client
+            # db = connect_py_DB()
 
-            # adding in field 'total' with  total value using the document_id to access document
-            db_ref = db.collection(u'images').document(document_id)
+            # # adding in field 'total' with  total value using the document_id to access document
+            # db_ref = db.collection(u'images').document(document_id)
 
-            db_ref.update({u'total': total})
+            # db_ref.update({u'total': total})
             
             print(total)
 

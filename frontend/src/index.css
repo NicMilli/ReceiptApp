@@ -26,6 +26,7 @@ a {
 .dashButton:hover,
 .signInButton:hover,
 .signUpButton:hover,
+.formInputFile::file-selector-button:hover,
 button:hover {
   transform: scale(0.8) perspective(1rem);
 }
@@ -390,11 +391,12 @@ option,
 .formInputFile::file-selector-button {
   background-color: #007749;
   border: none;
-  color: #ffffff;
+  color: #000000;
   font-weight: 600;
   padding: 0.5rem 0.75rem;
   border-radius: 1rem;
   margin-right: 1rem;
+  cursor: pointer;
 }
 
 /* ||| ViewInvoices */

@@ -43,7 +43,7 @@ export const checkStatus = createAsyncThunk('auth/checkStatus', async(thunkAPI,{
     const token = state.auth.user.token
     try {
         const response =  await authService.checkStatus(token)
-        console.log(response)
+        // console.log(response)
         return response
     } catch (error) {
         const message = error.response.data

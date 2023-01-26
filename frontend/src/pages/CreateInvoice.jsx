@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux"
 import { useState, useMemo, useEffect } from "react"
 import countryList from 'react-select-country-list'
-
+import { useRef } from "react"
+import { FaFileUpload } from "react-icons/fa"
 
 function CreateInvoice() {
 
     const [formData, setFormData] = useState({
+        image: {},
         date: '',
         vendor: '',
         location: '',
@@ -15,11 +17,11 @@ function CreateInvoice() {
         otherCategory:'',
         comment: ''
     })
-
+    const isMounted = useRef(true)
     const options = useMemo(() => countryList().getData(), [])
-    const countryLabels = options.map(option => option.label)
 
-    const {date, vendor, location, currency, amount, category, otherCategory, comment} = formData
+    const countryLabels = options.map(option => option.label)
+    const { image, date, vendor, location, currency, amount, category, otherCategory, comment} = formData
 
     const {user} = useSelector((state) => state.auth)
    
@@ -30,13 +32,21 @@ function CreateInvoice() {
            [ e.target.id] : e.target.value}))
     }
 
-    const onSubmit = () => {
-
+    const onSubmit = (e) => {
+        if(e.target.file) {
+            // run auth service that handles files and returns the total amount.
+        }
     }
     
     useEffect(() => {
+        if (isMounted) {
+        }
         
-    }, [])
+        return() => {
+            isMounted.current = false
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isMounted])
 
     return(
         <div className='pageContainer'>
@@ -46,19 +56,19 @@ function CreateInvoice() {
                 </p>
             </header>
             <main>
-                <form onSubmit={onSubmit}>
-                <p>Image Upload</p>
+            <form onSubmit={onSubmit}>
+                <p>Image Upload</p> 
                     <input
                         className='formInputFile'
                         type='file'
-                        id='images'
+                        id='image'
                         onChange={onChange}
                         max='6'
                         accept='.jpg,.png,.jpeg'
-                        multiple
-                        required
-                    />
-
+                        // multiple
+                        required />
+            </form>
+                <form onSubmit={onSubmit}>
                     <p>Date of purchase</p>
                     <input type="date" 
                         className="calendarInput"
@@ -66,13 +76,15 @@ function CreateInvoice() {
                         id='date'
                         value={date}
                         onChange={onChange}
+                        required
                     />
                     
                     <p>Location</p>
                     <select id="location" 
                         placeholder="location"
                         value={location}
-                        onChange={onChange}> 
+                        onChange={onChange}
+                        required> 
                         <option>Select Country</option>
                         {
                         countryLabels.map((label, key) => (
@@ -87,6 +99,7 @@ function CreateInvoice() {
                         id='vendor'
                         value={vendor}
                         onChange={onChange}
+                        required
                     />
 
                     <p>Currency Code</p>
@@ -96,6 +109,7 @@ function CreateInvoice() {
                         id='currency'
                         value={currency}
                         onChange={onChange}
+                        required
                     />
 
                     <p>Amount</p>
@@ -105,6 +119,7 @@ function CreateInvoice() {
                         id='amount'
                         value={amount}
                         onChange={onChange}
+                        required
                     />
 
                     <p>Category</p>
@@ -113,6 +128,7 @@ function CreateInvoice() {
                         placeholder="category"
                         value={category}
                         onChange={onChange}>
+                        <option>Select Category</option>
                         <option value='rental'>Rental</option>
                         <option value='airfare'>Airfare</option>
                         <option value='lodging'>Lodging</option>
@@ -137,6 +153,7 @@ function CreateInvoice() {
                         id='name'
                         readOnly={true}
                         value={user.name}
+                        required
                     />
 
                     <p>Email</p>
@@ -146,6 +163,7 @@ function CreateInvoice() {
                         id='email'
                         readOnly={true}
                         value={user.email}
+                        required
                     />
                     <p>Comments</p>
                     <input type="text" 
