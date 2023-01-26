@@ -3,6 +3,7 @@ import { useState, useMemo, useEffect } from "react"
 import countryList from 'react-select-country-list'
 import { useRef } from "react"
 import { FaFileUpload } from "react-icons/fa"
+import invoiceService from "../features/invoice/invoiceService"
 
 function CreateInvoice() {
 
@@ -21,7 +22,7 @@ function CreateInvoice() {
     const options = useMemo(() => countryList().getData(), [])
 
     const countryLabels = options.map(option => option.label)
-    const { image, date, vendor, location, currency, amount, category, otherCategory, comment} = formData
+    const {image, date, vendor, location, currency, amount, category, otherCategory, comment} = formData
 
     const {user} = useSelector((state) => state.auth)
    
@@ -32,9 +33,12 @@ function CreateInvoice() {
            [ e.target.id] : e.target.value}))
     }
 
-    const onSubmit = (e) => {
+    const onSubmit = async(e) => {
+        e.preventDefault()
         if(e.target.file) {
-            // run auth service that handles files and returns the total amount.
+            // run service that handles files and returns the total amount.
+            const response = await invoiceService.createInvoice(e.target.file)
+            console.log(response)
         }
     }
     
@@ -52,7 +56,7 @@ function CreateInvoice() {
         <div className='pageContainer'>
             <header>
                 <p className="pageHeader">
-                    Create Invoice
+                    Create New Invoice <FaFileUpload />
                 </p>
             </header>
             <main>
@@ -67,8 +71,9 @@ function CreateInvoice() {
                         accept='.jpg,.png,.jpeg'
                         // multiple
                         required />
+                        <button className="submitButton">Submit</button>
             </form>
-                <form onSubmit={onSubmit}>
+                {/* <form onSubmit={onSubmit}>
                     <p>Date of purchase</p>
                     <input type="date" 
                         className="calendarInput"
@@ -173,7 +178,7 @@ function CreateInvoice() {
                         value={comment}
                         onChange={onChange}
                     />
-            </form>
+            </form> */}
 
             </main>
 

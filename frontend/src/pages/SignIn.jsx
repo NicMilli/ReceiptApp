@@ -54,6 +54,15 @@ function SignIn() {
         dispatch(login(userData))
     }
 
+    if(isLoading) {return (
+        <div className="pageContainer">
+            <header>
+                <p className="pageHeader">
+                    Loading - Just a moment.
+                </p>
+            </header> 
+         </div>
+    )}
 
     return (
     <>

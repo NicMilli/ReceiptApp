@@ -12,7 +12,7 @@ function EmployeeDashboard() {
         var timer = setInterval(() => setDate(new Date(), 10000))
         return clearInterval(timer)
     }, [])
-
+    
     return(
         <div className="pageContainer">
             <header className="pageHeader">

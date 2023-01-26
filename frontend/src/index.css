@@ -368,6 +368,24 @@ option,
   justify-content: center;
 }
 
+.submitButton {
+  cursor: pointer;
+  background:#FFB81C;
+  border-radius: 1rem;
+  padding: 0.85rem 2rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.25rem;
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: None;
+  margin-top: 1rem;
+
+}
+
 .profile {
   margin-bottom: 10rem;
 }
