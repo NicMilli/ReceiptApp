@@ -20,7 +20,7 @@ function SignIn() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const {user, isLoading, isError, isSuccess, message, checkVerification} = 
+    const {user, isLoading, isError, isSuccess, message} = 
         useSelector((state) => state.auth)
 
     const onChange = (e) => {
@@ -30,13 +30,11 @@ function SignIn() {
         }))
     }
     useEffect(() => {
-        // if(checkVerification === false) {
             if(isError) {
                 toast.error(message)
             }
 
             if(isSuccess && user) {
-                console.log('sign in is rendering')
                 toast.success(`Welcome Back ${user.name}`)
                 navigate('/employee-dashboard')
             }
@@ -56,6 +54,15 @@ function SignIn() {
         dispatch(login(userData))
     }
 
+    if(isLoading) {return (
+        <div className="pageContainer">
+            <header>
+                <p className="pageHeader">
+                    Loading - Just a moment.
+                </p>
+            </header> 
+         </div>
+    )}
 
     return (
     <>

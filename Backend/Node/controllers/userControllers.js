@@ -58,7 +58,7 @@ const registerUser = asyncHandler(async(req, res) => {
         res.status(200).json(formDataCopy)
 
     } catch(error) {
-        res.status(500).json({error})
+        res.status(500).json('Could not register user. Please try again and contact InvoiceMe if problem persists.')
         throw new Error(`${error}`)
     }
 })
@@ -74,12 +74,12 @@ const generateToken = (id) => {
 
 
 const checkStatus = asyncHandler(async(req, res) => {
-    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if(req.headers.authorization.startsWith('Bearer')) {
         try {
             const token = req.headers.authorization.split(' ')[1]
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
             
-            // Collects the document with the user ID from the decoded token. If the token is no longer active, it will not identify
+            // Collects the document with the user ID from the decoded token. If the token is no longer active, it will not identify user
             const userDoc = doc(db, "users", decoded.id)
             const docSnap = await getDoc(userDoc)
         

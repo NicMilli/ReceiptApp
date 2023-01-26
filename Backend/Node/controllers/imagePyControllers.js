@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const path = require('path')
 
-const uploadTotal = asyncHandler(async(req, res, next) => {
+const extractTotal = asyncHandler(async(req, res, next) => {
     const spawn = require('child_process').spawn
     const data = req.body
     const stringifiedData = JSON.stringify(data)
@@ -12,7 +12,6 @@ const uploadTotal = asyncHandler(async(req, res, next) => {
     var result = []
     py.stdout.on('data', (data) => {
         result += data
-
     })
     py.stderr.on('data', (data) =>{
         /// data should be the total output as identified from OCR function
@@ -26,5 +25,5 @@ const uploadTotal = asyncHandler(async(req, res, next) => {
 })
 
 module.exports = {
-    uploadTotal
+    extractTotal
 }

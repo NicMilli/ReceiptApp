@@ -22,6 +22,8 @@ const auth = getAuth();
 
 
 module.exports = {
+  app,
   db,
-  auth
+  auth,
+  firebaseConfig
 }

@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-// import { json } from 'react-router-dom'
 import authService from './authService'
 
 const user = JSON.parse(localStorage.getItem('user'))
@@ -43,7 +42,7 @@ export const checkStatus = createAsyncThunk('auth/checkStatus', async(thunkAPI,{
     const token = state.auth.user.token
     try {
         const response =  await authService.checkStatus(token)
-        console.log(response)
+        // console.log(response)
         return response
     } catch (error) {
         const message = error.response.data
