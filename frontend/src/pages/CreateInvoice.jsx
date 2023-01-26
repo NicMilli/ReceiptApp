@@ -25,11 +25,11 @@ function CreateInvoice() {
     const {image, date, vendor, location, currency, amount, category, otherCategory, comment} = formData
 
     const {user} = useSelector((state) => state.auth)
-   
+
     const onChange = (e) => {
         e.preventDefault()
-        
-        setFormData((prevState) => ({...prevState, 
+
+        setFormData((prevState) => ({...prevState,
            [ e.target.id] : e.target.value}))
     }
 
@@ -41,16 +41,19 @@ function CreateInvoice() {
             console.log(response)
         }
     }
-    
+
     useEffect(() => {
+
+
         if (isMounted) {
         }
         
-        return() => {
+        return() => {   
             isMounted.current = false
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMounted])
+
 
     return(
         <div className='pageContainer'>
@@ -75,7 +78,7 @@ function CreateInvoice() {
             </form>
                 {/* <form onSubmit={onSubmit}>
                     <p>Date of purchase</p>
-                    <input type="date" 
+                    <input type="date"
                         className="calendarInput"
                         placeholder='YYYY-MM-DD'
                         id='date'
@@ -83,7 +86,7 @@ function CreateInvoice() {
                         onChange={onChange}
                         required
                     />
-                    
+
                     <p>Location</p>
                     <select id="location" 
                         placeholder="location"
@@ -96,9 +99,9 @@ function CreateInvoice() {
                         <option key={key} value={label}>{label}</option>)
                         )}
                     </select>
-                    
+
                     <p>Vendor</p>
-                    <input type="text" 
+                    <input type="text"
                         className="formInput"
                         placeholder='Vendor'
                         id='vendor'
@@ -108,7 +111,7 @@ function CreateInvoice() {
                     />
 
                     <p>Currency Code</p>
-                    <input type="text" 
+                    <input type="text"
                         className="formInput"
                         placeholder='ZAR'
                         id='currency'
@@ -118,7 +121,8 @@ function CreateInvoice() {
                     />
 
                     <p>Amount</p>
-                    <input type="decimal" 
+                    <input type="number"
+                        min="0"
                         className="formInput"
                         placeholder='Amount'
                         id='amount'
@@ -129,7 +133,7 @@ function CreateInvoice() {
 
                     <p>Category</p>
                     <select
-                        id="category" 
+                        id="category"
                         placeholder="category"
                         value={category}
                         onChange={onChange}>
@@ -142,17 +146,17 @@ function CreateInvoice() {
                         <option value='other'>Other</option>
                     </select>
                     {category === 'other' ? (
-                        <input type="text" 
+                        <input type="text"
                         className="formInput"
-                        placeholder="Enter custom category" 
-                        id='otherCategory' 
+                        placeholder="Enter custom category"
+                        id='otherCategory'
                         value={otherCategory}
                         onChange={onChange}
                         />
                     ): <div></div> }
 
                     <p>Name</p>
-                    <input type="text" 
+                    <input type="text"
                         className="formInput"
                         placeholder='name'
                         id='name'
@@ -162,7 +166,7 @@ function CreateInvoice() {
                     />
 
                     <p>Email</p>
-                    <input type="text" 
+                    <input type="text"
                         className="formInput"
                         placeholder='email'
                         id='email'
@@ -171,7 +175,7 @@ function CreateInvoice() {
                         required
                     />
                     <p>Comments</p>
-                    <input type="text" 
+                    <input type="text"
                         className="formInput"
                         placeholder='Optional comments'
                         id='comment'
