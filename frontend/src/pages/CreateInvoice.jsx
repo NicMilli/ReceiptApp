@@ -1,14 +1,16 @@
-import { useSelector } from "react-redux"
-import { useState, useMemo, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { useState, useMemo, useRef, useEffect } from "react"
 import countryList from 'react-select-country-list'
-import { useRef } from "react"
 import { FaFileUpload } from "react-icons/fa"
-import invoiceService from "../features/invoice/invoiceService"
+import { createInvoice } from '../features/invoice/invoiceSlice'
+import { toast } from 'react-toastify'
+import FormData from 'form-data'
+
 
 function CreateInvoice() {
 
     const [formData, setFormData] = useState({
-        image: {},
+        image: null,
         date: '',
         vendor: '',
         location: '',
@@ -19,27 +21,28 @@ function CreateInvoice() {
         comment: ''
     })
     const isMounted = useRef(true)
-    const options = useMemo(() => countryList().getData(), [])
+    const dispatch = useDispatch()
+    const {user} = useSelector((state) => state.auth)
 
+    const options = useMemo(() => countryList().getData(), [])
     const countryLabels = options.map(option => option.label)
     const {image, date, vendor, location, currency, amount, category, otherCategory, comment} = formData
 
-    const {user} = useSelector((state) => state.auth)
-
-    const onChange = (e) => {
+    const onChange = async(e) => {
         e.preventDefault()
-
-        setFormData((prevState) => ({...prevState,
-           [ e.target.id] : e.target.value}))
+        //console.log('from onChange....[0] ', e.target.files[0], 'files', e.target.files)
+        const res = await setFormData((prevData) => ({
+            ...prevData, 
+            image: e.target.files[0]
+        }))
     }
 
     const onSubmit = async(e) => {
         e.preventDefault()
-        if(e.target.file) {
-            // run service that handles files and returns the total amount.
-            const response = await invoiceService.createInvoice(e.target.file)
-            console.log(response)
-        }
+        console.log('e.target sent from page is ', image)
+        // run service that handles files and returns the total amount.
+        const response = await dispatch(createInvoice(image))
+        console.log(response)
     }
 
     useEffect(() => {
@@ -52,7 +55,7 @@ function CreateInvoice() {
             isMounted.current = false
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isMounted])
+    }, [isMounted, image])
 
 
     return(
@@ -69,12 +72,13 @@ function CreateInvoice() {
                         className='formInputFile'
                         type='file'
                         id='image'
+                        name='image'
                         onChange={onChange}
-                        max='6'
                         accept='.jpg,.png,.jpeg'
+                        // enctype="multipart/form-data"
                         // multiple
                         required />
-                        <button className="submitButton">Submit</button>
+                <button type='submit' className="submitButton">Submit</button>
             </form>
                 {/* <form onSubmit={onSubmit}>
                     <p>Date of purchase</p>
@@ -183,9 +187,7 @@ function CreateInvoice() {
                         onChange={onChange}
                     />
             </form> */}
-
             </main>
-
         </div>
     )
 }

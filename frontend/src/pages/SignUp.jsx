@@ -47,7 +47,7 @@ function SignUp() {
             toast.success(`Welcome to your InvoiceMe, ${name}`)
         }
         dispatch(reset())
-        
+     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[dispatch, navigate, isError, isSuccess, user, message])
 
   return (
