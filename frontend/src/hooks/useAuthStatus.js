@@ -32,7 +32,7 @@ export const useAuthStatus = () => {
     return() => {
         isMounted.current = false
     }
-           
+     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMounted, user, isSuccess, isError, message])
     return { loggedIn, checkingStatus }
 }
