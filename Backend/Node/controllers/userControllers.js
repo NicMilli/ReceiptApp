@@ -10,7 +10,7 @@ const loginUser = asyncHandler(async(req, res) => {
     let password
     res.locals.data ?
         {email, password} = res.locals.data :
-        {email, password } = req.body
+        {email, password} = req.body
 
     console.log(email, password)
     try {
