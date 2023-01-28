@@ -6,7 +6,13 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 const loginUser = asyncHandler(async(req, res) => {
-    const {email, password} = req.body
+    let email 
+    let password
+    res.locals.data ?
+        {email, password} = res.locals.data :
+        {email, password } = req.body
+
+    console.log(email, password)
     try {
         const userCredential = await signInWithEmailAndPassword
         (auth, email, password)
@@ -32,7 +38,7 @@ const loginUser = asyncHandler(async(req, res) => {
     }
 })
 
-const registerUser = asyncHandler(async(req, res) => {
+const registerUser = asyncHandler(async(req, res, next) => {
     const {name, position, email, password} = req.body
 
     if(!name || !position || !email || !password ) {
@@ -55,7 +61,9 @@ const registerUser = asyncHandler(async(req, res) => {
 
         await setDoc(doc(db, "users", user.uid), formDataCopy)
         console.log('success')
-        res.status(200).json(formDataCopy)
+        // res.status(200).json(userCredential.user)
+        res.locals.data = {'email': email, 'password': password}
+        next()
 
     } catch(error) {
         res.status(500).json('Could not register user. Please try again and contact InvoiceMe if problem persists.')
