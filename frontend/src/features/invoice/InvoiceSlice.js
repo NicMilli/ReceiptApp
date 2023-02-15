@@ -11,7 +11,7 @@ const initialState = {
 
 export const createInvoice = createAsyncThunk('invoice/createInvoice', 
     async(file, thunkAPI) => {
-        console.log('formData in slice', file)
+
         try {
             return await invoiceService.createInvoice(file)
         } catch(error) {

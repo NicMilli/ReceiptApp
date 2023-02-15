@@ -12,7 +12,6 @@ const loginUser = asyncHandler(async(req, res) => {
         {email, password} = res.locals.data :
         {email, password} = req.body
 
-    console.log(email, password)
     try {
         const userCredential = await signInWithEmailAndPassword
         (auth, email, password)
@@ -61,7 +60,6 @@ const registerUser = asyncHandler(async(req, res, next) => {
 
         await setDoc(doc(db, "users", user.uid), formDataCopy)
         console.log('success')
-        // res.status(200).json(userCredential.user)
         res.locals.data = {'email': email, 'password': password}
         next()
 

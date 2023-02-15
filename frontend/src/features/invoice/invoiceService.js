@@ -3,11 +3,11 @@ import axios from "axios"
 const API_URL = "/api/invoice/"
 
 const createInvoice = async(file) => {
-  console.log('in service now', file)
+
     var formData = new FormData()
     formData.append('image', file)
     for (var fd of formData) {
-      console.log('fd is', fd)
+
     }
     const response = await axios.post(API_URL + 'image', formData, 
     {
