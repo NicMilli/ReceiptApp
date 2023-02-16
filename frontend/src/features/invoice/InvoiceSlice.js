@@ -10,8 +10,7 @@ const initialState = {
 }
 
 export const createInvoice = createAsyncThunk('invoice/createInvoice', 
-    async(file, user, thunkAPI) => {
-
+    async(file, thunkAPI) => {
         try {
             return await invoiceService.createInvoice(file)
         } catch(error) {
@@ -24,7 +23,7 @@ export const invoiceSlice = createSlice({
     name:'invoice',
     initialState,
     reducers: {
-        reset: (state) => {
+        resetInvoice: (state) => {
             state.invoice = {}
             state.isLoading = false
             state.isError = false
@@ -50,5 +49,5 @@ export const invoiceSlice = createSlice({
 })
 
 
-export const { reset } = invoiceSlice.actions
+export const { resetInvoice } = invoiceSlice.actions
 export default invoiceSlice.reducer

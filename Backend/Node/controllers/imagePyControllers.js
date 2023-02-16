@@ -2,12 +2,10 @@ const asyncHandler = require('express-async-handler')
 const path = require('path')
 
 const extractTotal = asyncHandler(async(req, res, next) => {
-    console.log("res.locals.data is", res.locals.data)
     const spawn = require('child_process').spawn
-    const data = res.locals.data
+    const url = res.locals.data
     // const data = req.body
-    const stringifiedData = JSON.stringify(data)
-    console.log('stringified data is', stringifiedData) ;
+    const stringifiedData = JSON.stringify(url)
     // Child process to run the python functions to upgrade image for improved text recognition
     // and then extract the total from the upgraded receipt image
     // and then upload to firebase
@@ -21,8 +19,7 @@ const extractTotal = asyncHandler(async(req, res, next) => {
         console.error(`stderr: ${data}`)
     })
     py.on('close', (code) => {
-        
-        res.status(201).json(result)
+        res.status(201).send({'total': result, "url": url}) // if the number isn't able to be extracted, then its a set to zero
         console.log(`exited with code ${code}`, 'result is', result)
     })
 

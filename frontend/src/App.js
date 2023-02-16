@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import SignOut from './pages/SignOut';
 import CreateInvoice from "./pages/CreateInvoice";
+import InvoiceForm from "./pages/InvoiceForm";
 import ViewInvoices from "./pages/ViewInvoices";
 import EditInvoices from "./pages/EditInvoices";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -31,7 +32,9 @@ function App() {
 
           <Route element={<WithNav />} >
             <Route element={<PrivateRoutes />} >
-              <Route path='/create-invoice' element={<CreateInvoice />} />
+              <Route path='/create-invoice/' element={<CreateInvoice />} >
+                <Route path='invoice-form' element={<InvoiceForm />} />
+              </ Route>
               <Route path='/employee-dashboard' element={<EmployeeDashboard />} /> 
               <Route path='/edit-invoices' element={<EditInvoices />} />
               <Route path='/view-invoices' element={<ViewInvoices />} />  

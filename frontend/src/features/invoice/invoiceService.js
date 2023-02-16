@@ -14,9 +14,8 @@ const createInvoice = async(file) => {
         }
       }
     )
-
     if (response.data) {
-    localStorage.setItem('invoice', JSON.stringify(response.data))
+      localStorage.setItem('invoice', JSON.stringify(response.data))
     }
     return response.data
 }

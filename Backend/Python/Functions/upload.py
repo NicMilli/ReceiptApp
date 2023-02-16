@@ -11,7 +11,7 @@ def main():
     os.chdir(import_path)
 
     req = json.loads(sys.argv[1])
-    image_url = req['url']
+    image_url = req
     # document_id = req['id']
     try:
         from image import Image
@@ -20,17 +20,6 @@ def main():
         if isinstance(image_url, str):
             i = Image(image_url.strip('"'))
             total = Expense(i.upgraded).total
-            # connect to firebase
-
-            # from db import connect_py_DB
-
-            # # connecting to the database client
-            # db = connect_py_DB()
-
-            # # adding in field 'total' with  total value using the document_id to access document
-            # db_ref = db.collection(u'images').document(document_id)
-
-            # db_ref.update({u'total': total})
             
             print(total)
 
@@ -42,7 +31,7 @@ def main():
     except Exception as error:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(image_url, image_url.strip('"'), exc_type, fname, exc_tb.tb_lineno)
+        print(image_url.strip('"'), exc_type, fname, exc_tb.tb_lineno)
 
 if __name__ == '__main__':
     main()

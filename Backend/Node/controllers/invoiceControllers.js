@@ -23,7 +23,7 @@ const imageToFirestore = asyncHandler(async(req, res, next) => {
       const storageRef = ref(storage, `/images/${id}/${file.newFilename}`) ;
       const uploadTask = uploadBytes(storageRef, fs.readFileSync(file.filePath), metadata).then((snapshot) => {
         getDownloadURL(storageRef).then(url => {
-          res.locals.data = {"url" : url} ; // send the url on to the next function (python OCR)
+          res.locals.data = url ; // send the url on to the next function (python OCR)
           next() ; 
         }) ;
       }) ;
