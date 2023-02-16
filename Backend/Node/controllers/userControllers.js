@@ -98,8 +98,7 @@ const checkStatus = asyncHandler(async(req, res) => {
             }
         } catch (error) {
             // Faulty token - can't decode
-            res.status(401)
-            console.log(error)
+            res.status(401).send('Could not validate user token. Please sign in again.')
             throw new Error('Not Authorized')
         }
     }

@@ -12,7 +12,7 @@ const {
 const { imageToFirestore
 } = require('../controllers/invoiceControllers')
 
-router.post('/', extractTotal)
-router.post('/image', parser, imageToFirestore)
+// router.post('/', extractTotal)
+router.post('/image', parser, imageToFirestore, extractTotal)
 
 module.exports = router

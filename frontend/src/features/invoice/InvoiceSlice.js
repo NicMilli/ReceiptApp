@@ -10,7 +10,7 @@ const initialState = {
 }
 
 export const createInvoice = createAsyncThunk('invoice/createInvoice', 
-    async(file, thunkAPI) => {
+    async(file, user, thunkAPI) => {
 
         try {
             return await invoiceService.createInvoice(file)

@@ -30,7 +30,7 @@ function CreateInvoice() {
 
     const onChange = async(e) => {
         e.preventDefault()
-        //console.log('from onChange....[0] ', e.target.files[0], 'files', e.target.files)
+     
         const res = await setFormData((prevData) => ({
             ...prevData, 
             image: e.target.files[0]
@@ -41,16 +41,13 @@ function CreateInvoice() {
         e.preventDefault()
         console.log('e.target sent from page is ', image)
         // run service that handles files and returns the total amount.
-        const response = await dispatch(createInvoice(image))
+        const response = await dispatch(createInvoice(image)) 
         console.log(response)
     }
 
     useEffect(() => {
-
-
         if (isMounted) {
         }
-        
         return() => {   
             isMounted.current = false
         }
