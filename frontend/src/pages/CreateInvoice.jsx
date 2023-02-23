@@ -19,17 +19,14 @@ function CreateInvoice() {
 
     const onChange = async(e) => {
         e.preventDefault()
-        const res = setImages(
-            e.target.files[0]
-        )
+        setImages(e.target.files[0] )
     }
 
     const onSubmit = async(e) => {
         e.preventDefault()
         // run service that handles files and returns the total amount.
-        console.log("image sent from page is", images)
-        const response = await dispatch(createInvoice(images)) 
-
+        // console.log("image sent from page is", images)
+        dispatch(createInvoice(images)) 
     }
 
     useEffect(() => {
@@ -39,9 +36,9 @@ function CreateInvoice() {
         if(isError) {
             toast.error(message);
         } ;
-        if(isSuccess) {
+        if(isSuccess && invoice) {
             toast.success('Succesfully uploaded your image! Routing to form page...') ;
-            navigate('/invoice-form')
+            navigate('/create-invoice/invoice-form')
         } ;
         return() => {   
             isMounted.current = false ;

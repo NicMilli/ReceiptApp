@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { FaReceipt, FaFileInvoice, FaFileUpload, FaEdit } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function EmployeeDashboard() {
     var [date, setDate] = useState(new Date())
@@ -12,7 +13,8 @@ function EmployeeDashboard() {
         var timer = setInterval(() => setDate(new Date(), 10000))
         return clearInterval(timer)
     }, [])
-    
+    const {invoice} = useSelector((state) => state.invoice) 
+    console.log(invoice)
     return(
         <div className="pageContainer">
             <header className="pageHeader">

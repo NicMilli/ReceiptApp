@@ -9,10 +9,12 @@ const {
     extractTotal
 } = require('../controllers/imagePyControllers')
 
-const { imageToFirestore
+const { 
+    imageToFirestore,
+    formToFirestore
 } = require('../controllers/invoiceControllers')
 
-// router.post('/', extractTotal)
 router.post('/image', parser, imageToFirestore, extractTotal)
+router.post('/form', formToFirestore)
 
 module.exports = router

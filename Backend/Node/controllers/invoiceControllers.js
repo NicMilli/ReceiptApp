@@ -35,6 +35,11 @@ const imageToFirestore = asyncHandler(async(req, res, next) => {
   }) 
 })
 
+const formToFirestore = asyncHandler(async(req, res) => {
+
+})
+
 module.exports = {
-    imageToFirestore
+    imageToFirestore,
+    formToFirestore
 }

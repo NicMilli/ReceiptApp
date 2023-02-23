@@ -4,34 +4,46 @@ import { FaFileUpload } from "react-icons/fa"
 import countryList from 'react-select-country-list'
 
 function InvoiceForm() {
+    const {invoice, isLoading, isSuccess, isError, message} = useSelector((state) => state.invoice) ;
+    const {user} = useSelector((state) => state.auth)
+    
     const [formData, setFormData] = useState({
         date: '',
         vendor: '',
         location: '',
         currency: '',
-        amount: 0,
+        amount: Number(invoice.total.replace('\r\n', '')),
         category: '',
         otherCategory:'',
-        comment: ''
+        comment: '',
+        url: ''
     })
 
     const dispatch = useDispatch()
 
-    const {user} = useSelector((state) => state.auth)
-    const {invoice, isLoading, isSuccess, isError, message} = useSelector((state) => state.invoice) ;
-    
     const options = useMemo(() => countryList().getData(), [])
     const countryLabels = options.map(option => option.label)
-    var {date, vendor, location, currency, amount, category, otherCategory, comment} = formData
+    var {date, vendor, location, currency, amount, category, otherCategory, comment, url} = formData
 
-    const onChange = async(e) => {
-        e.preventDefault()
+    const onChange = (e) => {
+        e.preventDefault() ;
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.id] : e.target.value
+        }))
     }
 
     const onSubmit = async(e) => {
-        e.preventDefault()
+        e.preventDefault() ;
     }
+
+    url = invoice.url ;
     
+    useEffect(() => {
+        console.log(invoice, amount)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []) ;
+
     return(
         <div className='pageContainer'>
         <header>

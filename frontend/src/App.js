@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from 'react-redux';
+import { persistor, store } from './app/store';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import WithNav from "./hooks/WithNav";
 import WithoutNav from "./hooks/WithoutNav";
@@ -21,6 +24,8 @@ import PrivateRoutes from "./components/PrivateRoutes";
 function App() {
   return (
     <>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <Router>
         <Routes>
           <Route element={<WithoutNav/>} >
@@ -32,9 +37,8 @@ function App() {
 
           <Route element={<WithNav />} >
             <Route element={<PrivateRoutes />} >
-              <Route path='/create-invoice/' element={<CreateInvoice />} >
-                <Route path='invoice-form' element={<InvoiceForm />} />
-              </ Route>
+              <Route path='create-invoice' exact element={<CreateInvoice />} />
+              <Route path='create-invoice/invoice-form' element={<InvoiceForm />} />
               <Route path='/employee-dashboard' element={<EmployeeDashboard />} /> 
               <Route path='/edit-invoices' element={<EditInvoices />} />
               <Route path='/view-invoices' element={<ViewInvoices />} />  
@@ -49,6 +53,8 @@ function App() {
       </Router>
 
       <ToastContainer />
+      </PersistGate>
+      </Provider>
     </>
   );
 }
