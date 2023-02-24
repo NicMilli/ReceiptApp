@@ -6,6 +6,7 @@ import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 import OAuth from "../components/OAuth"
 import { useDispatch, useSelector } from "react-redux"
 import { register, reset } from '../features/auth/authSlice'
+import { resetInvoice } from "../features/invoice/invoiceSlice"
 
 
 function SignUp() {
@@ -47,6 +48,7 @@ function SignUp() {
             toast.success(`Welcome to your InvoiceMe, ${name}`)
         }
         dispatch(reset())
+        dispatch(resetInvoice())
      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[dispatch, navigate, isError, isSuccess, user, message])
 

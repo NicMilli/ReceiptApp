@@ -30,11 +30,3 @@ def connect_py_DB():
 
     return db
 
-# def get_bucket(uuid_upgraded, array):
-#     firebase = firebase.FirebaseApplication(os.getenv('AUTH_DOMAIN'))
-#     client = storage.Client()
-#     bucket = client.get_bucket(os.getenv('STORAGE_BUCKET'))
-#     im_blob = bucket.blob(f'/{uuid_upgraded}upgraded')
-#     im_blob.upload_from_file(array.tobytes())
-
-#     return(im_blob.public_url)

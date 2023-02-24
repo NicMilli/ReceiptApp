@@ -9,10 +9,12 @@ const {
     extractTotal
 } = require('../controllers/imagePyControllers')
 
-const { imageToFirestore
+const { 
+    imageToFirestore,
+    formToFirebase
 } = require('../controllers/invoiceControllers')
 
-router.post('/', extractTotal)
-router.post('/image', parser, imageToFirestore)
+router.post('/image', parser, imageToFirestore, extractTotal)
+router.post('/form', formToFirebase)
 
 module.exports = router

@@ -6,6 +6,7 @@ import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 import OAuth from "../components/OAuth"
 import { useDispatch, useSelector } from "react-redux"
 import { login, reset } from '../features/auth/authSlice'
+import { resetInvoice } from "../features/invoice/invoiceSlice"
 
 
 function SignIn() {
@@ -40,7 +41,8 @@ function SignIn() {
             }
 
         dispatch(reset())
-        // }
+        dispatch(resetInvoice())
+        //
     }, [isError, isSuccess, user, message, navigate, dispatch])
 
     const onSubmit = (e) => {

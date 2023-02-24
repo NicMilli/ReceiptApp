@@ -3,8 +3,10 @@ const path = require('path')
 
 const extractTotal = asyncHandler(async(req, res, next) => {
     const spawn = require('child_process').spawn
-    const data = req.body
-    const stringifiedData = JSON.stringify(data)
+    const url = res.locals.data["url"]
+    const filename = res.locals.data["filename"]
+    // const data = req.body
+    const stringifiedData = JSON.stringify(url)
     // Child process to run the python functions to upgrade image for improved text recognition
     // and then extract the total from the upgraded receipt image
     // and then upload to firebase
@@ -18,8 +20,8 @@ const extractTotal = asyncHandler(async(req, res, next) => {
         console.error(`stderr: ${data}`)
     })
     py.on('close', (code) => {
-        res.status(201).json(result)
-        console.log(`exited with code ${code}`)
+        res.status(201).send({'total': result, "url": url, "filename": filename}) // if the number isn't able to be extracted, then its a set to zero
+        console.log(`exited with code ${code}`, 'result is', result)
     })
 
 })

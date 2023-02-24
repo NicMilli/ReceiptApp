@@ -1,55 +1,83 @@
 const asyncHandler = require('express-async-handler')
-const {getAuth, onAuthStateChanged} = require('firebase/auth')
-const { getStorage, ref,
-     uploadBytesResumable,
-    getDownloadURL} = require('firebase/storage')
-const { addDoc, collection, serverTimestamp } = require("firebase/firestore")
-const { db, auth } = require('../../Config/firebase.config.js')
-const {v4} = require('uuid')
+const fs = require('fs');
+const { 
+  ref,
+  uploadBytes,
+  getStorage,
+  getDownloadURL
+} = require('firebase/storage')
+const { 
+  doc,
+  setDoc, 
+  collection,
+  addDoc,
+  getDocs, 
+  query, 
+  where,
+  serverTimestamp  
+} = require("firebase/firestore"); 
+const { 
+  db,
+  auth
+} = require('../../Config/firebase.config.js')
+const { getAuth } = require('firebase/auth')
+// const os = require('os');
 
 
-const imageToFirestore = asyncHandler(async(req, res) => {
-  
+const imageToFirestore = asyncHandler(async(req, res, next) => {
   const fileArray = res.locals.data
+  fileArray.forEach(async(file) => { 
+    const metadata = {
+    contentType: file.mimeType
+    };
+    try {
+      const storage = getStorage() ;
+      const user = auth.currentUser ;
+      const id = user ? user.uid : "00000" // for now, if there is a problem getting the logged in userid (probably a state error on code recompile), just use 00000 as the identifier
+      const storageRef = ref(storage, `/images/${id}/${file.newFilename}`) ;
+      const uploadTask = uploadBytes(storageRef, fs.readFileSync(file.filePath), metadata).then((snapshot) => {
+        getDownloadURL(storageRef).then(url => {
+          res.locals.data = {"url": url, "filename": file.newFilename} ; // send the url on to the next function (python OCR)
+          next() ; 
+        }) ;
+      }) ;
+    } catch (error) {
+        console.log(error)
+        res.status(400).send('Could not upload image. Please contact InvoiceMe.')
+        throw new Error(error);
+    }
+  }) 
+})
 
-  console.log('made is to the controller, file is', res.locals.data)
-
-  // fileArray.forEach((file) => {
-  //   try {
-  //     const storage = getStorage()
-  //     const fileName = `${v4()}`
-  
-  //     const metadata = {
-  //       contentType: file.mimeType
-  //     };
-  
-  //     const storageRef = ref(storage, 'images/' + fileName)
-  //     const uploadTask = uploadBytesResumable(storageRef, file.filePath, metadata)
-  
-  //     uploadTask.on('state_changed', 
-  //     (snapshot) => {console.log(snapshot.bytesTransferred)},
-  //     (error) => {
-  //       res.status(418).send('Could not upload file. Please contact InvoiceMe.')
-  //       throw new Error(error)
-  //     }, 
-  //     () => {
-  //       // Handle successful uploads on complete
-  //       // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-  //       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-  //       res.status(200).send(downloadURL)
-  //       })
-  //     }
-  //     )
-  //   }
-  //   catch(error) {
-  //     console.log(error)
-  //     throw new Error('Could not upload image. Please contact InvoiceMe.')
-  //   }
-
-  // })
+const formToFirebase = asyncHandler(async(req, res) => {
+  try {
+    auth.onAuthStateChanged((user) => {
+      var user = user ;
+    })
+    const user = auth.currentUser ;
+    let userId;
+    if (user !== null) {
+      userId = user.uid ;
+    } else {
+      const q = await query(collection(db, "users"), where("email", "==", req.body.email)) ;
+      const queryDoc = await getDocs(q) ;
+      userId = queryDoc.docs[0].id ; 
+    }
+    req.body.userKey = userId ;
+    delete req.body.name ;
+    delete req.body.email ;
+    // const newReceiptDoc = await setDoc(doc(db, "invoices", req.body.invoiceId), {"timestamp": serverTimestamp()})
+    const newDoc = await setDoc(doc(db, "invoices", req.body.invoiceId), req.body)
+    
+    res.status(200).send("Success")
+  } catch (error) {
+    res.status(401).send("Could not upload invoice. Please contact InvoiceMe for help.")
+    throw new Error(error, error.stack)
+  }
   
 })
 
 module.exports = {
-    imageToFirestore
+    imageToFirestore,
+    formToFirebase
 }

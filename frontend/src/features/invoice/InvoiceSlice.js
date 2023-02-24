@@ -6,29 +6,41 @@ const initialState = {
     isLoading: false,
     isSuccess: false,
     isError: false,
+    isFormDone: false,
     message: ''
 }
 
 export const createInvoice = createAsyncThunk('invoice/createInvoice', 
     async(file, thunkAPI) => {
-        console.log('formData in slice', file)
         try {
-            return await invoiceService.createInvoice(file)
+            return await invoiceService.createInvoice(file) ;
         } catch(error) {
-            const message = (error.response.data) 
-            return thunkAPI.rejectWithValue(message)       
+            const message = (error.response.data) ;
+            return thunkAPI.rejectWithValue(message) ;      
         }
 })
+
+export const uploadInvoiceForm = createAsyncThunk('invoice/uploadInvoiceForm',
+    async(form, thunkAPI) => {
+            try {
+                return await invoiceService.uploadInvoiceForm(form) ;
+            } catch (error) {
+                const message = (error.response.data) ;
+                return thunkAPI.rejectWithValue(message) ;
+            }
+    }
+)
 
 export const invoiceSlice = createSlice({
     name:'invoice',
     initialState,
     reducers: {
-        reset: (state) => {
+        resetInvoice: (state) => {
             state.invoice = {}
             state.isLoading = false
             state.isError = false
             state.isSuccess = false
+            state.isFormDone = false
         }
     },
     extraReducers(builder) {
@@ -46,9 +58,22 @@ export const invoiceSlice = createSlice({
                 state.invoice = action.payload
                 state.isSuccess = true
             })
+            .addCase(uploadInvoiceForm.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.isFormDone = true
+            })
+            .addCase(uploadInvoiceForm.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(uploadInvoiceForm.pending, (state, action) => {
+                state.isLoading = true
+            })
     }
 })
 
 
-export const { reset } = invoiceSlice.actions
+export const { resetInvoice } = invoiceSlice.actions
 export default invoiceSlice.reducer

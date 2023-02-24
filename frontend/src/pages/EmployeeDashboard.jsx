@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react'
 import { FaReceipt, FaFileInvoice, FaFileUpload, FaEdit } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import { resetInvoice } from "../features/invoice/invoiceSlice"
+import { useDispatch } from 'react-redux'
+
 
 function EmployeeDashboard() {
     var [date, setDate] = useState(new Date())
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     useEffect(() => {
+        dispatch(resetInvoice()) //setting other invoice state variables to original state when you go back to dashboard
         var timer = setInterval(() => setDate(new Date(), 10000))
         return clearInterval(timer)
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    
+   
     return(
         <div className="pageContainer">
             <header className="pageHeader">

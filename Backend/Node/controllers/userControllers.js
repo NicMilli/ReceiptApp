@@ -1,7 +1,20 @@
-const {db, auth} = require('../../Config/firebase.config')
+const {
+    db, 
+    auth
+} = require('../../Config/firebase.config')
 const asyncHandler = require('express-async-handler')
-const { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } = require('firebase/auth')
-const { doc, getDoc, setDoc, updateDoc, serverTimestamp } = require ('firebase/firestore')
+const { 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    updateProfile 
+} = require('firebase/auth')
+const { 
+    doc, 
+    getDoc, 
+    setDoc, 
+    updateDoc, 
+    serverTimestamp 
+} = require ('firebase/firestore')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -10,9 +23,8 @@ const loginUser = asyncHandler(async(req, res) => {
     let password
     res.locals.data ?
         {email, password} = res.locals.data :
-        {email, password } = req.body
+        {email, password} = req.body
 
-    console.log(email, password)
     try {
         const userCredential = await signInWithEmailAndPassword
         (auth, email, password)
@@ -20,6 +32,8 @@ const loginUser = asyncHandler(async(req, res) => {
         const docRef = doc(db, "users", auth.currentUser.uid)
         const token = generateToken(auth.currentUser.uid)
         await updateDoc(docRef, {token: token})
+
+        const authToken = auth.currentUser.getIdToken()
 
         const docSnap = await getDoc(docRef)
         const userData = docSnap.data()
@@ -61,7 +75,6 @@ const registerUser = asyncHandler(async(req, res, next) => {
 
         await setDoc(doc(db, "users", user.uid), formDataCopy)
         console.log('success')
-        // res.status(200).json(userCredential.user)
         res.locals.data = {'email': email, 'password': password}
         next()
 
@@ -100,8 +113,7 @@ const checkStatus = asyncHandler(async(req, res) => {
             }
         } catch (error) {
             // Faulty token - can't decode
-            res.status(401)
-            console.log(error)
+            res.status(401).send('Could not validate user token. Please sign in again.')
             throw new Error('Not Authorized')
         }
     }

@@ -16,8 +16,8 @@ async (user, thunkAPI) => {
     try {
         return await authService.login(user)
     } catch (error) {
-        const message = (error.response.data) 
-        return thunkAPI.rejectWithValue(message)       
+        const message = error.response.data 
+        return thunkAPI.rejectWithValue(message.toString())       
         }
     }
 )
@@ -31,18 +31,17 @@ export const register = createAsyncThunk('auth/register', async(formData, thunkA
     try {
         return await authService.register(formData)
     } catch (error) {
-        const message = error.response.data
+        const message = error.response.data 
         return thunkAPI.rejectWithValue(message.toString())
     }
 })
 
 
-export const checkStatus = createAsyncThunk('auth/checkStatus', async(thunkAPI,{ getState}) =>{
+export const checkStatus = createAsyncThunk('auth/checkStatus', async(thunkAPI,{getState}) =>{
     const state = getState()
     const token = state.auth.user.token
     try {
         const response =  await authService.checkStatus(token)
-        // console.log(response)
         return response
     } catch (error) {
         const message = error.response.data
@@ -59,8 +58,7 @@ export const authSlice = createSlice({
             state.isLoading = false
             state.isError = false
             state.isSuccess = false
-            state.message = ''
-            
+            state.message = ''  
         }
     },
     extraReducers: (builder) =>{

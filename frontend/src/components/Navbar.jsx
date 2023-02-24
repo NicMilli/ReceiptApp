@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { FaSignOutAlt, FaBookmark, FaUserCircle} from 'react-icons/fa'
 import { useDispatch } from "react-redux"
 import { logout, reset } from "../features/auth/authSlice"
+import { resetInvoice } from "../features/invoice/invoiceSlice"
 
 import { toast } from "react-toastify"
 
@@ -19,6 +20,7 @@ function Navbar() {
     const clickLogout = () => {
         dispatch(logout())
         dispatch(reset())
+        dispatch(resetInvoice())
         toast.success('Signout Successful')
         navigate('/sign-out')
     }

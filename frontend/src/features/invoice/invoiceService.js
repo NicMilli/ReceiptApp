@@ -3,29 +3,34 @@ import axios from "axios"
 const API_URL = "/api/invoice/"
 
 const createInvoice = async(file) => {
-  console.log('in service now', file)
     var formData = new FormData()
-    formData.append('image', file)
-    for (var fd of formData) {
-      console.log('fd is', fd)
-    }
+    formData.append('image', file);
     const response = await axios.post(API_URL + 'image', formData, 
     {
         headers: { 
           'Content-Type': 'multipart/form-data'
-          //, getHeaders()?
         }
       }
-      )
-
+    )
     if (response.data) {
-    localStorage.setItem('invoice', JSON.stringify(response.data))
+      localStorage.setItem('invoice', JSON.stringify(response.data)) //if image succesfully uploaded, store the URL, filename, and total amount. 
     }
     return response.data
 }
 
+const uploadInvoiceForm = async(form) => {
+  const response = await axios.post(API_URL + 'form', form)
+
+  if (response.data) {
+    localStorage.removeItem('invoice') // Once we've successfully uploaded an invoice to the database, go ahead and delete it from local storage
+  }
+  return response.data
+}
+
+
 const invoiceService = {
-    createInvoice 
+    createInvoice,
+    uploadInvoiceForm 
 }
 
 export default invoiceService
