@@ -1,7 +1,20 @@
-const {db, auth} = require('../../Config/firebase.config')
+const {
+    db, 
+    auth
+} = require('../../Config/firebase.config')
 const asyncHandler = require('express-async-handler')
-const { signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } = require('firebase/auth')
-const { doc, getDoc, setDoc, updateDoc, serverTimestamp } = require ('firebase/firestore')
+const { 
+    signInWithEmailAndPassword, 
+    createUserWithEmailAndPassword, 
+    updateProfile 
+} = require('firebase/auth')
+const { 
+    doc, 
+    getDoc, 
+    setDoc, 
+    updateDoc, 
+    serverTimestamp 
+} = require ('firebase/firestore')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -19,6 +32,8 @@ const loginUser = asyncHandler(async(req, res) => {
         const docRef = doc(db, "users", auth.currentUser.uid)
         const token = generateToken(auth.currentUser.uid)
         await updateDoc(docRef, {token: token})
+
+        const authToken = auth.currentUser.getIdToken()
 
         const docSnap = await getDoc(docRef)
         const userData = docSnap.data()

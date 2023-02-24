@@ -5,7 +5,6 @@ import { FaFileUpload } from "react-icons/fa"
 import { createInvoice } from '../features/invoice/invoiceSlice'
 import LoadingIcons from 'react-loading-icons'
 import { toast } from 'react-toastify'
-import FormData from 'form-data'
 
 
 function CreateInvoice() {
@@ -25,14 +24,15 @@ function CreateInvoice() {
     const onSubmit = async(e) => {
         e.preventDefault()
         // run service that handles files and returns the total amount.
-        // console.log("image sent from page is", images)
+        
         dispatch(createInvoice(images)) 
     }
 
     useEffect(() => {
         if (isMounted) {
-            console.log(invoice, message, isLoading, isSuccess) ;
+           
         }
+
         if(isError) {
             toast.error(message);
         } ;

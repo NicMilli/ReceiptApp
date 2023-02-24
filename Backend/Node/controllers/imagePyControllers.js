@@ -3,7 +3,8 @@ const path = require('path')
 
 const extractTotal = asyncHandler(async(req, res, next) => {
     const spawn = require('child_process').spawn
-    const url = res.locals.data
+    const url = res.locals.data["url"]
+    const filename = res.locals.data["filename"]
     // const data = req.body
     const stringifiedData = JSON.stringify(url)
     // Child process to run the python functions to upgrade image for improved text recognition
@@ -19,7 +20,7 @@ const extractTotal = asyncHandler(async(req, res, next) => {
         console.error(`stderr: ${data}`)
     })
     py.on('close', (code) => {
-        res.status(201).send({'total': result, "url": url}) // if the number isn't able to be extracted, then its a set to zero
+        res.status(201).send({'total': result, "url": url, "filename": filename}) // if the number isn't able to be extracted, then its a set to zero
         console.log(`exited with code ${code}`, 'result is', result)
     })
 

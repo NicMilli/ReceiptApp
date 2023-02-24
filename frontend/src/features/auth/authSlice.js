@@ -37,7 +37,7 @@ export const register = createAsyncThunk('auth/register', async(formData, thunkA
 })
 
 
-export const checkStatus = createAsyncThunk('auth/checkStatus', async(thunkAPI,{ getState}) =>{
+export const checkStatus = createAsyncThunk('auth/checkStatus', async(thunkAPI,{getState}) =>{
     const state = getState()
     const token = state.auth.user.token
     try {
