@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useState, useRef, useEffect} from "react"
 import { useNavigate } from 'react-router-dom'
 import { FaFileUpload } from "react-icons/fa"
-import { createInvoice } from '../features/invoice/invoiceSlice'
+import { createInvoice } from '../features/invoice/InvoiceSlice'
 import LoadingIcons from 'react-loading-icons'
 import { toast } from 'react-toastify'
 

@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { FaSignOutAlt, FaBookmark, FaUserCircle} from 'react-icons/fa'
 import { useDispatch } from "react-redux"
 import { logout, reset } from "../features/auth/authSlice"
-import { resetInvoice } from "../features/invoice/invoiceSlice"
+import { resetInvoice } from "../features/invoice/InvoiceSlice"
 
 import { toast } from "react-toastify"
 

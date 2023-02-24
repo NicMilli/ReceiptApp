@@ -6,7 +6,7 @@ import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 import OAuth from "../components/OAuth"
 import { useDispatch, useSelector } from "react-redux"
 import { login, reset } from '../features/auth/authSlice'
-import { resetInvoice } from "../features/invoice/invoiceSlice"
+import { resetInvoice } from "../features/invoice/InvoiceSlice"
 
 
 function SignIn() {

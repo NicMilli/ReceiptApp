@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { useState, useMemo, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
-import { uploadInvoiceForm, resetInvoice } from "../features/invoice/invoiceSlice"
+import { uploadInvoiceForm } from "../features/invoice/InvoiceSlice"
 import { FaFileUpload } from "react-icons/fa"
 import { toast } from 'react-toastify'
 import countryList from 'react-select-country-list'

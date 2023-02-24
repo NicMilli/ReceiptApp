@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { FaReceipt, FaFileInvoice, FaFileUpload, FaEdit } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
-import { resetInvoice } from "../features/invoice/invoiceSlice"
+import { resetInvoice } from "../features/invoice/InvoiceSlice"
 import { useDispatch } from 'react-redux'
 
 

@@ -66,6 +66,7 @@ const formToFirebase = asyncHandler(async(req, res) => {
     req.body.userKey = userId ;
     delete req.body.name ;
     delete req.body.email ;
+    req.body.timestamp = serverTimestamp()
     // const newReceiptDoc = await setDoc(doc(db, "invoices", req.body.invoiceId), {"timestamp": serverTimestamp()})
     const newDoc = await setDoc(doc(db, "invoices", req.body.invoiceId), req.body)
     

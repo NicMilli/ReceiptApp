@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import authReducer from '../features/auth/authSlice'
-import invoiceReducer from '../features/invoice/invoiceSlice'
+import invoiceReducer from '../features/invoice/InvoiceSlice'
 import storage from 'redux-persist/lib/storage';
 import {
     persistReducer, 
