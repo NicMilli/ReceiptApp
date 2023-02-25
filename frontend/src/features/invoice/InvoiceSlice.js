@@ -87,7 +87,7 @@ export const invoiceSlice = createSlice({
             .addCase(viewInvoices.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.isFormDone = true
+                state.isViewsDone = true
                 state.invoice = action.payload // set the invoice store to the array of invoice objects that match query parameters 
             })
             .addCase(viewInvoices.rejected, (state, action) => {

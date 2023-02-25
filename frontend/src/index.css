@@ -78,6 +78,7 @@ button:hover {
 }
 @media (min-width: 1024px) {
   .pageContainer,
+  .invoiceNoteContainer
   .offers,
   .profile {
     margin: 3rem;
@@ -125,6 +126,30 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   position: inherit;
+}
+
+.invoiceNoteContainer {
+  padding: 1rem;
+  margin-bottom: 4rem;
+  margin-top: 3rem;
+  background-color: #ffffff;
+  border-radius: 2rem ;
+  width: 60%;
+}
+.invoiceNoteHeader{
+  font-size: 1.5rem;
+  font-weight: 700;
+  align-self: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+}
+
+.noteInput {
+  padding: 1rem;
+  font-size: 1rem;
+  display: grid;
+  line-height: 5%;
 }
 
 button,

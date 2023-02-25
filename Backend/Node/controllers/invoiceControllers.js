@@ -82,8 +82,8 @@ const viewInvoices = asyncHandler(async(req, res) => {
       userId = user.uid ;
     } else {
       const q = await query(collection(db, "users"), where("email", "==", req.body.email)) ;
-      const queryDoc = await getDocs(q) ;
-      userId = queryDoc.docs[0].id ; 
+      const queryUserDoc = await getDocs(q) ;
+      var userId = queryUserDoc.docs[0].id ; 
     }
     var from = new Date(req.body.dateFrom)
     var to = new Date(req.body.dateTo)

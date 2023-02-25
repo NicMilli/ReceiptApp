@@ -37,11 +37,12 @@ function ViewInvoices() {
             dispatch(viewInvoices({"dateFrom": new Date(dateFrom), "dateTo": new Date(dateTo), "email": user.email}));
         }
     }
-    
+    console.log(invoice)
     useEffect(() => {
-        console.log(invoice)
+
         if(isViewsDone && invoice) {
             setView(true) ;
+            console.log(Date(invoice[0].date.seconds))
         };
         if(isError) {
             toast.error(message)
@@ -91,10 +92,23 @@ function ViewInvoices() {
                         />
                     <button type='submit' className="submitButton">Submit</button>
                 </form>
-                <div>
-                    {view && <p>hi</p>
-                    }
-                </div>
+                <div> {view && <p>Invoices found for query dates {new Date(dateFrom).toDateString()} to {new Date(dateTo).toDateString()} for {user.name}</p>}
+                    {view && invoice.map((item, id) => ( 
+                    <div className="invoiceNoteContainer" key={id}>
+                        <header className="invoiceNoteHeader">{Date(item.date.seconds).toString()}</header>
+                            <div className="noteInput">
+                                <p>Category: {item.category}</p>
+                                <p>Location: {item.location}</p>
+                                <p>Vendor: {item.vendor}</p>
+                                <p>Currency: {item.currency}</p>
+                                <p>Amount: {item.amount}</p>
+                            </div>
+                            
+                            
+                    </div>
+                    ))
+                    } 
+               </div>
             </main>
         </div>
     )
