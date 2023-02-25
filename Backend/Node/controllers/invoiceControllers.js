@@ -43,7 +43,6 @@ const imageToFirestore = asyncHandler(async(req, res, next) => {
         }) ;
       }) ;
     } catch (error) {
-        console.log(error)
         res.status(400).send('Could not upload image. Please contact InvoiceMe.')
         throw new Error(error);
     }
@@ -52,9 +51,6 @@ const imageToFirestore = asyncHandler(async(req, res, next) => {
 
 const formToFirebase = asyncHandler(async(req, res) => {
   try {
-    // auth.onAuthStateChanged((user) => {
-    //   var user = user ;
-    // })
     const user = auth.currentUser ;
     let userId;
     if (user !== null) {
@@ -64,12 +60,12 @@ const formToFirebase = asyncHandler(async(req, res) => {
       const queryDoc = await getDocs(q) ;
       userId = queryDoc.docs[0].id ; 
     }
-    // req.body.userKey = userId ;
+
     delete req.body.name ;
     delete req.body.email ;
     req.body.timestamp = serverTimestamp()
-    req.body.date = Timestamp.fromDate(new Date (req.body.date))
-    // const newDoc = await setDoc(doc(db, "invoices", req.body.invoiceId), req.body)
+    req.body.date = Timestamp.fromDate(new Date(req.body.date))
+
     const newDoc = await addDoc(collection(db, "users", userId, "invoices"), req.body)
     res.status(200).send("Success")
   } catch (error) {
@@ -89,12 +85,20 @@ const viewInvoices = asyncHandler(async(req, res) => {
       const queryDoc = await getDocs(q) ;
       userId = queryDoc.docs[0].id ; 
     }
-    console.log(userId, req.body)
+    var from = new Date(req.body.dateFrom)
+    var to = new Date(req.body.dateTo)
 
-    const q = await query(collection(db, "users", userId, "invoices"), where("date", "<=" ,req.body.dates.datePrior), where("date", ">=" ,req.body.dates.datePost))
+    const q = await query(collection(db, "users", userId, "invoices"), where("date", ">=", from), where("date", "<=" , to))
     const queryDoc = await getDocs(q)
-    console.log(queryDoc.docs)
-    res.status(200).send(req.body)
+
+    var queryData = []
+    queryDoc.forEach(doc => {
+      d = doc.data()
+      queryData.push({date: d.date, category: d.category, comment: d.comment, location: d.location, 
+      currency: d.currency, amount: d.amount, otherCategory: d.otherCategory, vendor: d.vendor})
+    })
+
+    res.status(200).send(queryData)
   } catch (error) {
     res.status(400).send('Could not retrieve any invoices for the dates selected. If you believe this is an error, please contact InvoiceMe.')
     throw new Error(error)

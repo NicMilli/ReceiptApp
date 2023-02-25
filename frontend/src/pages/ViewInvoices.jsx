@@ -5,21 +5,21 @@ import { viewInvoices } from "../features/invoice/InvoiceSlice";
 import LoadingIcons from 'react-loading-icons'
 import { toast } from 'react-toastify'
 
-function ViewInvoices({}) {
+function ViewInvoices() {
     const [dates, setDates] = useState({
-        datePrior: 10000,
-        datePost: 0
+        dateFrom: new Date(),
+        dateTo: Date.now()
     }) ;
     const [view, setView] = useState(false)
 
-    var {datePrior, datePost} = dates ;
+    var {dateFrom, dateTo} = dates ;
 
     const { invoice, isViewsDone, isError, isLoading, message } = useSelector((state) => state.invoice) ;
     const { user } = useSelector((state) => state.auth) ;
     const dispatch = useDispatch() ;
 
     const onChange = (e) => {
-        e.preventDefault() 
+        e.preventDefault() ;
         setDates((prevState) => ({
            ...prevState,
             [e.target.id] : e.target.value
@@ -29,15 +29,13 @@ function ViewInvoices({}) {
 
     const onSubmit = (e) => {
         e.preventDefault() ;
-        console.log('dates are', dates)
-        if(datePrior > datePost) {
+    
+        if(dateFrom > dateTo) {
             toast.error('Please enter your dates in the correct order.') 
         }
-        else if (datePrior <= datePost) {
-            console.log(user.email)
-            dispatch(viewInvoices({"dates": dates, "email": user.email}));
+        else if (dateFrom <= dateTo) {
+            dispatch(viewInvoices({"dateFrom": new Date(dateFrom), "dateTo": new Date(dateTo), "email": user.email}));
         }
-       
     }
     
     useEffect(() => {
@@ -45,6 +43,9 @@ function ViewInvoices({}) {
         if(isViewsDone && invoice) {
             setView(true) ;
         };
+        if(isError) {
+            toast.error(message)
+        }
          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isViewsDone, invoice, isError, message])
 
@@ -74,8 +75,8 @@ function ViewInvoices({}) {
                         <input type="date"
                             className="calendarInput"
                             placeholder='YYYY-MM-DD'
-                            id='datePrior'
-                            value={datePrior}
+                            id='dateFrom'
+                            value={dateFrom}
                             onChange={onChange}
                             required
                         />
@@ -83,13 +84,17 @@ function ViewInvoices({}) {
                     <input type="date"
                             className="calendarInput"
                             placeholder='YYYY-MM-DD'
-                            id='datePost'
-                            value={datePost}
+                            id='dateTo'
+                            value={dateTo}
                             onChange={onChange}
                             required
                         />
                     <button type='submit' className="submitButton">Submit</button>
                 </form>
+                <div>
+                    {view && <p>hi</p>
+                    }
+                </div>
             </main>
         </div>
     )
