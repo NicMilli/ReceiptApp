@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import countryList from 'react-select-country-list'
 
 function InvoiceForm() {
-    var {invoice, isLoading, isSuccess, isError, message, isFormDone} = useSelector((state) => state.invoice) ;
+    var {invoice, isLoading, isError, message, isFormDone} = useSelector((state) => state.invoice) ;
     var {user} = useSelector((state) => state.auth)
     const navigate = useNavigate() ;
 
@@ -38,6 +38,7 @@ function InvoiceForm() {
 
     const onChange = (e) => {
         e.preventDefault() ;
+       
         setFormData((prevState) => ({
             ...prevState,
             [e.target.id] : e.target.value
@@ -60,7 +61,7 @@ function InvoiceForm() {
             navigate('/employee-dashboard')
         } ;
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [invoice, isLoading, isError, isSuccess, message, isFormDone]) ;
+    }, [invoice, isLoading, isError, message, isFormDone]) ;
 
     return(
         <div className='pageContainer'>

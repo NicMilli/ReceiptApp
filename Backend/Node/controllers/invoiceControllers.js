@@ -14,7 +14,8 @@ const {
   getDocs, 
   query, 
   where,
-  serverTimestamp  
+  serverTimestamp,
+  Timestamp
 } = require("firebase/firestore"); 
 const { 
   db,
@@ -51,9 +52,9 @@ const imageToFirestore = asyncHandler(async(req, res, next) => {
 
 const formToFirebase = asyncHandler(async(req, res) => {
   try {
-    auth.onAuthStateChanged((user) => {
-      var user = user ;
-    })
+    // auth.onAuthStateChanged((user) => {
+    //   var user = user ;
+    // })
     const user = auth.currentUser ;
     let userId;
     if (user !== null) {
@@ -63,22 +64,45 @@ const formToFirebase = asyncHandler(async(req, res) => {
       const queryDoc = await getDocs(q) ;
       userId = queryDoc.docs[0].id ; 
     }
-    req.body.userKey = userId ;
+    // req.body.userKey = userId ;
     delete req.body.name ;
     delete req.body.email ;
     req.body.timestamp = serverTimestamp()
-    // const newReceiptDoc = await setDoc(doc(db, "invoices", req.body.invoiceId), {"timestamp": serverTimestamp()})
-    const newDoc = await setDoc(doc(db, "invoices", req.body.invoiceId), req.body)
-    
+    req.body.date = Timestamp.fromDate(new Date (req.body.date))
+    // const newDoc = await setDoc(doc(db, "invoices", req.body.invoiceId), req.body)
+    const newDoc = await addDoc(collection(db, "users", userId, "invoices"), req.body)
     res.status(200).send("Success")
   } catch (error) {
     res.status(401).send("Could not upload invoice. Please contact InvoiceMe for help.")
-    throw new Error(error, error.stack)
+    throw new Error(error)
   }
   
 })
 
+const viewInvoices = asyncHandler(async(req, res) => {
+  try {
+    const user = auth.currentUser ;
+    if (user !== null) {
+      userId = user.uid ;
+    } else {
+      const q = await query(collection(db, "users"), where("email", "==", req.body.email)) ;
+      const queryDoc = await getDocs(q) ;
+      userId = queryDoc.docs[0].id ; 
+    }
+    console.log(userId, req.body)
+
+    const q = await query(collection(db, "users", userId, "invoices"), where("date", "<=" ,req.body.dates.datePrior), where("date", ">=" ,req.body.dates.datePost))
+    const queryDoc = await getDocs(q)
+    console.log(queryDoc.docs)
+    res.status(200).send(req.body)
+  } catch (error) {
+    res.status(400).send('Could not retrieve any invoices for the dates selected. If you believe this is an error, please contact InvoiceMe.')
+    throw new Error(error)
+  }
+})
+
 module.exports = {
     imageToFirestore,
-    formToFirebase
+    formToFirebase,
+    viewInvoices
 }

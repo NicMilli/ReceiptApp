@@ -11,10 +11,12 @@ const {
 
 const { 
     imageToFirestore,
-    formToFirebase
+    formToFirebase,
+    viewInvoices
 } = require('../controllers/invoiceControllers')
 
 router.post('/image', parser, imageToFirestore, extractTotal)
 router.post('/form', formToFirebase)
+router.post('/view', viewInvoices)
 
 module.exports = router

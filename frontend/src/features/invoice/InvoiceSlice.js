@@ -7,6 +7,7 @@ const initialState = {
     isSuccess: false,
     isError: false,
     isFormDone: false,
+    isViewsDone: false,
     message: ''
 }
 
@@ -31,6 +32,17 @@ export const uploadInvoiceForm = createAsyncThunk('invoice/uploadInvoiceForm',
     }
 )
 
+export const viewInvoices = createAsyncThunk('invoice/viewInvoices', 
+    async(dates, thunkAPI) => {
+        try {
+            return await invoiceService.viewInvoices(dates) ;
+        } catch (error) {
+            const message = (error.response.data) ;
+            return thunkAPI.rejectWithValue(message) ;
+        }   ;
+    } 
+) ;
+
 export const invoiceSlice = createSlice({
     name:'invoice',
     initialState,
@@ -41,6 +53,7 @@ export const invoiceSlice = createSlice({
             state.isError = false
             state.isSuccess = false
             state.isFormDone = false
+            state.isViewsDone = false
         }
     },
     extraReducers(builder) {
@@ -69,6 +82,20 @@ export const invoiceSlice = createSlice({
                 state.message = action.payload
             })
             .addCase(uploadInvoiceForm.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(viewInvoices.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.isFormDone = true
+                state.invoice = action.payload // set the invoice store to the array of invoice objects that match query parameters 
+            })
+            .addCase(viewInvoices.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(viewInvoices.pending, (state, action) => {
                 state.isLoading = true
             })
     }

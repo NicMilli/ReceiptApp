@@ -1,5 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { useAuthStatus } from "../hooks/useAuthStatus"
+import { useSelector } from "react-redux"
+import { memo } from "react"
 
 const PrivateRoutes = () => {
 
@@ -14,10 +16,10 @@ const PrivateRoutes = () => {
         </header>
       </div>
   }
-
+ 
   return (
     loggedIn ? <Outlet /> : <Navigate to='/sign-in'/>
   )
 }
 
-export default PrivateRoutes
+export default memo(PrivateRoutes)

@@ -14,15 +14,14 @@ export const useAuthStatus = () => {
     useEffect(() => {
         const checkMount = async() => { 
             await dispatch(checkStatus())
-
-            if(isSuccess){
+            console.log('from useAuthStatus, user is', user)
+            if(isSuccess && user){    
                 setLoggedIn(true)
                 setCheckingStatus(false)
             } else if (isError) {
                 setLoggedIn(false)
                 setCheckingStatus(false)
             }
-            
         }
         
         if(isMounted) {

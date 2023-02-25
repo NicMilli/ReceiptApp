@@ -27,10 +27,21 @@ const uploadInvoiceForm = async(form) => {
   return response.data
 }
 
+const viewInvoices = async(dates) => {
+  const response = await axios.post(API_URL + 'view', dates) ;
+  console.log(response.data)
+  if (response.data) {
+    
+    localStorage.setItem('invoice') ; // If there was no error, set the local storage to all the invoices that matched the query parameters
+  } ;
+  return response.data ;
+} ;
+
 
 const invoiceService = {
     createInvoice,
-    uploadInvoiceForm 
+    uploadInvoiceForm,
+    viewInvoices
 }
 
 export default invoiceService

@@ -40,8 +40,8 @@ function App() {
               <Route path='create-invoice' exact element={<CreateInvoice />} />
               <Route path='create-invoice/invoice-form' element={<InvoiceForm />} />
               <Route path='/employee-dashboard' element={<EmployeeDashboard />} /> 
-              <Route path='/edit-invoices' element={<EditInvoices />} />
-              <Route path='/view-invoices' element={<ViewInvoices />} />  
+              <Route path='/edit-invoices' element={<EditInvoices />} /> 
+              <Route path='/view-invoices' element={<ViewInvoices />} /> 
             </Route>     
             <Route path='/forgot-password' element={<ForgotPassword/>} />
             <Route path='/sign-out' element={<SignOut />} />
