@@ -9,13 +9,15 @@ const {
 const { 
   doc,
   setDoc, 
+  getDoc,
   collection,
   addDoc,
   getDocs, 
   query, 
   where,
   serverTimestamp,
-  Timestamp
+  Timestamp,
+  collectionGroup
 } = require("firebase/firestore"); 
 const { 
   db,
@@ -88,9 +90,16 @@ const viewInvoices = asyncHandler(async(req, res) => {
     var from = new Date(req.body.dateFrom)
     var to = new Date(req.body.dateTo)
 
-    const q = await query(collection(db, "users", userId, "invoices"), where("date", ">=", from), where("date", "<=" , to))
+    if(req.body.position === 'admin') {
+      var reference = collectionGroup(db, "invoices")
+    } else { 
+      var reference = collection(db, "users", userId, "invoices")
+    }
+
+    const q = await query(reference, where("date", ">=", from), where("date", "<=" , to))
     const queryDoc = await getDocs(q)
 
+    console.log(employeeNames)
     var queryData = []
     queryDoc.forEach(doc => {
       d = doc.data()

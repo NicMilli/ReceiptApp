@@ -34,10 +34,10 @@ function ViewInvoices() {
             toast.error('Please enter your dates in the correct order.') 
         }
         else if (dateFrom <= dateTo) {
-            dispatch(viewInvoices({"dateFrom": new Date(dateFrom), "dateTo": new Date(dateTo), "email": user.email}));
+            dispatch(viewInvoices({"dateFrom": new Date(dateFrom), "dateTo": new Date(dateTo), "email": user.email, "position": user.position}));
         }
     }
-    console.log(invoice)
+
     useEffect(() => {
 
         if(isViewsDone && invoice) {
