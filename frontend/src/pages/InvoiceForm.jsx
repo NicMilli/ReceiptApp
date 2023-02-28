@@ -47,7 +47,6 @@ function InvoiceForm() {
 
     const onSubmit = async(e) => {
         e.preventDefault() ;
-        console.log('On submit, e.target is', e.target, 'formData is', formData) ;
         dispatch(uploadInvoiceForm(formData)) ;
     }
    

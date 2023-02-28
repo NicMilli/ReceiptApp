@@ -42,7 +42,6 @@ function ViewInvoices() {
 
         if(isViewsDone && invoice) {
             setView(true) ;
-            console.log(Date(invoice[0].date.seconds))
         };
         if(isError) {
             toast.error(message)

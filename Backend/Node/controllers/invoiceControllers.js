@@ -65,9 +65,9 @@ const formToFirebase = asyncHandler(async(req, res) => {
       userId = queryDoc.docs[0].id ;
     }
 
-    delete req.body.name ;
     delete req.body.email ;
     req.body.timestamp = serverTimestamp();
+    req.body.compensated = false ;
     req.body.date = Timestamp.fromDate(new Date(req.body.date));
 
     const newDoc = await addDoc(collection(db, "users", userId, "invoices"), req.body);
@@ -98,9 +98,7 @@ const viewInvoices = asyncHandler(async(req, res) => {
     } else {
       var reference = collection(db, "users", userId, "invoices");
     }
-    console.log(from)
-    console.log(to)
-
+   
     const q = await query(reference, where("date", ">=", from), where("date", "<=" , to))
     const queryDoc = await getDocs(q)
 
@@ -108,9 +106,8 @@ const viewInvoices = asyncHandler(async(req, res) => {
     queryDoc.forEach(doc => {
       d = doc.data()
       queryData.push({date: d.date, category: d.category, comment: d.comment, location: d.location, 
-      currency: d.currency, amount: d.amount, otherCategory: d.otherCategory, vendor: d.vendor, compensated: false})
+      currency: d.currency, amount: d.amount, otherCategory: d.otherCategory, vendor: d.vendor})
     })
-    console.log(queryData)
 
     res.status(200).send(queryData)
   } catch (error) {
