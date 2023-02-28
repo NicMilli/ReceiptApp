@@ -9,6 +9,7 @@ import WithNav from "./hooks/WithNav";
 import WithoutNav from "./hooks/WithoutNav";
 import Landing from './pages/Landing';
 import EmployeeDashboard from './pages/EmployeeDashboard';
+import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import SignOut from './pages/SignOut';
@@ -42,6 +43,7 @@ function App() {
               <Route path='/employee-dashboard' element={<EmployeeDashboard />} /> 
               <Route path='/edit-invoices' element={<EditInvoices />} /> 
               <Route path='/view-invoices' element={<ViewInvoices />} /> 
+              <Route path='/profile' element={<Profile />} />
             </Route>     
             <Route path='/forgot-password' element={<ForgotPassword/>} />
             <Route path='/sign-out' element={<SignOut />} />
