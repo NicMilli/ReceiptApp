@@ -99,12 +99,12 @@ const viewInvoices = asyncHandler(async(req, res) => {
     const q = await query(reference, where("date", ">=", from), where("date", "<=" , to))
     const queryDoc = await getDocs(q)
 
-    console.log(employeeNames)
+    // console.log(employeeNames)
     var queryData = []
     queryDoc.forEach(doc => {
       d = doc.data()
       queryData.push({date: d.date, category: d.category, comment: d.comment, location: d.location, 
-      currency: d.currency, amount: d.amount, otherCategory: d.otherCategory, vendor: d.vendor})
+      currency: d.currency, amount: d.amount, otherCategory: d.otherCategory, vendor: d.vendor, compensated: false})
     })
 
     res.status(200).send(queryData)
