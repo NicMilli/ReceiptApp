@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const { 
+const {
     parser
 }   = require('../middleware/parser')
 
@@ -9,7 +9,7 @@ const {
     extractTotal
 } = require('../controllers/imagePyControllers')
 
-const { 
+const {
     imageToFirestore,
     formToFirebase,
     viewInvoices
@@ -17,6 +17,6 @@ const {
 
 router.post('/image', parser, imageToFirestore, extractTotal)
 router.post('/form', formToFirebase)
-router.post('/view', viewInvoices)
+router.get('/view', viewInvoices)
 
 module.exports = router
