@@ -95,7 +95,7 @@ function ViewInvoices() {
                 <div> {view && <p>Invoices found for query dates {new Date(dateFrom).toDateString()} to {new Date(dateTo).toDateString()} for {user.name}</p>}
                     {view && invoice.map((item, id) => ( 
                     <div className="invoiceNoteContainer" key={id}>
-                        <header className="invoiceNoteHeader">{Date(item.date.seconds).toString()}</header>
+                        <header className="invoiceNoteHeader">{new Date(item.date.seconds*1000).toDateString()}</header>
                             <div className="noteInput">
                                 <p>Category: {item.category}</p>
                                 <p>Location: {item.location}</p>

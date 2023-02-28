@@ -48,8 +48,8 @@ export const invoiceSlice = createSlice({
     initialState,
     reducers: {
         resetInvoice: (state) => {
-            state.invoice = {}
             state.isLoading = false
+            state.invoice = {}
             state.isError = false
             state.isSuccess = false
             state.isFormDone = false

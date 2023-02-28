@@ -20,7 +20,7 @@ function CreateInvoice() {
         e.preventDefault()
         setImages(e.target.files[0] )
     }
-
+    console.log(invoice)
     const onSubmit = async(e) => {
         e.preventDefault()
         // run service that handles files and returns the total amount.

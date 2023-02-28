@@ -44,7 +44,6 @@ const imageToFirestore = asyncHandler(async(req, res, next) => {
           next() ;
         }) ;
       }) ;
-      res.status(201).send("Success");
 
     } catch (error) {
         res.status(400).send('Could not upload image. Please contact InvoiceMe.');

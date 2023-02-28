@@ -141,6 +141,7 @@ function InvoiceForm() {
                 <option value='meals'>Meals</option>
                 <option value='parking & tolls'>Parking & Tolls</option>
                 <option value='other'>Other</option>
+                required
             </select>
             {category === 'other' ? (
                 <input type="text"

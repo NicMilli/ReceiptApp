@@ -43,6 +43,7 @@ const loginUser = asyncHandler(async(req, res) => {
                 name: auth.currentUser.displayName,
                 email: auth.currentUser.email,
                 position: userData.position,
+                timestamp: userData.timestamp,
                 token: token
             })
         }
