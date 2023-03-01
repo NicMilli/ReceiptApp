@@ -28,7 +28,6 @@ const uploadInvoiceForm = async(form) => {
 }
 
 const viewInvoices = async(dates) => {
-
   const response = await axios.get(API_URL + 'view', {
     headers: {
         info: JSON.stringify(dates)
@@ -36,7 +35,6 @@ const viewInvoices = async(dates) => {
     });
 
   if (response.data) {
-
     localStorage.setItem('invoice', JSON.stringify(response.data)) ; // If there was no error, set the local storage to all the invoices that matched the query parameters
   } ;
   return response.data ;
@@ -46,7 +44,7 @@ const viewInvoices = async(dates) => {
 const invoiceService = {
     createInvoice,
     uploadInvoiceForm,
-    viewInvoices
+    viewInvoices,
 }
 
 export default invoiceService

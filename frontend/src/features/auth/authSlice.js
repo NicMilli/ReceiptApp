@@ -8,7 +8,9 @@ const initialState = {
     isError: false,
     isSuccess: false,
     isLoading: false,
-    message: ''
+    message: '',
+    isQuestionDone: false,
+    isUpdateDone: null,
 }
 
 export const login = createAsyncThunk('auth/login',
@@ -49,6 +51,28 @@ export const checkStatus = createAsyncThunk('auth/checkStatus', async(thunkAPI,{
     }
 })
 
+export const sendQuestion = createAsyncThunk('auth/sendQuestion',
+    async(question, thunkAPI) => {
+        try {
+            return await authService.sendQuestion(question) ;
+        } catch (error) {
+            const message = (error.response.data) ;
+            return thunkAPI.rejectWithValue(message.toString()) ;
+        } ;
+    }  
+) ;
+
+export const updateUser = createAsyncThunk('auth/updateUser',
+    async(form, thunkAPI) => {
+        try {
+            return await authService.updateUser(form) ;
+        } catch(error) {
+            const message = error.response.data ;
+            return thunkAPI.rejectWithValue(message.toString());
+        }
+    }
+);
+
 
 export const authSlice = createSlice({
     name:'auth',
@@ -59,6 +83,8 @@ export const authSlice = createSlice({
             state.isError = false
             state.isSuccess = false
             state.message = ''  
+            state.isQuestionDone = false
+            state.isUpdateDone = null
         }
     },
     extraReducers: (builder) =>{
@@ -99,7 +125,6 @@ export const authSlice = createSlice({
         
             })
             .addCase(checkStatus.rejected, (state, action) => {
-                // reset()
                 state.isLoading = false
                 // logs user out due to token mismatch
                 state.user = null
@@ -109,6 +134,33 @@ export const authSlice = createSlice({
             .addCase(checkStatus.fulfilled, (state) => {
                 state.isLoading = false
                 state.isSuccess = true
+            })
+            .addCase(sendQuestion.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isQuestionDone = true
+                state.isError = false
+            })
+            .addCase(sendQuestion.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(sendQuestion.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.user = action.payload
+                state.isLoading = false
+                state.isUpdateDone = true
+                state.isError = false
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(updateUser.pending, (state, action) => {
+                state.isLoading = true
             })
     }
 })

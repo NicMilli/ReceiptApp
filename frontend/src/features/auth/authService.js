@@ -69,11 +69,26 @@ const checkStatus = async(token) => {
     return response.data
 }
 
+const sendQuestion = async(question) => {
+    const response = await axios.post(API_URL + 'question', question)
+    return response.data ;
+  }
+
+const updateUser = async(form) => {
+    const response = await axios.put(API_URL + 'update-user', form) ;
+    if(response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+    }
+    return response.data ;
+}
+
 const authService = {
     login, 
     logout,
     register,
-    checkStatus
+    checkStatus,
+    sendQuestion,
+    updateUser
 }
 
 export default authService

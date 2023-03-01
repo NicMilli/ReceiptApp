@@ -2,6 +2,7 @@ import { useState, useEffect, memo } from "react"
 import { FaFileInvoice } from "react-icons/fa"
 import { useDispatch, useSelector } from "react-redux";
 import { viewInvoices } from "../features/invoice/InvoiceSlice";
+import InvoiceNote from "../components/InvoiceNote";
 import LoadingIcons from 'react-loading-icons'
 import { toast } from 'react-toastify'
 
@@ -93,18 +94,7 @@ function ViewInvoices() {
                 </form>
                 <div> {view && <p>Invoices found for query dates {new Date(dateFrom).toDateString()} to {new Date(dateTo).toDateString()} for {user.name}</p>}
                     {view && invoice.map((item, id) => ( 
-                    <div className="invoiceNoteContainer" key={id}>
-                        <header className="invoiceNoteHeader">{new Date(item.date.seconds*1000).toDateString()}</header>
-                            <div className="noteInput">
-                                <p>Category: {item.category}</p>
-                                <p>Location: {item.location}</p>
-                                <p>Vendor: {item.vendor}</p>
-                                <p>Currency: {item.currency}</p>
-                                <p>Amount: {item.amount}</p>
-                            </div>
-                            
-                            
-                    </div>
+                        <InvoiceNote item={item} key={id} />
                     ))
                     } 
                </div>

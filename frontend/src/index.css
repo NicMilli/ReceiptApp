@@ -16,6 +16,10 @@ body {
   box-sizing: border-box;
 }
 
+button {
+  font-family: 'Montserrat', sans-serif;
+}
+
 a {
   text-decoration: none;
   display: block;
@@ -71,7 +75,6 @@ button:hover {
 }
 
 .pageContainer,
-.offers,
 .profile {
   margin: 1rem;
   margin-bottom: 6rem;
@@ -135,14 +138,23 @@ button:hover {
   background-color: #ffffff;
   border-radius: 2rem ;
   width: 60%;
+
 }
 .invoiceNoteHeader{
   font-size: 1.5rem;
   font-weight: 700;
   align-self: center;
-  justify-content: center;
   padding: 1rem;
   text-align: center;
+}
+
+.invoiceNoteEdit{
+  border: none;
+  font-weight: 700;
+  margin-top: 1rem;
+  padding: 1rem;
+  text-align: right;
+  border-radius: 1rem ;
 }
 
 .noteInput {
@@ -202,7 +214,7 @@ button,
 
 select,
 option,
-.landingButton,
+.landing,
 .calendarInput,
 .formInput,
 .formInputFile {
@@ -216,6 +228,22 @@ option,
   justify-content: center;
   align-items: center;
   border: None;
+}
+
+.questionInput {
+  /* padding: 0.9rem 3rem; */
+  background-color: #ffffff;
+  font-weight: 600;
+  border-radius: 1rem;
+  font-size: 1rem;
+  margin: 1rem 1rem 0 0;
+  padding: 1rem ;
+  display: flex;
+  border: None;
+  box-shadow: rgba(0, 0, 0, 0.11);
+  width: 80%;
+  outline: none;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .calendarInput,
@@ -312,7 +340,8 @@ option,
 /* ||| EmployeeDashboard */
 
 .dashButton {
-  background-color: #ffffff;
+  /* background-color: #000000; */
+  color:#000000;
   font-weight: 600;
   border-radius: 1rem;
   font-size: 1rem;
@@ -326,6 +355,27 @@ option,
   width: fit-content;
   margin: 2rem;
 }
+
+.inlineDiv {
+  display: flex;
+  justify-content: left;
+}
+
+.questionButton {
+  cursor: pointer;
+  background:#FFB81C;
+  border-radius: 1rem;
+  padding: 0.85rem 2rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.25rem;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  border: None;
+  margin-top: 1rem;
+}
+
 @media (min-width: 1024px) {
   .dashButton {
     margin-left: 0rem;
@@ -401,15 +451,16 @@ option,
   color: #ffffff;
   font-weight: 600;
   font-size: 1.25rem;
-  width: 80%;
+  width: 60%;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   border: None;
   margin-top: 1rem;
-
 }
+
+
 
 .profile {
   margin-bottom: 10rem;
@@ -420,10 +471,10 @@ option,
   margin-top: 1rem;
   display: block;
 }
-
+/* 
 .createListingButton {
   margin-top: 5rem;
-}
+} */
 
 .formInputFile {
   margin-right: 3rem;

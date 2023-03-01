@@ -24,7 +24,6 @@ const {
   auth
 } = require('../../Config/firebase.config.js')
 const { getAuth } = require('firebase/auth')
-// const os = require('os');
 
 
 const imageToFirestore = asyncHandler(async(req, res, next) => {
@@ -70,7 +69,7 @@ const formToFirebase = asyncHandler(async(req, res) => {
     req.body.compensated = false ;
     req.body.date = Timestamp.fromDate(new Date(req.body.date));
 
-    const newDoc = await addDoc(collection(db, "users", userId, "invoices"), req.body);
+    await addDoc(collection(db, "users", userId, "invoices"), req.body);
     res.status(201).send("Success");
   } catch (error) {
     res.status(401).send("Could not upload invoice. Please contact InvoiceMe for help.");
@@ -104,9 +103,8 @@ const viewInvoices = asyncHandler(async(req, res) => {
 
     var queryData = []
     queryDoc.forEach(doc => {
-      d = doc.data()
-      queryData.push({date: d.date, category: d.category, comment: d.comment, location: d.location, 
-      currency: d.currency, amount: d.amount, otherCategory: d.otherCategory, vendor: d.vendor})
+      d = doc.data() ;
+      queryData.push(d) ;
     })
 
     res.status(200).send(queryData)

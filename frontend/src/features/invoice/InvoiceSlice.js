@@ -43,6 +43,8 @@ export const viewInvoices = createAsyncThunk('invoice/viewInvoices',
     } 
 ) ;
 
+
+
 export const invoiceSlice = createSlice({
     name:'invoice',
     initialState,
@@ -86,7 +88,7 @@ export const invoiceSlice = createSlice({
             })
             .addCase(viewInvoices.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.isSuccess = true
+                // state.isSuccess = true
                 state.isViewsDone = true
                 state.invoice = action.payload // set the invoice store to the array of invoice objects that match query parameters 
             })
