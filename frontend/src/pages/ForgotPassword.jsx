@@ -1,19 +1,31 @@
-import { getAuth, sendPasswordResetEmail } from "firebase/auth"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux"
+import { forgotPassword } from "../features/auth/authSlice"
 import {ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg'
 
 
 function ForgotPassword() {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('');
 
-  const onChange = (e) => setEmail(e.target.value)
+  const dispatch = useDispatch();
+  const {forgotPasswordSent, message} = useSelector((state) => state.auth);
+  const onChange = (e) => setEmail(e.target.value);
 
   const onSubmit = async(e) => {
-    e.preventDefault() ;
-
+    e.preventDefault();
+    dispatch(forgotPassword({email: email}));
   }
+
+  useEffect(() => {
+    if(forgotPasswordSent) {
+      toast.success('A temporary password has been sent to your email.')
+    } else if(message) {
+      toast.error(message)
+    }
+    console.log('hi')
+  },[forgotPasswordSent, message])
 
   return (
     <div className="pageContainer">

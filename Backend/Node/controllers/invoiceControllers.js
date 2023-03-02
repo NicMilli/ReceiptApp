@@ -131,13 +131,8 @@ const updateInvoice = asyncHandler(async(req, res) => {
       userId = queryDoc.docs[0].ref.parent.parent.id ;
     }
     req.body.date = Timestamp.fromDate(new Date(req.body.date));
-
-    console.log(docId, userId, req.body)
-
     await updateDoc(doc(db, "users", userId, "invoices", docId), req.body) ;
-
-    res.status(204).send("Invoice successfully updated.") ;
-
+    res.status(200).send("Invoice successfully updated.") ;
 } catch (error) {
     res.status(404).send("Could not update your invoice. Please contact InvoiceMe for help.") ;
     throw new Error(error) ;

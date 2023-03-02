@@ -150,6 +150,7 @@ button:hover {
 
 .invoiceNoteEdit{
   border: none;
+  width:fit-content;
   font-weight: 700;
   margin-top: 1rem;
   padding: 1rem;

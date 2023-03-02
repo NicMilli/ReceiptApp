@@ -82,13 +82,20 @@ const updateUser = async(form) => {
     return response.data ;
 }
 
+const forgotPassword = async(email) => {
+    const response = await axios.post(API_URL + 'forgot-password', email);
+    
+    return response.data;
+};
+
 const authService = {
     login, 
     logout,
     register,
     checkStatus,
     sendQuestion,
-    updateUser
+    updateUser,
+    forgotPassword
 }
 
 export default authService

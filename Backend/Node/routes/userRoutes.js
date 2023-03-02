@@ -16,8 +16,8 @@ router.post('/login',
     loginUser)
 router.post('/register', registerUser, loginUser)
 router.post('/question', sendQuestion)
+router.post('/forgot-password', forgotPassword)
 router.put('/update-user', updateUser)
-router.put('/forgot-password', forgotPassword)
 router.get('/', checkStatus)
 
 module.exports = router

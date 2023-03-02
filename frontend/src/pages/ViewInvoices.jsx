@@ -40,15 +40,17 @@ function ViewInvoices() {
     }
 
     useEffect(() => {
-
+        console.log(message, isUpdateDone)
         if(isViewsDone && invoice) {
-            setView(true) ;
+            setView(true);
         };
         if(isUpdateDone && message) {
-            toast.success(message)
+            dispatch(viewInvoices({"dateFrom": new Date(dateFrom), "dateTo": new Date(dateTo), "email": user.email, "position": user.position}));
+            toast.success(message);
+            setView(true);
         }
         if(isError) {
-            toast.error(message)
+            toast.error(message);
         }
          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isViewsDone, invoice, isError, message, dispatch, isUpdateDone])

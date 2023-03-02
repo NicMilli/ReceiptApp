@@ -6,7 +6,8 @@ const asyncHandler = require('express-async-handler')
 const { 
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword, 
-    updateProfile 
+    updateProfile ,
+    sendPasswordResetEmail
 } = require('firebase/auth')
 const { 
     doc, 
@@ -17,7 +18,7 @@ const {
     setDoc,
     addDoc, 
     updateDoc, 
-    serverTimestamp ,
+    serverTimestamp,
     collection
 } = require ('firebase/firestore')
 const jwt = require('jsonwebtoken')
@@ -161,7 +162,7 @@ const updateUser = asyncHandler(async(req,res) => {
 const forgotPassword = asyncHandler(async(req, res) => {
     try {
         await sendPasswordResetEmail(auth, req.body.email);
-        res.status(201).send('Email was sent');
+        res.status(201);
       } catch (error) {
         res.status(400).send('Unable to send reset email');
         throw new Error(error);

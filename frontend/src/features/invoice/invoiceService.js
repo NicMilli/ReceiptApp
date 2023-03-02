@@ -19,7 +19,7 @@ const createInvoice = async(file) => {
 }
 
 const uploadInvoiceForm = async(form) => {
-  const response = await axios.post(API_URL + 'form', form)
+  const response = await axios.post(API_URL + 'form', form);
 
   if (response.data) {
     localStorage.removeItem('invoice') // Once we've successfully uploaded an invoice to the database, go ahead and delete it from local storage
@@ -36,14 +36,13 @@ const viewInvoices = async(dates) => {
 
   if (response.data) {
     localStorage.setItem('invoice', JSON.stringify(response.data)) ; // If there was no error, set the local storage to all the invoices that matched the query parameters
-  } ;
-  return response.data ;
+  };
+  return response.data;
 } ;
 
 const updateInvoice = async(invoice) => {
-  const response = await axios.put(API_URL + '/update-invoice', invoice) ;
-
-  return response.data ;
+  const response = await axios.put(API_URL + '/update-invoice', invoice);
+  return response.data;
 } ;
 
 const invoiceService = {
