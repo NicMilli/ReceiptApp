@@ -152,12 +152,21 @@ const updateUser = asyncHandler(async(req,res) => {
         const userUpdatedDoc = await getDoc(doc(db, "users", userId)) ;
 
         res.status(201).send(userUpdatedDoc.data()) ;
-        res.status(200)
     } catch (error) {
         res.status(404).send("Could not update your user profile. Please contact InvoiceMe for help.") ;
         throw new Error(error) ;
     }
 })
+
+const forgotPassword = asyncHandler(async(req, res) => {
+    try {
+        await sendPasswordResetEmail(auth, req.body.email);
+        res.status(201).send('Email was sent');
+      } catch (error) {
+        res.status(400).send('Unable to send reset email');
+        throw new Error(error);
+      };
+});
 
 
 module.exports = {
@@ -165,5 +174,6 @@ module.exports = {
     registerUser,
     checkStatus,
     sendQuestion,
-    updateUser
+    updateUser,
+    forgotPassword
 }

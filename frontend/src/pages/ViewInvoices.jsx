@@ -15,7 +15,7 @@ function ViewInvoices() {
 
     var {dateFrom, dateTo} = dates ;
 
-    const { invoice, isViewsDone, isError, isLoading, message } = useSelector((state) => state.invoice) ;
+    const { invoice, isViewsDone, isUpdateDone, isError, isLoading, message } = useSelector((state) => state.invoice) ;
     const { user } = useSelector((state) => state.auth) ;
     const dispatch = useDispatch() ;
 
@@ -44,11 +44,14 @@ function ViewInvoices() {
         if(isViewsDone && invoice) {
             setView(true) ;
         };
+        if(isUpdateDone && message) {
+            toast.success(message)
+        }
         if(isError) {
             toast.error(message)
         }
          // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isViewsDone, invoice, isError, message])
+    }, [isViewsDone, invoice, isError, message, dispatch, isUpdateDone])
 
     if(isLoading) {return (
         <div className="pageContainer">

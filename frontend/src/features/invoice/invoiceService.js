@@ -40,11 +40,17 @@ const viewInvoices = async(dates) => {
   return response.data ;
 } ;
 
+const updateInvoice = async(invoice) => {
+  const response = await axios.put(API_URL + '/update-invoice', invoice) ;
+
+  return response.data ;
+} ;
 
 const invoiceService = {
     createInvoice,
     uploadInvoiceForm,
     viewInvoices,
+    updateInvoice
 }
 
 export default invoiceService

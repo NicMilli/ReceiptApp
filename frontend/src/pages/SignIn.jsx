@@ -42,7 +42,7 @@ function SignIn() {
 
         dispatch(reset())
         dispatch(resetInvoice())
-        //
+        
     }, [isError, isSuccess, user, message, navigate, dispatch])
 
     const onSubmit = (e) => {
@@ -116,9 +116,7 @@ function SignIn() {
 
             <OAuth />
 
-            {/* <Link to='/sign-up' className="registerLink">
-                Sign Up Instead
-            </Link> */}
+
         </main>
     </div>
 

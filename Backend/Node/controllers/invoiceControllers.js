@@ -10,6 +10,7 @@ const {
   doc,
   setDoc,
   getDoc,
+  updateDoc,
   collection,
   addDoc,
   getDocs,
@@ -109,13 +110,43 @@ const viewInvoices = asyncHandler(async(req, res) => {
 
     res.status(200).send(queryData)
   } catch (error) {
-    res.status(400).send('Could not retrieve any invoices for the dates selected. If you believe this is an error, please contact InvoiceMe.')
+    res.status(404).send('Could not retrieve any invoices for the dates selected. If you believe this is an error, please contact InvoiceMe.')
     throw new Error(error)
   }
+})
+
+const updateInvoice = asyncHandler(async(req, res) => {
+  try {
+    const user = auth.currentUser ;
+    let userId;
+
+    var reference = collectionGroup(db, "invoices");
+    const q = await query(reference, where("invoiceId", "==", req.body.invoiceId)) ;
+    const queryDoc = await getDocs(q) ;
+    const docId = queryDoc.docs[0].id ;
+
+    if (user) {
+      userId = user.uid ;
+    } else {
+      userId = queryDoc.docs[0].ref.parent.parent.id ;
+    }
+    req.body.date = Timestamp.fromDate(new Date(req.body.date));
+
+    console.log(docId, userId, req.body)
+
+    await updateDoc(doc(db, "users", userId, "invoices", docId), req.body) ;
+
+    res.status(204).send("Invoice successfully updated.") ;
+
+} catch (error) {
+    res.status(404).send("Could not update your invoice. Please contact InvoiceMe for help.") ;
+    throw new Error(error) ;
+}
 })
 
 module.exports = {
     imageToFirestore,
     formToFirebase,
-    viewInvoices
+    viewInvoices,
+    updateInvoice
 }

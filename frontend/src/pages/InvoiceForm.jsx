@@ -131,6 +131,7 @@ function InvoiceForm() {
             <select
                 id="category"
                 placeholder="category"
+                className="formInput"
                 value={category}
                 onChange={onChange}>
                 <option>Select Category</option>

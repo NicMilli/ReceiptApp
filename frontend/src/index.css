@@ -169,7 +169,6 @@ button,
 .calendarInput,
 .signInButton,
 .signUpButton,
-.signInText,
 .signUpText {
   cursor: pointer;
 }
@@ -252,6 +251,22 @@ option,
   border: none;
   outline: none;
   font-family: 'Montserrat', sans-serif;
+}
+
+.formUpdate {
+  padding: 0.9rem 3rem;
+  font-weight: 600;
+  border-radius: 1rem;
+  font-size: 1rem;
+  margin: 0.5rem 0.5rem 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: None;
+  border: none;
+  outline: none;
+  font-family: 'Montserrat', sans-serif;
+  background:  #f2f4f8 ;
 }
 
 /* ||| Navbar  */

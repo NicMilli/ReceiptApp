@@ -8,6 +8,7 @@ const initialState = {
     isError: false,
     isFormDone: false,
     isViewsDone: false,
+    isUpdateDone: false,
     message: ''
 }
 
@@ -43,6 +44,17 @@ export const viewInvoices = createAsyncThunk('invoice/viewInvoices',
     } 
 ) ;
 
+export const updateInvoice = createAsyncThunk('invoice/updateInvoice', 
+    async(invoice, thunkAPI) => {
+        try {
+            return await invoiceService.updateInvoice(invoice) ;
+        } catch (error) {
+            const message = (error.response.data) ;
+            return thunkAPI.rejectWithValue(message) ;
+        }
+    }
+);
+
 
 
 export const invoiceSlice = createSlice({
@@ -56,6 +68,7 @@ export const invoiceSlice = createSlice({
             state.isSuccess = false
             state.isFormDone = false
             state.isViewsDone = false
+            state.isUpdateDone = false
         }
     },
     extraReducers(builder) {
@@ -88,8 +101,9 @@ export const invoiceSlice = createSlice({
             })
             .addCase(viewInvoices.fulfilled, (state, action) => {
                 state.isLoading = false
-                // state.isSuccess = true
+                state.isError = false
                 state.isViewsDone = true
+                state.message = ''
                 state.invoice = action.payload // set the invoice store to the array of invoice objects that match query parameters 
             })
             .addCase(viewInvoices.rejected, (state, action) => {
@@ -99,7 +113,23 @@ export const invoiceSlice = createSlice({
             })
             .addCase(viewInvoices.pending, (state, action) => {
                 state.isLoading = true
+                state.message = ''
             })
+            .addCase(updateInvoice.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isUpdateDone = true
+                state.message = action.payload
+                state.isError = false
+            })
+            .addCase(updateInvoice.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(updateInvoice.pending, (state, action) => {
+                state.isLoading = true
+            })
+  
     }
 })
 

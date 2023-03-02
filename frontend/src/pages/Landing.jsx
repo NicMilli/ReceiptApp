@@ -22,10 +22,10 @@ function Landing() {
                 Are you an..
             </p>
 
-            <button className="landingButton" onClick={() => onClick()}>
+            <button className="landing" onClick={() => onClick()}>
                 Admin
             </button>
-            <button className="landingButton" onClick={() => onClick()}>
+            <button className="landing" onClick={() => onClick()}>
                 Employee
             </button>
 
