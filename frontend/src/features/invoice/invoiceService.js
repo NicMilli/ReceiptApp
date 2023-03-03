@@ -39,18 +39,25 @@ const viewInvoices = async(info) => {
     localStorage.setItem('invoice', JSON.stringify(response.data)) ; // If there was no error, set the local storage to all the invoices that matched the query parameters
   };
   return response.data;
-} ;
+};
 
 const updateInvoice = async(invoice) => {
   const response = await axios.put(API_URL + '/update-invoice', invoice);
   return response.data;
-} ;
+};
+
+const markAsCompensated = async(invoice) => {
+  const response = await axios.put(API_URL + '/mark-as-compensated', invoice);
+  return response.data;
+};
+
 
 const invoiceService = {
     createInvoice,
     uploadInvoiceForm,
     viewInvoices,
-    updateInvoice
+    updateInvoice,
+    markAsCompensated
 }
 
 export default invoiceService

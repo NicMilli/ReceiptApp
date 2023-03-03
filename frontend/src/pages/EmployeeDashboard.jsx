@@ -38,12 +38,8 @@ function EmployeeDashboard() {
                     <FaFileUpload />
                 </button> 
                 <button className="dashButton" onClick={() => navigate('/view-invoices')} style={{"backgroundColor": "#E03C31"}}>
-                    View My Invoices  
+                    View & Edit Invoices  
                     <FaFileInvoice />
-                </button>
-                <button className="dashButton" onClick={() => navigate('/edit-invoices')} style={{"backgroundColor": "#007749"}}>
-                    Edit My Invoices  
-                    <FaEdit />
                 </button>
             </main>
         </div>

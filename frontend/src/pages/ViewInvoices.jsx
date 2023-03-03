@@ -45,7 +45,6 @@ function ViewInvoices() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(employeeList);
         if(dateFrom > dateTo) {
             toast.error('Please enter your dates in the correct order.');
         }
@@ -57,6 +56,7 @@ function ViewInvoices() {
 
     useEffect(() => {
         dispatch(getEmployees());
+        console.log('isUpdateDone: ', isUpdateDone, 'message: ', message)
         if(isViewsDone && invoice) {
             setView(true);
         };
@@ -88,7 +88,7 @@ function ViewInvoices() {
         <div className='pageContainer'>
             <header>
                 <p className="pageHeader">
-                    View Invoices <FaFileInvoice />
+                    View & Edit Invoices <FaFileInvoice />
                 </p>
             </header>
             <main>

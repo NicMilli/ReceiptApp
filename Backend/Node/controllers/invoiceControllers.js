@@ -89,7 +89,7 @@ const viewInvoices = asyncHandler(async(req, res) => {
     } else {
       const q = await query(collection(db, "users"), where("email", "==", headers.email));
       const queryUserDoc = await getDocs(q);
-      var userId = queryUserDoc.docs[0].id;
+      let userId = queryUserDoc.docs[0].id;
     }
 
     let from = new Date(headers.dateFrom);
@@ -102,17 +102,20 @@ const viewInvoices = asyncHandler(async(req, res) => {
       reference = collection(db, "users", userId, "invoices");
     }
    
-    const q = await query(reference, where("date", ">=", from), where("date", "<=" , to))
-    const queryDoc = await getDocs(q)
+    const q = await query(reference, where("date", ">=", from), where("date", "<=" , to));
+    const queryDoc = await getDocs(q);
 
-    var queryData = []
+    let queryData = []
     queryDoc.forEach(doc => {
-      d = doc.data() ;
-      queryData.push(d) ;
+      d = doc.data();
+      queryData.push(d);
     })
 
-    queryData = queryData.filter((doc) => headers.employeeList.includes(doc.name))
-    res.status(200).send(queryData)
+    if(headers.position === 'admin') {
+      queryData = queryData.filter((doc) => headers.employeeList.includes(doc.name));
+    };
+    
+    res.status(200).send(queryData);
   } catch (error) {
     res.status(404).send('Could not retrieve any invoices for the dates selected. If you believe this is an error, please contact InvoiceMe.')
     throw new Error(error)
@@ -124,8 +127,8 @@ const updateInvoice = asyncHandler(async(req, res) => {
     const user = auth.currentUser ;
     let userId;
 
-    var reference = collectionGroup(db, "invoices");
-    const q = await query(reference, where("invoiceId", "==", req.body.invoiceId)) ;
+    let reference = collectionGroup(db, "invoices");
+    const q = await query(reference, where("imageInvoiceId", "==", req.body.imageInvoiceId)) ;
     const queryDoc = await getDocs(q) ;
     const docId = queryDoc.docs[0].id ;
 
@@ -143,9 +146,35 @@ const updateInvoice = asyncHandler(async(req, res) => {
 }
 })
 
+const markAsCompensated = asyncHandler(async(req,res) => {
+  try {
+    const user = auth.currentUser ;
+    let userId;
+
+    let reference = collectionGroup(db, "invoices");
+    const q = await query(reference, where("imageInvoiceId", "==", req.body.imageInvoiceId));
+    const queryDoc = await getDocs(q);
+    const docId = queryDoc.docs[0].id ;
+
+    if (user) {
+      userId = user.uid;
+    } else {
+      userId = queryDoc.docs[0].ref.parent.parent.id;
+    }
+
+    await updateDoc(doc(db, "users", userId, "invoices", docId), {"compensated": true});
+
+    res.status(200).send("This invoice is now marked as compensated.")
+  } catch (error) {
+        res.status(404).send("Could not change compensation status for this invoice. Please contact InvoiceMe for help.") ;
+    throw new Error(error) ;
+  }
+})
+
 module.exports = {
     imageToFirestore,
     formToFirebase,
     viewInvoices,
-    updateInvoice
+    updateInvoice,
+    markAsCompensated
 }

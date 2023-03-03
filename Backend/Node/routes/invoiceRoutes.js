@@ -13,12 +13,14 @@ const {
     imageToFirestore,
     formToFirebase,
     viewInvoices,
-    updateInvoice
+    updateInvoice,
+    markAsCompensated
 } = require('../controllers/invoiceControllers')
 
 router.post('/image', parser, imageToFirestore, extractTotal)
 router.post('/form', formToFirebase)
 router.put('/update-invoice', updateInvoice)
+router.put('/mark-as-compensated', markAsCompensated)
 router.get('/view', viewInvoices)
 
 module.exports = router

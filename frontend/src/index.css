@@ -137,7 +137,8 @@ button:hover {
   margin-top: 3rem;
   background-color: #ffffff;
   border-radius: 2rem ;
-  width: 60%;
+  min-width: fit-content;
+  width: 50%;
 
 }
 .invoiceNoteHeader{
@@ -150,7 +151,8 @@ button:hover {
 
 .invoiceNoteEdit{
   border: none;
-  width:fit-content;
+  width: fit-content;
+  min-height: fit-content;
   font-weight: 700;
   margin-top: 1rem;
   padding: 1rem;
@@ -158,6 +160,10 @@ button:hover {
   margin-left: 0rem;
 }
 
+.invoiceNoteButtons {
+  display: flex;
+  justify-content: space-between;
+}
 .noteInput {
   padding: 1rem;
   font-size: 1rem;
@@ -356,7 +362,6 @@ option,
 /* ||| EmployeeDashboard */
 
 .dashButton {
-  /* background-color: #000000; */
   color:#000000;
   font-weight: 600;
   border-radius: 1rem;
@@ -368,7 +373,7 @@ option,
   height: 4rem;
   display: flex;
   padding: 1rem;
-  width: fit-content;
+  width: 20%;
   margin: 2rem;
 }
 

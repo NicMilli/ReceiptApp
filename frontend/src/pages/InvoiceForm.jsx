@@ -27,7 +27,7 @@ function InvoiceForm() {
         url: invoice.url,
         name: user.name,
         email: user.email,
-        invoiceId: invoice.filename
+        invoiceImageId: invoice.filename
     })
 
     const dispatch = useDispatch()

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
-import { updateInvoice } from "../features/invoice/InvoiceSlice";
+import { updateInvoice, markAsCompensated } from "../features/invoice/InvoiceSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaClipboardCheck } from "react-icons/fa";
 import countryList from 'react-select-country-list'
 
 
@@ -23,14 +23,14 @@ const InvoiceNote = ({item}, {key}) => {
         url: item.url,
         name: item.name,
         email: user.email,
-        invoiceId: item.invoiceId
+        imageInvoiceId: item.imageInvoiceId
     });
     const [editInvoice, setEditInvoice] = useState(false);
 
-    var {date, vendor, location, currency, amount, category, otherCategory, comment, name} = formData;
+    var {date, vendor, location, currency, amount, category, otherCategory, comment, name, imageInvoiceId} = formData;
 
     const onChange = (e) => {
-        e.preventDefault() ;
+        e.preventDefault();
        
         setFormData((prevState) => ({
             ...prevState,
@@ -42,13 +42,20 @@ const InvoiceNote = ({item}, {key}) => {
     const dispatch = useDispatch();
 
     const onClick = (e) => {
+        e.preventDefault();
         setEditInvoice(true);
-    }
+    };
+
+    const onClickCompensate = (e) => {
+        e.preventDefault();
+        dispatch(markAsCompensated({"imageInvoiceId": imageInvoiceId}));
+    };
 
     const onSubmit = (e) => {
+        e.preventDefault();
         dispatch(updateInvoice(formData));
         setEditInvoice(false);
-    }
+    };
 
     useEffect(() => {
 
@@ -68,7 +75,16 @@ const InvoiceNote = ({item}, {key}) => {
                         <p>Amount: {item.amount}</p>
                         <p>Compensated: {item.compensated.toString()}</p>
                         <p>Name: {name}</p>
-                    <button className="invoiceNoteEdit" onClick={onClick}><FaEdit/>Edit Invoice</button>
+                    <div className="invoiceNoteButtons">
+                        <button className="invoiceNoteEdit" onClick={onClick}><FaEdit/>Edit Invoice</button>
+                        {!item.compensated && user.position === "admin" &&
+                            <button className="invoiceNoteEdit" onClick={onClickCompensate}><FaClipboardCheck/>Mark as Compensated</button>
+                        }
+                        {item.compensated && user.position === "admin" && 
+                            <button className="invoiceNoteEdit">Invoice already marked compensated.</button>
+                        }
+                    </div>
+                    
                 </div>}
 
                 {editInvoice &&

@@ -16,7 +16,6 @@ import SignOut from './pages/SignOut';
 import CreateInvoice from "./pages/CreateInvoice";
 import InvoiceForm from "./pages/InvoiceForm";
 import ViewInvoices from "./pages/ViewInvoices";
-import EditInvoices from "./pages/EditInvoices";
 import ForgotPassword from "./pages/ForgotPassword";
 import NotFound from './pages/NotFound';
 import PrivateRoutes from "./components/PrivateRoutes";
@@ -40,8 +39,7 @@ function App() {
             <Route element={<PrivateRoutes />} >
               <Route path='create-invoice' exact element={<CreateInvoice />} />
               <Route path='create-invoice/invoice-form' element={<InvoiceForm />} />
-              <Route path='/employee-dashboard' element={<EmployeeDashboard />} /> 
-              <Route path='/edit-invoices' element={<EditInvoices />} /> 
+              <Route path='/employee-dashboard' element={<EmployeeDashboard />} />  
               <Route path='/view-invoices' element={<ViewInvoices />} /> 
               <Route path='/profile' element={<Profile />} />
             </Route>     

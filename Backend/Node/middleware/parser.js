@@ -26,7 +26,7 @@ const parser = asyncHandler(async(req, res, next) => {
     
         const newFilename = uuidv4()
         const filePath = path.join(os.tmpdir(), newFilename)
-        var writeStream = fs.createWriteStream(filePath)
+        let writeStream = fs.createWriteStream(filePath)
         file.pipe(writeStream)
         writeStream.on('finish', () => {
             console.log('write stream is finished')   

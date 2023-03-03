@@ -11,7 +11,7 @@ const extractTotal = asyncHandler(async(req, res, next) => {
     // and then extract the total from the upgraded receipt image
     // and then upload to firebase
     const py = spawn('python', [path.join(__dirname,'../../','Python','Functions','upload.py'), stringifiedData]);
-    var result = []
+    let result = []
     py.stdout.on('data', (data) => {
         result += data
     })

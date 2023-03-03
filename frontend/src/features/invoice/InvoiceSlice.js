@@ -9,7 +9,8 @@ const initialState = {
     isFormDone: false,
     isViewsDone: false,
     isUpdateDone: false,
-    message: ''
+    message: '',
+    compensateUpdateDone: false,
 }
 
 export const createInvoice = createAsyncThunk('invoice/createInvoice', 
@@ -49,8 +50,19 @@ export const updateInvoice = createAsyncThunk('invoice/updateInvoice',
         try {
             return await invoiceService.updateInvoice(invoice) ;
         } catch (error) {
-            const message = (error.response.data) ;
-            return thunkAPI.rejectWithValue(message) ;
+            const message = (error.response.data);
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+);
+
+export const markAsCompensated = createAsyncThunk('invoice/markAsCompensated', 
+    async(invoice, thunkAPI) => {
+        try {
+            return await invoiceService.markAsCompensated(invoice);
+        } catch (error) {
+            const message = error.response.data;
+            return thunkAPI.rejectWithValue(message);
         }
     }
 );
@@ -69,6 +81,8 @@ export const invoiceSlice = createSlice({
             state.isFormDone = false
             state.isViewsDone = false
             state.isUpdateDone = false
+            state.compensateUpdateDone = false
+            state.message = ''
         }
     },
     extraReducers(builder) {
@@ -129,7 +143,21 @@ export const invoiceSlice = createSlice({
             .addCase(updateInvoice.pending, (state, action) => {
                 state.isLoading = true
             })
-  
+            .addCase(markAsCompensated.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.compensateUpdateDone = true
+                state.message = action.payload
+                state.isError = false
+            })
+            .addCase(markAsCompensated.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.compensateUpdateDone = false
+                state.message = action.payload
+            })
+            .addCase(markAsCompensated.pending, (state, action) => {
+                state.isLoading = true
+            })
     }
 })
 
