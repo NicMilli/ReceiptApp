@@ -169,6 +169,21 @@ const forgotPassword = asyncHandler(async(req, res) => {
       };
 });
 
+const getEmployees = asyncHandler(async(req, res) => {
+    try {
+        const q = await query(collection(db, "users")) ;
+        const queryDocs = await getDocs(q) ;
+        let users = [];
+        queryDocs.forEach((doc) => {
+            users.push(doc.data().name);
+        }) ;
+        res.status(200).send(users);
+    } catch (error) {
+        res.status(400).send('Error retrieving users');
+        throw new Error(error);
+    }
+})
+
 
 module.exports = {
     loginUser,
@@ -176,5 +191,6 @@ module.exports = {
     checkStatus,
     sendQuestion,
     updateUser,
-    forgotPassword
+    forgotPassword,
+    getEmployees
 }

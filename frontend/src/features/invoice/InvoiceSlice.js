@@ -34,9 +34,9 @@ export const uploadInvoiceForm = createAsyncThunk('invoice/uploadInvoiceForm',
 )
 
 export const viewInvoices = createAsyncThunk('invoice/viewInvoices', 
-    async(dates, thunkAPI) => {
+    async(info, thunkAPI) => {
         try {
-            return await invoiceService.viewInvoices(dates) ;
+            return await invoiceService.viewInvoices(info) ;
         } catch (error) {
             const message = (error.response.data) ;
             return thunkAPI.rejectWithValue(message) ;

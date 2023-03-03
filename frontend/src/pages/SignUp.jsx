@@ -39,7 +39,8 @@ function SignUp() {
     }
 
     useEffect(() => {
-
+        dispatch(reset())
+        dispatch(resetInvoice())
         if(isError) {
             toast.error(message)
         } 
@@ -47,8 +48,7 @@ function SignUp() {
             navigate('/employee-dashboard')
             toast.success(`Welcome to your InvoiceMe, ${name}`)
         }
-        dispatch(reset())
-        dispatch(resetInvoice())
+
      // eslint-disable-next-line react-hooks/exhaustive-deps
     },[dispatch, navigate, isError, isSuccess, user, message])
 

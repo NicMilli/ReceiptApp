@@ -81,22 +81,25 @@ const formToFirebase = asyncHandler(async(req, res) => {
 
 const viewInvoices = asyncHandler(async(req, res) => {
   try {
-    const user = auth.currentUser ;
+    const user = auth.currentUser;
     const headers = JSON.parse(req.headers.info);
+
     if (user !== null) {
       userId = user.uid ;
     } else {
-      const q = await query(collection(db, "users"), where("email", "==", headers.email)) ;
-      const queryUserDoc = await getDocs(q) ;
-      var userId = queryUserDoc.docs[0].id ;
+      const q = await query(collection(db, "users"), where("email", "==", headers.email));
+      const queryUserDoc = await getDocs(q);
+      var userId = queryUserDoc.docs[0].id;
     }
-    var from = new Date(headers.dateFrom);
-    var to = new Date(headers.dateTo);
+
+    let from = new Date(headers.dateFrom);
+    let to = new Date(headers.dateTo);
+    let reference; 
 
     if(headers.position === 'admin') {
-      var reference = collectionGroup(db, "invoices");
+      reference = collectionGroup(db, "invoices");
     } else {
-      var reference = collection(db, "users", userId, "invoices");
+      reference = collection(db, "users", userId, "invoices");
     }
    
     const q = await query(reference, where("date", ">=", from), where("date", "<=" , to))
@@ -108,6 +111,7 @@ const viewInvoices = asyncHandler(async(req, res) => {
       queryData.push(d) ;
     })
 
+    queryData = queryData.filter((doc) => headers.employeeList.includes(doc.name))
     res.status(200).send(queryData)
   } catch (error) {
     res.status(404).send('Could not retrieve any invoices for the dates selected. If you believe this is an error, please contact InvoiceMe.')

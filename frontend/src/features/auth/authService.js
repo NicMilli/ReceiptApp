@@ -88,6 +88,12 @@ const forgotPassword = async(email) => {
     return response.data;
 };
 
+const getEmployees = async() => {
+    const response = await axios.get(API_URL + 'get-employees')
+
+    return response.data;
+}
+
 const authService = {
     login, 
     logout,
@@ -95,7 +101,8 @@ const authService = {
     checkStatus,
     sendQuestion,
     updateUser,
-    forgotPassword
+    forgotPassword,
+    getEmployees
 }
 
 export default authService

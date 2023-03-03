@@ -27,10 +27,11 @@ const uploadInvoiceForm = async(form) => {
   return response.data
 }
 
-const viewInvoices = async(dates) => {
+const viewInvoices = async(info) => {
+
   const response = await axios.get(API_URL + 'view', {
     headers: {
-        info: JSON.stringify(dates)
+        info: JSON.stringify(info)
       }
     });
 

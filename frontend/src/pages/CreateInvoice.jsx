@@ -68,6 +68,7 @@ function CreateInvoice() {
             <main>
             <form onSubmit={onSubmit}>
                 <p>Image Upload</p> 
+                <p>For our technology to work properly, please upload a photo of the whole receipt with all corners visible, against a neutral, non-patterned background. Please also flatten the receipt as much as possible.</p>
                     <input
                         className='formInputFile'
                         type='file'

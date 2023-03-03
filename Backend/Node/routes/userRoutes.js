@@ -7,7 +7,8 @@ const {loginUser,
     checkStatus,
     sendQuestion,
     updateUser,
-    forgotPassword
+    forgotPassword,
+    getEmployees
 } = require('../controllers/userControllers')
 // const { appCheckVerification } = require('../middleware/protect')
 
@@ -19,5 +20,6 @@ router.post('/question', sendQuestion)
 router.post('/forgot-password', forgotPassword)
 router.put('/update-user', updateUser)
 router.get('/', checkStatus)
+router.get('/get-employees', getEmployees)
 
 module.exports = router

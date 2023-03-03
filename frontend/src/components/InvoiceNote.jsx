@@ -8,8 +8,8 @@ import countryList from 'react-select-country-list'
 const InvoiceNote = ({item}, {key}) => {
     const {user} = useSelector((state) => state.auth);
 
-    const options = useMemo(() => countryList().getData(), [])
-    const countryLabels = options.map(option => option.label)
+    const options = useMemo(() => countryList().getData(), []);
+    const countryLabels = options.map(option => option.label);
 
     const [formData, setFormData] = useState({
         date: '',
@@ -24,10 +24,10 @@ const InvoiceNote = ({item}, {key}) => {
         name: item.name,
         email: user.email,
         invoiceId: item.invoiceId
-    })
-    const [editInvoice, setEditInvoice] = useState(false) ;
+    });
+    const [editInvoice, setEditInvoice] = useState(false);
 
-    var {date, vendor, location, currency, amount, category, otherCategory, comment, name} = formData
+    var {date, vendor, location, currency, amount, category, otherCategory, comment, name} = formData;
 
     const onChange = (e) => {
         e.preventDefault() ;
@@ -35,14 +35,14 @@ const InvoiceNote = ({item}, {key}) => {
         setFormData((prevState) => ({
             ...prevState,
             [e.target.id] : e.target.value
-        }))
-    }
+        }));
+    };
 
 
-    const dispatch = useDispatch() ;
+    const dispatch = useDispatch();
 
     const onClick = (e) => {
-        setEditInvoice(true) ;
+        setEditInvoice(true);
     }
 
     const onSubmit = (e) => {
@@ -52,7 +52,7 @@ const InvoiceNote = ({item}, {key}) => {
 
     useEffect(() => {
 
-    }, [dispatch])
+    }, [dispatch]);
 
     return (
         <div className="invoiceNoteContainer" key={key}>
