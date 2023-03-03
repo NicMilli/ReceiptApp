@@ -83,13 +83,14 @@ const viewInvoices = asyncHandler(async(req, res) => {
   try {
     const user = auth.currentUser;
     const headers = JSON.parse(req.headers.info);
+    let userId;
 
     if (user !== null) {
-      userId = user.uid ;
+      userId = user.uid;
     } else {
       const q = await query(collection(db, "users"), where("email", "==", headers.email));
       const queryUserDoc = await getDocs(q);
-      let userId = queryUserDoc.docs[0].id;
+      userId = queryUserDoc.docs[0].id;
     }
 
     let from = new Date(headers.dateFrom);
@@ -100,12 +101,12 @@ const viewInvoices = asyncHandler(async(req, res) => {
       reference = collectionGroup(db, "invoices");
     } else {
       reference = collection(db, "users", userId, "invoices");
-    }
+    };
    
     const q = await query(reference, where("date", ">=", from), where("date", "<=" , to));
     const queryDoc = await getDocs(q);
 
-    let queryData = []
+    let queryData = [];
     queryDoc.forEach(doc => {
       d = doc.data();
       queryData.push(d);

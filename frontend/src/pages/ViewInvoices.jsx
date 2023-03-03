@@ -56,7 +56,6 @@ function ViewInvoices() {
 
     useEffect(() => {
         dispatch(getEmployees());
-        console.log('isUpdateDone: ', isUpdateDone, 'message: ', message)
         if(isViewsDone && invoice) {
             setView(true);
         };
@@ -66,7 +65,6 @@ function ViewInvoices() {
             setView(true);
         }
         if(isError) {
-            console.log(message, isError)
             toast.error(message);
         }
 

@@ -48,7 +48,9 @@ const InvoiceNote = ({item}, {key}) => {
 
     const onClickCompensate = (e) => {
         e.preventDefault();
-        dispatch(markAsCompensated({"imageInvoiceId": imageInvoiceId}));
+        if (window.confirm('Are you sure you want to mark this invoice as compensated?')) {
+            dispatch(markAsCompensated({"imageInvoiceId": imageInvoiceId}));
+        }
     };
 
     const onSubmit = (e) => {

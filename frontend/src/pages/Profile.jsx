@@ -71,7 +71,7 @@ const Profile = () => {
             </div>
             {!updateProfile && 
                 <div className="inlineDiv">
-                    <p style={{"marginRight":"1rem"}}> Need to update your information?</p>
+                    <p className="formLabel" > Need to update your information?</p>
                     <button className="signInButton" onClick={() => setUpdateProfile(true)}>
                         <ArrowRightIcon fill='#ffffff' width='34px' height='34px' />
                     </button>
