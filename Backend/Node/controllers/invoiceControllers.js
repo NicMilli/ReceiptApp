@@ -78,6 +78,7 @@ const formToFirebase = asyncHandler(async(req, res) => {
 })
 
 const viewInvoices = asyncHandler(async(req, res) => {
+
   try {
     const user = auth.currentUser;
     const headers = JSON.parse(req.headers.info);

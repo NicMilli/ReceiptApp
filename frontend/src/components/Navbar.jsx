@@ -7,30 +7,36 @@ import { resetInvoice } from "../features/invoice/InvoiceSlice"
 import { toast } from "react-toastify"
 
 function Navbar() {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const location = useLocation()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const location = useLocation();
 
     const pathMatchRoute = (route) => {
         if(route === location.pathname) {
-            return true
+            return true;
         }
-    }
+    };
 
     const clickLogout = () => {
-        dispatch(logout())
-        dispatch(reset())
-        dispatch(resetInvoice())
+        dispatch(logout());
+        dispatch(reset());
+        dispatch(resetInvoice());
         dispatch(resetAddEmployee());
-        toast.success('Signout Successful')
-        navigate('/sign-out')
-    }
+        toast.success('Signout Successful');
+        navigate('/sign-out');
+    };
+
+    const onClickDashboard = () => {
+        dispatch(resetInvoice());
+        dispatch(resetAddEmployee());
+        navigate('/employee-dashboard');
+    };
 
   return (
     <footer className='navbar'>
         <nav className='navbarNav'>
             <ul className="navbarListItems">
-                <li className="navbarListItem" onClick={() => navigate('/employee-dashboard')}>
+                <li className="navbarListItem" onClick={onClickDashboard}>
                     <FaBookmark color={pathMatchRoute('/employee-dashboard') ? '#2c2c2c' : '#8f8f8f'} size='36px' />
                     <p className={pathMatchRoute('/employee-dashboard') 
                     ? 'navbarListItemNameActive' 

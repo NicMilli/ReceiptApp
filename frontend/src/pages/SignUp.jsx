@@ -86,7 +86,7 @@ function SignUp() {
         <div className="pageContainer">
             <header>
                 <p className="pageHeader">
-                    Creating your account - just a moment.
+                    Creating your account - Just a moment.
                 </p>
                 <LoadingIcons.Circles />
             </header> 

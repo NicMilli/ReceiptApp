@@ -34,7 +34,7 @@ const viewInvoices = async(info) => {
         info: JSON.stringify(info)
       }
     });
-
+    
   if (response.data) {
     localStorage.setItem('invoice', JSON.stringify(response.data)) ; // If there was no error, set the local storage to all the invoices that matched the query parameters
   };
