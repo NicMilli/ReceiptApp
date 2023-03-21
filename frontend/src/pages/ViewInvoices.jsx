@@ -6,6 +6,7 @@ import InvoiceNote from "../components/InvoiceNote";
 import LoadingIcons from 'react-loading-icons'
 import { toast } from 'react-toastify'
 import { getEmployees } from "../features/auth/authSlice";
+import FileExport from "../components/FileExport"
 
 function ViewInvoices() {
     const dispatch = useDispatch() ;
@@ -13,8 +14,8 @@ function ViewInvoices() {
     const { user, employees } = useSelector((state) => state.auth) ;
 
     const [searchParameters, setSearchParameters] = useState({
-        dateFrom: new Date(),
-        dateTo: Date.now(),
+        dateFrom: 0,
+        dateTo: 0,
         employeeList: []
     }) ;
     let {dateFrom, dateTo, employeeList} = searchParameters ;
@@ -136,6 +137,9 @@ function ViewInvoices() {
                     ))
                     } 
                </div>
+               {view && 
+               <div><FileExport invoice={invoice} to={dateTo} from={dateFrom}/></div>
+                }
             </main>
         </div>
     )

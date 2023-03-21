@@ -7,8 +7,8 @@ import { sendQuestion, updateUser } from "../features/auth/authSlice"
 import { toast } from "react-toastify"
 
 const Profile = () => {
-    const { user, isError, message, isQuestionDone, isUpdateDone } = useSelector((state) => state.auth) ;
-    const { invoice } = useSelector((state) => state.invoice) ;
+    const { user, isError, message, isQuestionDone } = useSelector((state) => state.auth) ;
+    const { invoice, isUpdateDone } = useSelector((state) => state.invoice) ;
 
     const [questionForm, setQuestionForm] = useState('') ;
     const [updateProfileForm, setUpdateProfileForm] = useState({
@@ -43,7 +43,7 @@ const Profile = () => {
         dispatch(updateUser(updateProfileForm)) ;
         setUpdateProfile(false) ;
     }
-
+    
     useEffect(() => {
         if(isQuestionDone) {
             toast.success("Great! We'll look at your question and get back to you soon.")
@@ -51,7 +51,8 @@ const Profile = () => {
         if(isUpdateDone) {
             toast.success("We've succesfully updated your user on file.")
         }
-        dispatch(viewInvoices({"dateFrom": new Date(user.timestamp.seconds), "dateTo": new Date(), "email": user.email}));
+        dispatch(viewInvoices({"dateFrom": new Date(user.timestamp.seconds*1000), "dateTo": new Date(), "email": user.email}));
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [message, isQuestionDone, updateProfile, isUpdateDone])
 

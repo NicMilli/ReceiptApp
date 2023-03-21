@@ -16,6 +16,7 @@ const {
     getDoc, 
     getDocs,
     setDoc,
+    Timestamp,
     addDoc, 
     updateDoc, 
     serverTimestamp,
@@ -63,7 +64,7 @@ const registerUser = asyncHandler(async(req, res, next) => {
     const {name, position, email, password} = req.body
 
     if(!name || !position || !email || !password ) {
-        res.status(400).send('Please be sure you select position and enter all fields.')
+        res.status(400).send('Please be sure you enter all fields.')
         throw new Error('Enter all fields')
     }
     try {    
@@ -184,6 +185,50 @@ const getEmployees = asyncHandler(async(req, res) => {
     }
 })
 
+const adminAddEmployee = asyncHandler(async(req, res) => {
+    // admin sends in email and position, gets back a user token to share with employee
+
+    try {
+        accessCode = Math.floor(Math.random() * (Math.ceil(100000) - Math.floor(10000)) + (Math.ceil(10000)));
+        req.body.accessCode = accessCode;
+        req.body.date = new Date();
+        const q = await query(collection(db, "requestedusers"), where("email", "==", req.body.email));
+        const queryDoc = await getDocs(q); 
+        if (queryDoc.docs.length > 0) {
+            // user has already been created so just update new code and date
+            await setDoc(doc(db, "requestedusers", queryDoc.docs[0].id), req.body);
+        } else {
+            // otherwise add a new document
+            await addDoc(collection(db, "requestedusers"), req.body);
+        } 
+        
+        res.status(201).send({"accessCode" : accessCode});
+    } catch (error) {
+        res.status(400).send('Could not add user at this time. Please contact InvoiceMe for help.');
+        throw new Error(error);
+    }
+})
+
+const validateNewUserEmailandAccessCode = asyncHandler(async (req, res) => {
+    // Takes in a new user token and email, passes them with validation
+    // and allows them to submit the rest of the register form
+
+    try {
+        const q = await query(collection(db, "requestedusers"), where("email", "==", req.body.accessEmail), where("accessCode", "==", Number(req.body.accessCode)));
+        const queryDoc = await getDocs(q);
+        const newEmployeeInfo = queryDoc.docs[0].data();
+        console.log(newEmployeeInfo.date.seconds + 7200 < Timestamp.fromDate(new Date()))
+        if (queryDoc.docs.length > 0 && (newEmployeeInfo.date.seconds + 7200 < Timestamp.fromDate(new Date()))) {
+            res.status(200).send({email: newEmployeeInfo.email, position: newEmployeeInfo.position});
+        } else {
+            throw new Error('Could not find employee. Check your access code.');
+        }
+    } catch (error) {
+        res.status(400).send('InvoiceMe failed to find your use records.')
+        throw new Error(error)
+    }
+})
+
 
 module.exports = {
     loginUser,
@@ -192,5 +237,7 @@ module.exports = {
     sendQuestion,
     updateUser,
     forgotPassword,
-    getEmployees
+    getEmployees,
+    adminAddEmployee,
+    validateNewUserEmailandAccessCode
 }

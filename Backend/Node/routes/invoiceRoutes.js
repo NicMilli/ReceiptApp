@@ -23,4 +23,5 @@ router.put('/update-invoice', updateInvoice)
 router.put('/mark-as-compensated', markAsCompensated)
 router.get('/view', viewInvoices)
 
+
 module.exports = router

@@ -94,6 +94,18 @@ const getEmployees = async() => {
     return response.data;
 }
 
+const adminAddEmployee = async(form) => {
+    const response = await axios.post(API_URL + 'add-new-employee', form);
+
+    return response.data.accessCode;
+}
+
+const accessRegister = async(form) => {
+    const response = await axios.post(API_URL + 'access-register', form);
+
+    return response.data
+}
+
 const authService = {
     login, 
     logout,
@@ -102,7 +114,9 @@ const authService = {
     sendQuestion,
     updateUser,
     forgotPassword,
-    getEmployees
+    getEmployees,
+    adminAddEmployee,
+    accessRegister
 }
 
 export default authService

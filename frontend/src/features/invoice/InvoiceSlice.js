@@ -142,6 +142,7 @@ export const invoiceSlice = createSlice({
             })
             .addCase(updateInvoice.pending, (state, action) => {
                 state.isLoading = true
+                state.isUpdateDone = false
             })
             .addCase(markAsCompensated.fulfilled, (state, action) => {
                 state.isLoading = false

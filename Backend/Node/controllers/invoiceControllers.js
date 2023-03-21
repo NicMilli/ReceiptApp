@@ -8,8 +8,6 @@ const {
 } = require('firebase/storage')
 const {
   doc,
-  setDoc,
-  getDoc,
   updateDoc,
   collection,
   addDoc,
@@ -102,16 +100,16 @@ const viewInvoices = asyncHandler(async(req, res) => {
     } else {
       reference = collection(db, "users", userId, "invoices");
     };
-   
-    const q = await query(reference, where("date", ">=", from), where("date", "<=" , to));
+    
+    const q = await query(reference, where("date", ">=", from), where("date", "<=", to));
     const queryDoc = await getDocs(q);
 
     let queryData = [];
     queryDoc.forEach(doc => {
-      d = doc.data();
+      let d = doc.data();
       queryData.push(d);
     })
-
+    
     if(headers.position === 'admin') {
       queryData = queryData.filter((doc) => headers.employeeList.includes(doc.name));
     };
@@ -125,13 +123,13 @@ const viewInvoices = asyncHandler(async(req, res) => {
 
 const updateInvoice = asyncHandler(async(req, res) => {
   try {
-    const user = auth.currentUser ;
+    const user = auth.currentUser;
     let userId;
 
     let reference = collectionGroup(db, "invoices");
-    const q = await query(reference, where("imageInvoiceId", "==", req.body.imageInvoiceId)) ;
-    const queryDoc = await getDocs(q) ;
-    const docId = queryDoc.docs[0].id ;
+    const q = await query(reference, where("imageInvoiceId", "==", req.body.imageInvoiceId));
+    const queryDoc = await getDocs(q);
+    const docId = queryDoc.docs[0].id;
 
     if (user) {
       userId = user.uid ;
@@ -139,17 +137,17 @@ const updateInvoice = asyncHandler(async(req, res) => {
       userId = queryDoc.docs[0].ref.parent.parent.id ;
     }
     req.body.date = Timestamp.fromDate(new Date(req.body.date));
-    await updateDoc(doc(db, "users", userId, "invoices", docId), req.body) ;
-    res.status(200).send("Invoice successfully updated.") ;
+    await updateDoc(doc(db, "users", userId, "invoices", docId), req.body);
+    res.status(200).send("Invoice successfully updated.");
 } catch (error) {
-    res.status(404).send("Could not update your invoice. Please contact InvoiceMe for help.") ;
+    res.status(404).send("Could not update your invoice. Please contact InvoiceMe for help.");
     throw new Error(error) ;
 }
 })
 
 const markAsCompensated = asyncHandler(async(req,res) => {
   try {
-    const user = auth.currentUser ;
+    const user = auth.currentUser;
     let userId;
 
     let reference = collectionGroup(db, "invoices");

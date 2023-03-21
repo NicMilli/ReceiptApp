@@ -11,7 +11,9 @@ const initialState = {
     message: '',
     isQuestionDone: false,
     isUpdateDone: null,
+    addedEmployeeToken: null,
     forgotPasswordSent : false,
+    newEmployeeInfo : null,
     employees: []
 }
 
@@ -94,6 +96,28 @@ export const getEmployees = createAsyncThunk('auth/getEmployees',
             const message = error.response.data;
             return thunkAPI.rejectWithValue(message.toString());            
         }
+    }
+);
+
+export const adminAddEmployee = createAsyncThunk('auth/adminAddEmployee', 
+    async(form, thunkAPI) => {
+        try {
+           return await authService.adminAddEmployee(form); 
+        } catch (error) {
+            const message = error.response.data;
+            return thunkAPI.rejectWithValue(message.toString());
+        }
+    }
+)
+
+export const accessRegister = createAsyncThunk('auth/accessRegister', 
+    async(form, thunkAPI) => {
+        try {
+            return await authService.accessRegister(form);
+        } catch (error) {
+            const message = error.response.data;
+            return thunkAPI.rejectWithValue(message.toString());
+        }
     })
 
 
@@ -108,8 +132,15 @@ export const authSlice = createSlice({
             state.message = ''  
             state.isQuestionDone = false
             state.isUpdateDone = null
+            state.addedEmployeeToken = null
             state.forgotPasswordSent = false
             state.employees = []
+            state.newEmployeeInfo = null
+        },
+        resetAddEmployee: (state) => {
+            state.addedEmployeeToken = null
+            state.isError = false
+            state.message = ''
         }
     },
     extraReducers: (builder) =>{
@@ -211,8 +242,32 @@ export const authSlice = createSlice({
             .addCase(getEmployees.pending, (state, action) => {
                 state.isLoading = true
             })
+            .addCase(adminAddEmployee.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.addedEmployeeToken = action.payload
+                state.isError = false
+            })
+            .addCase(adminAddEmployee.rejected, (state, action) => {
+                state.isLoading = false
+                state.message = action.payload
+            })
+            .addCase(adminAddEmployee.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(accessRegister.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.newEmployeeInfo = action.payload
+                state.isError = false
+            })
+            .addCase(accessRegister.rejected, (state, action) => {
+                state.isLoading = false
+                state.message = action.payload
+            })
+            .addCase(accessRegister.pending, (state, action) => {
+                state.isLoading = true
+            })
     }
 })
 
-export const { reset } = authSlice.actions
+export const { reset, resetAddEmployee } = authSlice.actions
 export default authSlice.reducer

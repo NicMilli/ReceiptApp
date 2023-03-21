@@ -3,7 +3,6 @@ import { toast } from "react-toastify"
 import { Link, useNavigate } from "react-router-dom"
 import {ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
-import OAuth from "../components/OAuth"
 import { useDispatch, useSelector } from "react-redux"
 import { login, reset } from '../features/auth/authSlice'
 import { resetInvoice } from "../features/invoice/InvoiceSlice"
@@ -113,9 +112,6 @@ function SignIn() {
                     </button>
                 </div>
             </form>
-
-            <OAuth />
-
 
         </main>
     </div>

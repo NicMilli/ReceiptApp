@@ -17,6 +17,7 @@ import CreateInvoice from "./pages/CreateInvoice";
 import InvoiceForm from "./pages/InvoiceForm";
 import ViewInvoices from "./pages/ViewInvoices";
 import ForgotPassword from "./pages/ForgotPassword";
+import AddNewUser from "./pages/AddNewUser";
 import NotFound from './pages/NotFound';
 import PrivateRoutes from "./components/PrivateRoutes";
 
@@ -41,12 +42,11 @@ function App() {
               <Route path='create-invoice/invoice-form' element={<InvoiceForm />} />
               <Route path='/employee-dashboard' element={<EmployeeDashboard />} />  
               <Route path='/view-invoices' element={<ViewInvoices />} /> 
+              <Route path='/add-new-employee' element={<AddNewUser />} />
               <Route path='/profile' element={<Profile />} />
             </Route>     
             <Route path='/forgot-password' element={<ForgotPassword/>} />
             <Route path='/sign-out' element={<SignOut />} />
-          {/* <Route path='/upload-image' element={<UploadImage/>} />
-          <Route path='/edit-image/:imageId' element={<EditImage/>} /> */}
           </Route >
 
         </Routes>
