@@ -6,9 +6,9 @@ This receipt app, which we are calling "InvoiceMe," is designed to offer small b
 
 ***Project Overview***
 
-Users can sign in to the app and upload their receipts, and a total amount will be extracted from the image. The image will be stored in the cloud under that user's folder. There are two levels of users, employees and admins. After submitting the receipt image, they will fill out relevant information such as date, category of expense, currency, and country of purchase. 
+Users can sign in to the app and upload their receipts, and a total amount will be extracted from the image. The image will be stored in the cloud under that user's folder. After submitting the receipt image, the user will then fill out relevant information such as date of purchase, category of expense, currency, and country of purchase. This information will be submitted to the database via an API call to the backend. 
 
-Users can also query the database to view invoices. Admins can select which employees invoices they want to view and the date range they want to view for. Admins are also able to mark invoices as compensated. Employees can select what date range they want to view invoices from, but they can only view their own and cannot change compensation status. Both types of users can extract the invoice query to an excel document.
+Users can also query the database to view invoices. There are two levels of users, employees and admins. Admins can select which employees invoices they want to view and the date range they want to view for. Admins are also able to mark invoices as compensated. Employees can select what date range they want to view invoices from, but they can only view their own and cannot change compensation status. Both types of users can extract the invoice query to an excel document.
 
 Admins can create new users and choose what position (employee or admin) the new user will be. An added user is linked to their unique five digit code that is valid for two hours. Using their email and the five digit code, they can submit this information on the sign-in page to access the register form. They will then supply their name and password to officially create their new account. 
 
