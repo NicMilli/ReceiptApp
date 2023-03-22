@@ -24,7 +24,6 @@ function ForgotPassword() {
     } else if(message) {
       toast.error(message)
     }
-    console.log('hi')
   },[forgotPasswordSent, message])
 
   return (
