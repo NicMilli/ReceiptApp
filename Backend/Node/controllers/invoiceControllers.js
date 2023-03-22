@@ -126,12 +126,12 @@ const updateInvoice = asyncHandler(async(req, res) => {
   try {
     const user = auth.currentUser;
     let userId;
-
+    console.log(req.body)
     let reference = collectionGroup(db, "invoices");
     const q = await query(reference, where("imageInvoiceId", "==", req.body.imageInvoiceId));
     const queryDoc = await getDocs(q);
     const docId = queryDoc.docs[0].id;
-
+    
     if (user) {
       userId = user.uid ;
     } else {

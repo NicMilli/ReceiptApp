@@ -42,6 +42,7 @@ const viewInvoices = async(info) => {
 };
 
 const updateInvoice = async(invoice) => {
+  console.log(invoice)
   const response = await axios.put(API_URL + '/update-invoice', invoice);
   return response.data;
 };

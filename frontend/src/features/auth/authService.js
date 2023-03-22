@@ -71,7 +71,7 @@ const checkStatus = async(token) => {
 
 const sendQuestion = async(question) => {
     const response = await axios.post(API_URL + 'question', question)
-    return response.data ;
+    return response.status;
   }
 
 const updateUser = async(form) => {

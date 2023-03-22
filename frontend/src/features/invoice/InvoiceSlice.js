@@ -141,7 +141,7 @@ export const invoiceSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
             })
-            .addCase(updateInvoice.pending, (state, action) => {
+            .addCase(updateInvoice.pending, (state) => {
                 state.isLoading = true
                 state.isUpdateDone = false
             })

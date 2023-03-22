@@ -10,7 +10,6 @@ const InvoiceNote = ({item}, {key}) => {
 
     const options = useMemo(() => countryList().getData(), []);
     const countryLabels = options.map(option => option.label);
-
     const [formData, setFormData] = useState({
         date: '',
         vendor: item.vendor,
@@ -24,11 +23,12 @@ const InvoiceNote = ({item}, {key}) => {
         name: item.name,
         email: user.email,
         imageInvoiceId: item.imageInvoiceId
+ 
     });
     const [editInvoice, setEditInvoice] = useState(false);
 
-    var {date, vendor, location, currency, amount, category, otherCategory, comment, name, imageInvoiceId} = formData;
-
+    let {date, vendor, location, currency, amount, category, otherCategory, comment, name, imageInvoiceId} = formData;
+    
     const onChange = (e) => {
         e.preventDefault();
        
@@ -55,6 +55,7 @@ const InvoiceNote = ({item}, {key}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        console.log(formData, item)
         dispatch(updateInvoice(formData));
         setEditInvoice(false);
     };

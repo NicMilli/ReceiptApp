@@ -130,10 +130,10 @@ const checkStatus = asyncHandler(async(req, res) => {
 const sendQuestion = asyncHandler(async(req,res) => {
     try {
         await addDoc(collection(db, "questions"), req.body);
-        res.status(201) ;
+        res.status(201).send('success');
     } catch (error) {
         res.status(403).send("Could not post your question. This failure has been noted and InvoiceMe will look into its cause.") ;
-        throw new Error(error) ;
+        throw new Error(error);
     }
 })
 

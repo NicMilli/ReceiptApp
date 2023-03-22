@@ -22,40 +22,42 @@ const Profile = () => {
     const dispatch = useDispatch() ;
 
     const onChange = (e) => {
-        e.preventDefault() ;
-        setQuestionForm(e.target.value)
-    } ;
+        e.preventDefault();
+        setQuestionForm(e.target.value);
+    };
 
     const onUpdate = (e) => {
-        e.preventDefault() ;
+        e.preventDefault();
         setUpdateProfileForm((prevState) => ({
             ...prevState,
             [e.target.id]: e.target.value
         }))
     }
     const onSubmit = (e) => {
-        e.preventDefault() ;
-        dispatch(sendQuestion({"email": user.email, "question": questionForm}))
-    } ;
+        e.preventDefault();
+        dispatch(sendQuestion({"email": user.email, "question": questionForm}));
+        setQuestionForm('');
+    };
 
     const onSubmitUpdate = (e) => {
-        e.preventDefault() ;
-        dispatch(updateUser(updateProfileForm)) ;
-        setUpdateProfile(false) ;
+        e.preventDefault();
+        dispatch(updateUser(updateProfileForm));
+        setUpdateProfile(false);
     }
     
     useEffect(() => {
 
         if(isQuestionDone) {
-            toast.success("Great! We'll look at your question and get back to you soon.")
+            toast.success("Great! We'll look at your question and get back to you soon.");
         }
         if(isUpdateDone) {
-            toast.success("We've succesfully updated your user on file.")
+            toast.success("We've succesfully updated your user on file.");
+            
         }
         // dispatch(viewInvoices({"dateFrom": new Date(user.timestamp.seconds*1000), "dateTo": new Date(), "email": user.email}));
         dispatch(viewInvoices({"dateFrom": 0, "dateTo": new Date(), "email": user.email}));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [message, isQuestionDone, updateProfile, isUpdateDone])
+    }, [message, isQuestionDone, updateProfile, isUpdateDone, dispatch])
 
     return (
         <div className='pageContainer'>
