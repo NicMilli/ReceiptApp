@@ -10,7 +10,7 @@ const initialState = {
     isLoading: false,
     message: '',
     isQuestionDone: false,
-    isUpdateDone: null,
+    isUpdateDone: null, 
     addedEmployeeToken: null,
     forgotPasswordSent : false,
     newEmployeeInfo : null,
