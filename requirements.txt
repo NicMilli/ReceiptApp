@@ -1,0 +1,8 @@
+firebase_admin==5.2.0
+imutils==0.5.4
+matplotlib==3.6.2
+numpy==1.23.1
+opencv_python==4.6.0.66
+pytesseract==0.3.10
+scikit_image==0.19.3
+skimage==0.0
