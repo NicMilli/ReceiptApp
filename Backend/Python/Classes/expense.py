@@ -6,6 +6,10 @@ import cv2
 import matplotlib.pyplot as plt
 import sys
 import os
+if os.environ['NODE_ENV'] == 'development':
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\Tesseract.exe'
+else :
+    pytesseract.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 
 class Expense():
     '''
