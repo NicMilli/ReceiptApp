@@ -2,13 +2,16 @@ const {
     db, 
     auth
 } = require('../../Config/firebase.config')
+
 const asyncHandler = require('express-async-handler')
+
 const { 
     signInWithEmailAndPassword, 
     createUserWithEmailAndPassword, 
     updateProfile ,
     sendPasswordResetEmail
 } = require('firebase/auth')
+
 const { 
     doc, 
     query,
@@ -22,7 +25,9 @@ const {
     serverTimestamp,
     collection
 } = require ('firebase/firestore')
+
 const jwt = require('jsonwebtoken')
+
 require('dotenv').config()
 
 const loginUser = asyncHandler(async(req, res) => {
@@ -139,24 +144,35 @@ const sendQuestion = asyncHandler(async(req,res) => {
 
 const updateUser = asyncHandler(async(req,res) => {
     try {
-        const user = auth.currentUser ;
+        const user = auth.currentUser;
         let userId;
       
         if (user) {
-         userId = user.uid ;
+         userId = user.uid;
         } else {
-            const q = await query(collection(db, "users"), where("email", "==", req.body.email)) ;
+            const q = await query(collection(db, "users"), where("email", "==", req.body.email));
             const queryDoc = await getDocs(q) ;
-            userId = queryDoc.docs[0].id ;
+            userId = queryDoc.docs[0].id;
         }
 
-        await updateDoc(doc(db, "users", userId), req.body) ;
-        const userUpdatedDoc = await getDoc(doc(db, "users", userId)) ;
+        // update the userdoc
+        await updateDoc(doc(db, "users", userId), req.body);
+        const userUpdatedDoc = await getDoc(doc(db, "users", userId));
 
-        res.status(201).send(userUpdatedDoc.data()) ;
+        // update all the name fields in the invoices subcollection of that user
+        const invoiceQuery = query(collection(db, "users", userId, "invoices"));
+        const invoiceSnapshots = await getDocs(invoiceQuery);
+
+        invoiceSnapshots.forEach((snap) => {
+            updateDoc(doc(db, "users", userId, "invoices", snap.id), {
+                name: req.body.name
+            });
+        });
+
+        res.status(201).send(userUpdatedDoc.data());
     } catch (error) {
-        res.status(404).send("Could not update your user profile. Please contact InvoiceMe for help.") ;
-        throw new Error(error) ;
+        res.status(404).send("Could not update your user profile. Please contact InvoiceMe for help.");
+        throw new Error(error);
     }
 })
 
