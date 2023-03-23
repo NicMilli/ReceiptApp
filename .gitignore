@@ -24,4 +24,5 @@
 /yarn-error.log*
 
 __pycache__/
+/backend/Python/__pycache__
 
