@@ -84,6 +84,11 @@ export const invoiceSlice = createSlice({
             state.isUpdateDone = false
             state.compensateUpdateDone = false
             state.message = ''
+        },
+        resetUpdateCompensate: (state) => { 
+            state.compensateUpdateDone = false
+            state.isSuccess = false
+            state.message = ''
         }
     },
     extraReducers(builder) {
@@ -164,5 +169,5 @@ export const invoiceSlice = createSlice({
 })
 
 
-export const { resetInvoice } = invoiceSlice.actions
+export const { resetInvoice, resetUpdateCompensate } = invoiceSlice.actions
 export default invoiceSlice.reducer

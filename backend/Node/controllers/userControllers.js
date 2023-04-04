@@ -233,7 +233,7 @@ const validateNewUserEmailandAccessCode = asyncHandler(async (req, res) => {
         const q = await query(collection(db, "requestedusers"), where("email", "==", req.body.accessEmail), where("accessCode", "==", Number(req.body.accessCode)));
         const queryDoc = await getDocs(q);
         const newEmployeeInfo = queryDoc.docs[0].data();
-        console.log(newEmployeeInfo.date.seconds + 7200 < Timestamp.fromDate(new Date()))
+        // console.log(newEmployeeInfo.date.seconds + 7200 < Timestamp.fromDate(new Date()))
         if (queryDoc.docs.length > 0 && (newEmployeeInfo.date.seconds + 7200 < Timestamp.fromDate(new Date()))) {
             res.status(200).send({email: newEmployeeInfo.email, position: newEmployeeInfo.position});
         } else {

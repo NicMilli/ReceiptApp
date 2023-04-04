@@ -55,7 +55,6 @@ const InvoiceNote = ({item}, {key}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(formData, item)
         dispatch(updateInvoice(formData));
         setEditInvoice(false);
     };
