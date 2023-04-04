@@ -21,7 +21,7 @@ const extractTotal = asyncHandler(async(req, res, next) => {
     })
     py.on('close', (code) => {
         res.status(201).send({'total': result, "url": url, "filename": filename}) // if the number isn't able to be extracted, then its a set to zero
-        console.log(`exited with code ${code}`, 'result is', result)
+        console.log(`exited with code ${code}`)
     })
 
 })

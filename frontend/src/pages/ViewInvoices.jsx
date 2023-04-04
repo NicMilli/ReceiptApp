@@ -131,7 +131,8 @@ function ViewInvoices() {
                         }
                     <button type='submit' className="submitButton">Submit</button>
                 </form>
-                <div> {view && <p>Invoices found for query dates {new Date(dateFrom).toDateString()} to {new Date(dateTo).toDateString()} for {employeeList.join(', ')}</p>}
+                <div> {view && user.position === "admin" && <p>Invoices found for query dates {new Date(dateFrom).toDateString()} to {new Date(dateTo).toDateString()} for {employeeList.join(', ')}</p>}
+                {view && user.position === "employee" && <p>Invoices found for query dates {new Date(dateFrom).toDateString()} to {new Date(dateTo).toDateString()} for {user.name}</p>}
                     {view && invoice.map((item, id) => ( 
                         <InvoiceNote item={item} key={id} />
                     ))
